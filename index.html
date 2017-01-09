@@ -1,0 +1,174 @@
+<!--
+title: 30 Days of React
+layout: page.html
+series: 30-days-of-react
+permalink: ''
+pageJS: 30-days.js
+isIndex: true
+numFree: 22
+published: false
+bodyClasses: landingpage
+noInclude: true
+-->
+
+{% import 'partials/macros/common.nunjucks' as common %}
+{% import 'partials/macros/homepage.nunjucks' as home %}
+{% import 'partials/macros/burger.nunjucks' as burger %}
+
+{% block content %}
+<div class="thirty-days">
+  <main class="main">
+    <div class="intro-banner" >
+			<img src="/assets/images/30days/30-days-of-react-header.jpg" alt="30 Days of React">
+    </div><!-- /.intro-banner -->
+
+    <div class="section-marketing">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-2 col-md-1 col-sm-1">
+          </div>
+          <div class="col-lg-6 col-md-8 col-sm-7 col-xs-12">
+
+            <div class="section-body">
+              <p>Interested in Learning React but having trouble getting started?</p>
+
+              <!--
+                  <p class='feeling-lost'>Are you feeling a little lost in all the jargon?</p>
+
+              <p class='jargon'><tt>JSX</tt>, <tt>Props</tt>, <tt>Webpack</tt>, <tt>Redux</tt>, <tt>Enzyme</tt>, <tt>Presentational Components</tt>, <tt>Middleware</tt>, <tt>State</tt>, <tt>Hooks</tt>, <tt>Pure Components</tt>... </p>
+
+              <p>Does it feel like <b>everyone else</b> seems to know how these things fit together?</p>
+              -->
+
+              <p>We'll teach you how it all works - <em>for free</em></p>
+
+              <p>Over the next 30 days, we'll walk through everything you need to know to work with React. From the <b>very beginning</b> through <b>testing and deployment</b> of our first app.</p>
+            </div><!-- /.section-body -->
+
+            <div class="section-foot">
+              <a href="#" class="manual-optin-trigger btn btn-default" data-optin-slug="hee7a1efzooguujb">Download the free 300+ page PDF</a>
+            </div><!-- /.section-foot -->
+          </div>
+
+          <div class="col-lg-2 col-md-3 col-sm-4 hidden-xs">
+            <div class="mini-book-preview">
+              <img src="/assets/images/30days/30-days-of-react-book-cover-2-as-book-220.png" alt="30 Days of React Mini-Ebook">
+            </div>
+          </div>
+        </div>
+      </div><!-- /.container -->
+    </div><!-- /.section-cta -->
+
+    <div class="section-chapters">
+      <div class="container">
+        <div class="section-body">
+          <div class="row">
+
+          {% for day in collections.thirtyDays %}
+            {% if day.protectedPreview %}
+              {{ burger.nolinkDayPost(day, loop.index0) }}
+            {% else -%}
+              {{ burger.dayPost(day, loop.index0) }}
+            {% endif -%}
+          {% endfor -%}
+            
+          </div>
+        </div><!-- /.section-body -->
+      </div><!-- /.container -->
+    </div><!-- /.section-chapters -->
+
+    <div class="section-promo">
+      <div class="container">
+        <div class="promo-box">
+          <div class="promo-box-bg"></div><!-- /.promo-box-bg -->
+
+          <div class="promo-box-inner">
+            <div class="promo-box-image">
+              <img src="/assets/images/icon-orange.png" alt="" width="257" height="281">
+            </div><!-- /.promo-box-image -->
+
+            <div class="promo-box-body">
+              <h2>FAQ</h2>
+
+              <dl>
+                <dt>What is this?</dt>
+                <dl>This course is a series of articles which teach you how to use React from the ground up. The series provides a step-by-step process you can use to learn React from an empty folder to a deployed React app.</dl>
+
+                <dt>What if I get stuck?</dt>
+                <dl>Just <a href="mailto:react@fullstack.io">send us an email</a> and we'll be happy to help you get unstuck</dl>
+
+                <dt>Who wrote this?</dt>
+                <dl>We're the authors of the <a href="/">Fullstack React Book</a> </dl>
+
+                <p class="promo-box-action">
+                  <a href="#" class="manual-optin-trigger btn btn-default" data-optin-slug="hee7a1efzooguujb">Enroll in this free course</a>
+              </p>
+            </div><!-- /.promo-box-body -->
+          </div><!-- /.promo-box-inner -->
+        </div><!-- /.promo-box -->
+      </div><!-- /.container -->
+    </div><!-- /.section-promo -->
+
+    <section class="section-authors">
+      <div class="container">
+        <header class="section-head">
+          <h1 class="section-title">
+            <span>Course Author</span>
+          </h1><!-- /.section-title -->
+        </header><!-- /.section-head -->
+        
+        <div class="section-body">
+          <div class="author-simple">
+            {% include "partials/bios/ari.html" %}
+          </div><!-- /.author-simple -->
+        </div><!-- /.section-body -->
+      </div><!-- /.container -->
+    </section><!-- /.section-authors -->
+
+    <section class="section-promise section-promise-alt"
+      style="background-image: url(/assets/images/backgrounds/section-sample-code.jpg)"
+    >
+      <div class="container">
+        <div class="section-inner">
+          <header class="section-head">
+            <h1 class="section-title white">Get started now</h1><!-- /.section-title -->
+
+            <p>Join us on our 30-day journey in React. Join thousands of other professional React developers and learn one of the most powerful web application development frameworks available today. </p>
+          </header><!-- /.section-head -->
+
+          <div class="section-body">
+            <form class="form-inline" target="_blank" novalidate=""
+                  accept-charset="UTF-8" action="https://fd338.infusionsoft.com/app/form/process/a6e7d4fdf2891b50a87effa8540f834d" class="infusion-form" method="POST"
+                  >
+              <input name="inf_form_xid" type="hidden" value="a6e7d4fdf2891b50a87effa8540f834d" />
+              <input name="inf_form_name" type="hidden" value="30 Days of React Form Submitted" />
+              <input name="infusionsoft_version" type="hidden" value="1.59.0.51" />
+
+              <div class="section-entry">
+                <div class="form-row">
+                  <label for="field-email" class="form-label">email</label>
+                  
+                  <div class="form-controls">
+                    <input type="email" class="field" id="inf_field_Email" name="inf_field_Email" placeholder="Put in your email address">
+                    <input type="hidden" name="FORMID" value="DailyUI-Landing-a">
+
+                    <small>No spam ever. Easy to unsubscribe.</small>
+                  </div><!-- /.form-controls -->
+                </div><!-- /.form-row -->
+              </div><!-- /.section-entry -->
+
+              <div class="section-actions">
+                <button type="submit" id="mc-embedded-subscribe" class="btn btn-default">
+            <i class="glyphicon glyphicon-envelope"></i>
+            DOWNLOAD 30 DAYS OF REACT PDF (FREE)
+          </button>
+              </div><!-- /.section-actions -->
+            </form>
+          </div><!-- /.section-body -->
+        </div><!-- /.section-inner -->
+      </div><!-- /.container -->
+    </section><!-- /.section-promise -->
+  </main><!-- /.main -->
+</div><!-- /.wrapper -->
+
+{% endblock %}
