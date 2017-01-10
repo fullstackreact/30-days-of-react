@@ -4,11 +4,9 @@ series: 30-days-of-react
 permalink: day-12
 title: create-react-app
 description: Today, we're going to add a build process to store common build actions so we can easily develop and deploy our applications.
-articleEntry: '30-days/12'
 hero_image: /assets/images/series/30-days-of-react/headings/12.jpg
 imageUrl:  /assets/images/series/30-days-of-react/headings/12.jpg
-codeRoot: '__FILE_PATH__/code/12'
-imagesDir: '../../../assets/images/series/30-days-of-react/12'
+dayDir: '12'
 introBannerUrl: '/assets/images/series/30-days-of-react/headings/12_wide.jpg'
 date: Wed Oct 15 2016 21:29:42 GMT-0700 (PDT)
 ---

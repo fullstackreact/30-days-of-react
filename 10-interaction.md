@@ -4,10 +4,9 @@ series: 30-days-of-react
 permalink: day-10
 title: Interactivity
 description: Today we'll walk through how to add interactivity to our applications to make them engaging and dynamic.
-articleEntry: '30-days/10'
+dayDir: '10'
 hero_image: /assets/images/series/30-days-of-react/headings/10.jpg
 imageUrl:  /assets/images/series/30-days-of-react/headings/10.jpg
-codeRoot: '__FILE_PATH__/code/10'
 introBannerUrl: '/assets/images/series/30-days-of-react/headings/10_wide.jpg'
 date: Wed Oct 13 2016 21:29:42 GMT-0700 (PDT)
 ---

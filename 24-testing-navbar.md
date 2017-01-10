@@ -4,11 +4,9 @@ series: 30-days-of-react
 permalink: day-24
 title: Testing the App
 description: Let's start by looking at one feature of our application and thinking about where the edge cases are and what we assume will happen with the component.
-articleEntry: '30-days/24'
+dayDir: '24'
 hero_image: /assets/images/series/30-days-of-react/headings/24.jpg
 imageUrl:  /assets/images/series/30-days-of-react/headings/24.jpg
-codeRoot: '__FILE_PATH__/code/24'
-imagesDir: '../../../assets/images/series/30-days-of-react/24'
 introBannerUrl: '/assets/images/series/30-days-of-react/headings/24_wide.jpg'
 date: Wed Oct 27 2016 21:29:42 GMT-0700 (PDT)
 ---

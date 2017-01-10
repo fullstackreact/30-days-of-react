@@ -4,11 +4,9 @@ series: 30-days-of-react
 permalink: day-26
 title: Integration Testing
 description: Today we'll write tests to simulate how users interact with our application and will test the entire flow of our app in a live browser.
-articleEntry: '30-days/26'
+dayDir: '26'
 hero_image: /assets/images/series/30-days-of-react/headings/26.jpg
 imageUrl:  /assets/images/series/30-days-of-react/headings/26.jpg
-codeRoot: '__FILE_PATH__/code/26'
-imagesDir: '../../../assets/images/series/30-days-of-react/26'
 introBannerUrl: '/assets/images/series/30-days-of-react/headings/26_wide.jpg'
 date: Wed Oct 29 2016 21:29:42 GMT-0700 (PDT)
 ---

@@ -4,11 +4,9 @@ series: 30-days-of-react
 permalink: day-20
 title: Live-updating Our Redux Stores
 description: With Redux in place, let's talk about how we actually modify the Redux state from within our applications.
-articleEntry: '30-days/20'
+dayDir: '20'
 hero_image: /assets/images/series/30-days-of-react/headings/20.jpg
 imageUrl:  /assets/images/series/30-days-of-react/headings/20.jpg
-codeRoot: '__FILE_PATH__/code/20'
-imagesDir: '../../../assets/images/series/30-days-of-react/20'
 introBannerUrl: '/assets/images/series/30-days-of-react/headings/20_wide.jpg'
 date: Wed Oct 23 2016 21:29:42 GMT-0700 (PDT)
 ---

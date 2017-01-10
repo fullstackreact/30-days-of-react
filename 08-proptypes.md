@@ -4,10 +4,9 @@ series: 30-days-of-react
 permalink: day-8
 title: PropTypes
 description: We're looking at how to make reusable React components today so that not only can we share our components across apps and teams.
-articleEntry: '30-days/08'
+dayDir: '08'
 hero_image: /assets/images/series/30-days-of-react/headings/8.jpg
 imageUrl:  /assets/images/series/30-days-of-react/headings/8.jpg
-codeRoot: '__FILE_PATH__/code/08'
 introBannerUrl: '/assets/images/series/30-days-of-react/headings/8_wide.jpg'
 date: Tue Oct 11 2016 21:29:42 GMT-0700 (PDT)
 ---

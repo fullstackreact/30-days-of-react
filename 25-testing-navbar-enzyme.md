@@ -4,11 +4,9 @@ series: 30-days-of-react
 permalink: day-25
 title: Better Testing with Enzyme
 description: Today, we'll look at an open-source library maintained by Airbnb called Enzyme that makes testing fun and easy.
-articleEntry: '30-days/25'
+dayDir: '25'
 hero_image: /assets/images/series/30-days-of-react/headings/25.jpg
 imageUrl:  /assets/images/series/30-days-of-react/headings/25.jpg
-codeRoot: '__FILE_PATH__/code/25'
-imagesDir: '../../../assets/images/series/30-days-of-react/25'
 introBannerUrl: '/assets/images/series/30-days-of-react/headings/25_wide.jpg'
 date: Wed Oct 28 2016 21:29:42 GMT-0700 (PDT)
 ---

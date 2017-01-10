@@ -8,8 +8,7 @@ published: false
 author: ari
 hero_image: /assets/images/series/30-days-of-react/headings/30.jpg
 imageUrl:  /assets/images/series/30-days-of-react/headings/30.jpg
-codeRoot: '__FILE_PATH__/code/30'
-imagesDir: '../../../assets/images/series/30-days-of-react/30'
+dayDir: '30'
 introBannerUrl: '/assets/images/series/30-days-of-react/headings/30_wide.jpg'
 protectedPreview: true
 protectedPreviewLength: 800

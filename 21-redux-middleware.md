@@ -4,11 +4,9 @@ series: 30-days-of-react
 permalink: day-21
 title: Redux Middleware
 description: Today, we're looking at the Redux method of managing complex state changes in our code using Redux middleware.
-articleEntry: '30-days/21'
+dayDir: '21'
 hero_image: /assets/images/series/30-days-of-react/headings/21.jpg
 imageUrl:  /assets/images/series/30-days-of-react/headings/21.jpg
-codeRoot: '__FILE_PATH__/code/21'
-imagesDir: '../../../assets/images/series/30-days-of-react/21'
 introBannerUrl: '/assets/images/series/30-days-of-react/headings/21_wide.jpg'
 date: Wed Oct 24 2016 21:29:42 GMT-0700 (PDT)
 ---

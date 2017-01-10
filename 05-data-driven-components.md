@@ -5,10 +5,9 @@ permalink: day-5
 day: 5
 title: Driving Components Through Data
 description: Hard-coding data in our applications isn't exactly ideal. Today, we'll set up our components to be driven by data to them access to external data.
-articleEntry: '30-days/05'
+dayDir: '05'
 hero_image: /assets/images/series/30-days-of-react/headings/5.jpg
 imageUrl:  /assets/images/series/30-days-of-react/headings/5.jpg
-codeRoot: '__FILE_PATH__/code/05'
 introBannerUrl: '/assets/images/series/30-days-of-react/headings/5_wide.jpg'
 date: Sat Oct 08 2016 21:29:42 GMT-0700 (PDT)
 ---

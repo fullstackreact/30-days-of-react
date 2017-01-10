@@ -4,11 +4,9 @@ series: 30-days-of-react
 permalink: day-6
 title: State
 description: Today we're getting started on how stateful components work in React and look at when and why we'll use state.
-articleEntry: '30-days/06'
+dayDir: '06'
 hero_image: /assets/images/series/30-days-of-react/headings/6.jpg
 imageUrl:  /assets/images/series/30-days-of-react/headings/6.jpg
-codeRoot: '__FILE_PATH__/code/06'
-
 introBannerUrl: '/assets/images/series/30-days-of-react/headings/6_wide.jpg'
 date: Sun Oct 09 2016 21:29:42 GMT-0700 (PDT)
 ---

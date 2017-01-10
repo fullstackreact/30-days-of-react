@@ -4,10 +4,9 @@ permalink: day-2
 day: 2
 title: What is JSX?
 description: Now that we know what React is, let's take a look at a few terms and concepts that will come up throughout the rest of the series.
-articleEntry: '30-days/02'
 hero_image: /assets/images/series/30-days-of-react/headings/2.jpg
 imageUrl:  /assets/images/series/30-days-of-react/headings/2.jpg
-codeRoot: '__FILE_PATH__/code/02'
+dayDir: '02'
 introBannerUrl: '/assets/images/series/30-days-of-react/headings/2_wide.jpg'
 date: Wed Oct 05 2016 21:29:42 GMT-0700 (PDT)
 ---

@@ -4,11 +4,9 @@ series: 30-days-of-react
 permalink: day-22
 title: Introduction to Testing
 description: Test suites are an upfront investment that pay dividends over the lifetime of a system. Today we'll introduce the topic of testing and discuss the different types of tests we can write.
-articleEntry: '30-days/22'
+dayDir: '22'
 hero_image: /assets/images/series/30-days-of-react/headings/22.jpg
 imageUrl:  /assets/images/series/30-days-of-react/headings/22.jpg
-codeRoot: '__FILE_PATH__/code/22'
-imagesDir: '../../../assets/images/series/30-days-of-react/22'
 introBannerUrl: '/assets/images/series/30-days-of-react/headings/22_wide.jpg'
 date: Wed Oct 25 2016 21:29:42 GMT-0700 (PDT)
 ---

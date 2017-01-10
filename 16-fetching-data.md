@@ -4,10 +4,9 @@ series: 30-days-of-react
 permalink: day-16
 title: Displaying Remote Data
 description: Our front-end applications are only as interesting as the data we display in them. Today, let's actually start making a request for data and get it integrated into our app.
-articleEntry: '30-days/16'
+dayDir: '16'
 hero_image: /assets/images/series/30-days-of-react/headings/16.jpg
 imageUrl:  /assets/images/series/30-days-of-react/headings/16.jpg
-codeRoot: '__FILE_PATH__/code/16'
 introBannerUrl: '/assets/images/series/30-days-of-react/headings/16_wide.jpg'
 date: Wed Oct 19 2016 21:29:42 GMT-0700 (PDT)
 ---

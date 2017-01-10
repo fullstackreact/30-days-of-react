@@ -4,10 +4,9 @@ series: 30-days-of-react
 permalink: day-3
 title: Our First Components
 description: The first two articles in this series were heavy on discussion. In today's session, let's dive into some code and write our first React app.
-articleEntry: '30-days/03'
 hero_image: /assets/images/series/30-days-of-react/headings/3.jpg
 imageUrl:  /assets/images/series/30-days-of-react/headings/3.jpg
-codeRoot: '__FILE_PATH__/code/03'
+dayDir: '03'
 introBannerUrl: '/assets/images/series/30-days-of-react/headings/3_wide.jpg'
 date: Thu Oct 06 2016 21:29:42 GMT-0700 (PDT)
 ---

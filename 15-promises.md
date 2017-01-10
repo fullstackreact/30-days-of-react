@@ -4,10 +4,9 @@ series: 30-days-of-react
 permalink: day-15
 title: Introduction to Promises
 description: Today, we're going to look at what we need to know to understand Promises from a high-level, so we can build our our applications using this incredibly useful concept.
-articleEntry: '30-days/15'
+dayDir: '15'
 hero_image: /assets/images/series/30-days-of-react/headings/15.jpg
 imageUrl:  /assets/images/series/30-days-of-react/headings/15.jpg
-codeRoot: '__FILE_PATH__/code/15'
 introBannerUrl: '/assets/images/series/30-days-of-react/headings/15_wide.jpg'
 date: Wed Oct 18 2016 21:29:42 GMT-0700 (PDT)
 ---

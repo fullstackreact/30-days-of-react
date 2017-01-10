@@ -4,10 +4,9 @@ series: 30-days-of-react
 permalink: day-9
 title: Styles
 description: No application is complete without style. We'll look at the different methods we can use to style our components, from traditional CSS to inline styling. 
-articleEntry: '30-days/09'
 hero_image: /assets/images/series/30-days-of-react/headings/9.jpg
 imageUrl:  /assets/images/series/30-days-of-react/headings/9.jpg
-codeRoot: '__FILE_PATH__/code/09'
+dayDir: '09'
 introBannerUrl: '/assets/images/series/30-days-of-react/headings/9_wide.jpg'
 date: Wed Oct 12 2016 21:29:42 GMT-0700 (PDT)
 ---

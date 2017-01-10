@@ -6,8 +6,7 @@ title: Deployment Introduction
 description: Today, we'll explore the different pieces involved in deploying our application so the world can use our application out in the wild.
 hero_image: /assets/images/series/30-days-of-react/headings/27.jpg
 imageUrl:  /assets/images/series/30-days-of-react/headings/27.jpg
-codeRoot: '__FILE_PATH__/code/27'
-imagesDir: '../../../assets/images/series/30-days-of-react/27'
+dayDir: '27'
 introBannerUrl: '/assets/images/series/30-days-of-react/headings/27_wide.jpg'
 date: Wed Oct 30 2016 21:29:42 GMT-0700 (PDT)
 ---

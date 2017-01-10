@@ -4,10 +4,9 @@ series: 30-days-of-react
 permalink: day-7
 title: Lifecycle Hooks
 description: Today, we'll look through a few of the most common lifecycle hooks we can use with React components and we'll discuss why they are useful and when we should each one.
-articleEntry: '30-days/07'
+dayDir: '07'
 hero_image: /assets/images/series/30-days-of-react/headings/7.jpg
 imageUrl:  /assets/images/series/30-days-of-react/headings/7.jpg
-codeRoot: '__FILE_PATH__/code/07'
 introBannerUrl: '/assets/images/series/30-days-of-react/headings/7_wide.jpg'
 date: Wed Oct 10 2016 21:29:42 GMT-0700 (PDT)
 ---

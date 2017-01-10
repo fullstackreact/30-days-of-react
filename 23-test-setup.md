@@ -4,11 +4,9 @@ series: 30-days-of-react
 permalink: day-23
 title: Implementing Tests
 description: Yesterday we examined the different types of tests that we write in React. Today we'll see it in action. We'll install the dependencies required to set up tests as well as write our first assertions.
-articleEntry: '30-days/23'
+dayDir: '23'
 hero_image: /assets/images/series/30-days-of-react/headings/23.jpg
 imageUrl:  /assets/images/series/30-days-of-react/headings/23.jpg
-codeRoot: '__FILE_PATH__/code/23'
-imagesDir: '../../../assets/images/series/30-days-of-react/23'
 introBannerUrl: '/assets/images/series/30-days-of-react/headings/23_wide.jpg'
 date: Wed Oct 27 2016 21:29:42 GMT-0700 (PDT)
 ---

@@ -4,15 +4,13 @@ series: 30-days-of-react
 permalink: day-4
 title: Complex Components
 description: Awesome, we've built our first component. Now let's get a bit fancier and start building a more complex interface. 
-articleEntry: '30-days/04'
 hero_image: /assets/images/series/30-days-of-react/headings/4.jpg
 imageUrl:  /assets/images/series/30-days-of-react/headings/4.jpg
-
-codeRoot: '__FILE_PATH__/code/04'
-imagesDir: '../../../assets/images/series/30-days-of-react/04'
+dayDir: '04'
 introBannerUrl: '/assets/images/series/30-days-of-react/headings/4_wide.jpg'
 date: Fri Oct 07 2016 21:29:42 GMT-0700 (PDT)
 ---
+
 
 In the previous section of _30 Days of React_, we started building our first React component. In this section, we'll continue our work with our `App` component and start building a more complex UI.
 

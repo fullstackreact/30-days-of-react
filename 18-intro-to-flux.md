@@ -4,10 +4,9 @@ series: 30-days-of-react
 permalink: day-18
 title: Introduction to Flux
 description: Handling data inside a client-side application is a complex task. Today we're looking at a one method of handling complex data proposed by Facebook called the Flux Architecture.
-articleEntry: '30-days/18'
+dayDir: '18'
 hero_image: /assets/images/series/30-days-of-react/headings/18.jpg
 imageUrl:  /assets/images/series/30-days-of-react/headings/18.jpg
-codeRoot: '__FILE_PATH__/code/18'
 introBannerUrl: '/assets/images/series/30-days-of-react/headings/18_wide.jpg'
 date: Wed Oct 21 2016 21:29:42 GMT-0700 (PDT)
 ---

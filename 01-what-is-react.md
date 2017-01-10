@@ -4,10 +4,9 @@ permalink: day-1
 title: What is React?
 description: Today, we're starting out at the beginning. Let's look at what React is and what makes it tick. We'll discuss why we want to use it.
 day: 1
-articleEntry: '30-days/01'
 hero_image: /assets/images/series/30-days-of-react/headings/1.jpg
 imageUrl: /assets/images/series/30-days-of-react/headings/1.jpg
-codeRoot: '__FILE_PATH__/code/01'
+dayDir: '01'
 introBannerUrl: '/assets/images/series/30-days-of-react/headings/1_wide.jpg'
 date: Tue Oct 04 2016 21:29:25 GMT-0700 (PDT)
 ---

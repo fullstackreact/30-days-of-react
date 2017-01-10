@@ -4,11 +4,9 @@ series: 30-days-of-react
 permalink: day-13
 title: Repeating Elements
 description: Today we're going to work through how to display multiple components in preparation for pulling in external data into our app.
-articleEntry: '30-days/13'
+dayDir: '13'
 hero_image: /assets/images/series/30-days-of-react/headings/13.jpg
 imageUrl:  /assets/images/series/30-days-of-react/headings/13.jpg
-codeRoot: '__FILE_PATH__/code/13'
-imagesDir: '../../../assets/images/series/30-days-of-react/13'
 introBannerUrl: '/assets/images/series/30-days-of-react/headings/13_wide.jpg'
 date: Wed Oct 16 2016 21:29:42 GMT-0700 (PDT)
 ---

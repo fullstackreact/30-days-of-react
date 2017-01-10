@@ -4,10 +4,9 @@ series: 30-days-of-react
 permalink: day-11
 title: Pure Components
 description: React offers several different methods for creating components. Today we'll talk about the final method of creating components, the function stateless pure component.
-articleEntry: '30-days/11'
+dayDir: '11'
 hero_image: /assets/images/series/30-days-of-react/headings/11.jpg
 imageUrl:  /assets/images/series/30-days-of-react/headings/11.jpg
-codeRoot: '__FILE_PATH__/code/11'
 introBannerUrl: '/assets/images/series/30-days-of-react/headings/11_wide.jpg'
 date: Wed Oct 14 2016 21:29:42 GMT-0700 (PDT)
 ---

@@ -4,11 +4,9 @@ series: 30-days-of-react
 permalink: day-14
 title: Fetching Remote Data
 description: We're ready to make an external request to fetch data! Today we're looking at the first step of making a call to an external API.
-articleEntry: '30-days/14'
+dayDir: '14'
 hero_image: /assets/images/series/30-days-of-react/headings/14.jpg
 imageUrl:  /assets/images/series/30-days-of-react/headings/14.jpg
-codeRoot: '__FILE_PATH__/code/14'
-imagesDir: '../../../assets/images/series/30-days-of-react/14'
 introBannerUrl: '/assets/images/series/30-days-of-react/headings/14_wide.jpg'
 date: Wed Oct 17 2016 21:29:42 GMT-0700 (PDT)
 ---

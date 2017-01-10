@@ -4,11 +4,9 @@ series: 30-days-of-react
 permalink: day-19
 title: Data Management with Redux
 description: With the knowledge of flux and Redux, let's integrate Redux in our application and walk through connected applications.
-articleEntry: '30-days/19'
+dayDir: '19'
 hero_image: /assets/images/series/30-days-of-react/headings/19.jpg
 imageUrl:  /assets/images/series/30-days-of-react/headings/19.jpg
-codeRoot: '__FILE_PATH__/code/19'
-imagesDir: '../../../assets/images/series/30-days-of-react/19'
 introBannerUrl: '/assets/images/series/30-days-of-react/headings/19_wide.jpg'
 date: Wed Oct 22 2016 21:29:42 GMT-0700 (PDT)
 ---

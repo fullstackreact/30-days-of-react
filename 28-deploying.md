@@ -6,8 +6,7 @@ title: Deployment
 description: Today, we'll look through some ready-to-go options so we can get our site up and running. By the end of today, you'll be able to share a link to your running application.
 hero_image: /assets/images/series/30-days-of-react/headings/28.jpg
 imageUrl:  /assets/images/series/30-days-of-react/headings/28.jpg
-codeRoot: '__FILE_PATH__/code/28'
-imagesDir: '../../../assets/images/series/30-days-of-react/28'
+dayDir: '28'
 introBannerUrl: '/assets/images/series/30-days-of-react/headings/28_wide.jpg'
 protectedPreview: true
 protectedPreviewLength: 800

@@ -4,11 +4,9 @@ series: 30-days-of-react
 permalink: day-17
 title: Client-side Routing
 description: Most, if not all of our applications will have multiple views in our single-page application. Let's dive right into creating multiple views for our applications using React Router.
-articleEntry: '30-days/17'
+dayDir: '17'
 hero_image: /assets/images/series/30-days-of-react/headings/17.jpg
 imageUrl:  /assets/images/series/30-days-of-react/headings/17.jpg
-imagesDir: '../../../assets/images/series/30-days-of-react/17'
-codeRoot: '__FILE_PATH__/code/17'
 introBannerUrl: '/assets/images/series/30-days-of-react/headings/17_wide.jpg'
 date: Wed Oct 20 2016 21:29:42 GMT-0700 (PDT)
 ---
