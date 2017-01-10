@@ -13,5 +13,6 @@ githubRepo: https://github.com/fullstackreact/30-days-of-react
 articleEntry: '30-days/__DAY_DIR__'
 codeRoot: '__FILE_PATH__/code/__DAY_DIR__'
 imagesDir: '../../../assets/images/series/30-days-of-react/__DAY_DIR__'
+githubRepo: 'https://github.com/fullstackreact/30-days-of-react'
 variables:
   __DAY_DIR__: dayDir
