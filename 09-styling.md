@@ -63,7 +63,7 @@ Using our example, the class name of `.header` isn't very specific. Not only cou
 > There is nothing magical about CSS modules other than it forces our build-tool to define custom CSS class names for us so we can work with less unique names. 
 > We'll look into using CSS modules a bit later in our workflow. 
 
-React provides a no-so-new method for avoiding this problem entirely by allowing us to define styles inline along with our JSX.
+React provides a not-so-new method for avoiding this problem entirely by allowing us to define styles inline along with our JSX.
 
 ## Inline styles
 

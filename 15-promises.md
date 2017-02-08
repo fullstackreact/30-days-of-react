@@ -168,7 +168,7 @@ A promise only ever has one of three states at any given time:
 * fulfilled (resolved)
 * rejected (error)
 
-A _pending_ promise can only every lead to either a fulfilled state or a rejected state _once and only once_, which can avoid some pretty complex error scenarios. This means that we can only ever return a promise once. If we want to rerun a function that uses promises, we need to create a _new_ one.
+A _pending_ promise can only ever lead to either a fulfilled state or a rejected state _once and only once_, which can avoid some pretty complex error scenarios. This means that we can only ever return a promise once. If we want to rerun a function that uses promises, we need to create a _new_ one.
 
 ## Creating a promise
 
