@@ -11,7 +11,7 @@ introBannerUrl: '/assets/images/series/30-days-of-react/headings/19_wide.jpg'
 date: Wed Oct 22 2016 21:29:42 GMT-0700 (PDT)
 ---
 
-Yesterday, we discussed (in light detail) the reason for the Flux pattern, what is is, the different options we have available to us, as well as introduced [Redux](http://redux.js.org/).
+Yesterday, we discussed (in light detail) the reason for the Flux pattern, what it is, the different options we have available to us, as well as introduced [Redux](http://redux.js.org/).
 
 Today, we are going to get back to code and on to adding Redux in our app. The app we're building with it right now is bare-bones simple, which will just show us the last time the page fetched the current time. For simplicity for now, we won't call out to a remote server, just using the JavaScript `Date` object.
 
@@ -171,7 +171,7 @@ The error redux is giving us is telling us that we don't have a reducer inside o
 
 ## Reducers
 
-The term `reducer` is just a fancy way of saying functions that return state. When we talk about a reducer, we are talking about this single function that gets executed when an action is fired. It can either handle the action (i.e. create a new state for it's piece of the state tree) or not handle it and return the original state.
+The term `reducer` is just a fancy way of saying functions that return state. When we talk about a reducer, we are talking about this single function that gets executed when an action is fired. It can either handle the action (i.e. create a new state for its piece of the state tree) or not handle it and return the original state.
 
 The reducer function receives two arguments when it's called:
 
