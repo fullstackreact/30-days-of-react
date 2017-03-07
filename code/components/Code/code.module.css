@@ -1,0 +1,75 @@
+.codeWrapper {
+  padding: 5%;
+  margin: 0 auto;
+}
+
+pre {
+  background: #fff;
+  white-space: pre;
+  word-wrap: break-word;
+  overflow: auto;
+  &.code {
+    margin: 20px 25px;
+    border: 1px solid #d9d9d9;
+    border-radius: 2px;
+    position: relative;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
+    label {
+      font-family: sans-serif;
+      font-weight: normal;
+      font-size: 13px;
+      color: #444;
+      position: absolute;
+      left: 1px;
+      top: 16px;
+      text-align: center;
+      width: 60px;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      pointer-events: none;
+    }
+    code {
+      font-family: "Inconsolata","Monaco","Consolas","Andale Mono","Bitstream Vera Sans Mono","Courier New",Courier,monospace;
+      display: block;
+      margin: 0 0 0 60px;
+      padding: 15px 16px 14px;
+      border-left: 1px solid #d9d9d9;
+      overflow-x: auto;
+      font-size: 13px;
+      line-height: 19px;
+      color: #444;
+    }
+  }
+  &::after {
+    content: "double click to selection";
+    padding: 0;
+    width: auto;
+    height: auto;
+    position: absolute;
+    right: 18px;
+    top: 14px;
+    font-size: 12px;
+    color: #aaa;
+    line-height: 20px;
+    overflow: hidden;
+    -webkit-backface-visibility: hidden;
+    transition: all 0.3s ease;
+  }
+  &:hover::after {
+    opacity: 0;
+    visibility: visible;
+  }
+  &.code-css code {
+    color: #0288d1;
+  }
+  &.code-html code {
+    color: #558b2f;
+  }
+  &.code-javascript code {
+    color: #f57c00;
+  }
+  &.code-jquery code {
+    color: #78909c;
+  }
+}

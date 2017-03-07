@@ -1,0 +1,35 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+.day17 {
+  background: #ffffff;
+  font-family: sans-serif;
+
+  .navbar {
+    height: 58px;
+    background: white;
+    display: flex-row;
+    box-shadow: 0px 3px 10px -2px rgba(0, 0, 0, 0.3);
+  
+    .link {
+      display: inline-block;
+      padding: 18px 40px 0 40px;
+      height: 41px;
+
+      color: #333;
+      text-decoration: none;
+      font-size: 20px;
+      font-weight: 100;
+
+      &.active {
+        background-color: rgba(0, 0, 0, 0.08);
+      }
+    }
+  }
+
+  .content {
+    padding: 0 10px;
+  }
+}

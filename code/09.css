@@ -1,0 +1,13 @@
+.timelineHeading {
+  background: rgba(251, 202, 43, 1) !important;
+  color: #333333 !important;
+}
+
+.timelineMenuIcon > div {
+  background: #333333 !important;
+}
+
+.timelineTitle, 
+.timelineSearchIcon {
+  color: #333333 !important;
+}

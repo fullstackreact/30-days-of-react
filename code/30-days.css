@@ -1,0 +1,65 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:600,400);
+
+.spreadsheet {
+
+}
+.spreadsheet td, .spreadsheet th {
+  width: 128px;
+  height: 35px;
+  border: none;
+  text-align: left;
+  background-color: inherit;
+}
+.spreadsheet th {
+  background-color: #fff;
+}
+.spreadsheet span {
+  line-height: 28px;
+}
+.spreadsheet table {
+  -webkit-box-shadow: 2px 2px 36px 0px rgba(0, 0, 0, 0.39);
+  -moz-box-shadow: 2px 2px 36px 0px rgba(0, 0, 0, 0.39);
+  box-shadow: 2px 2px 36px 0px rgba(0, 0, 0, 0.39);
+  border: none;
+  padding: 8px;
+  font-family: 'Roboto', sans-serif;
+  border: 1px solid #D7D7D7;
+  background-color: #FFFFFF;
+}
+.spreadsheet table > tbody > tr:first-child > th {
+  border-bottom: 1px solid #D8D8D8;
+  border-right: none;
+  text-transform: uppercase;
+  text-align: left;
+  height: 30px;
+  font-weight: 300;
+  margin-bottom: 8px;
+}
+.spreadsheet table > tbody > tr > th {
+  border-right: 1px solid #D8D8D8;
+}
+.spreadsheet table > tbody > tr > th:nth-child(2),
+.spreadsheet table > tbody > tr > td:nth-child(2) {
+  padding-left: 15px;
+}
+.spreadsheet td input {
+  background-color: #F0FAFF;
+}
+.spreadsheet tr:hover {
+  background-color: #EEEEEE;
+}
+.spreadsheet input::selection {
+  background: #F0FAFF;
+}
+.spreadsheet .selected {
+  border-bottom: 2px solid #FF074E;
+}
+.spreadsheet .green {
+  border-left: 13px solid #62B9A4;
+}
+.spreadsheet .purple {
+  border-left: 13px solid #985DFF;
+}
+.spreadsheet .yellow {
+  border-left: 13px solid #FF9E39;
+}
