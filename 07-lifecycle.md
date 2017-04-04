@@ -3,7 +3,7 @@ page_id: 30-days-of-react/day-7
 series: 30-days-of-react
 permalink: day-7
 title: Lifecycle Hooks
-description: Today, we'll look through a few of the most common lifecycle hooks we can use with React components and we'll discuss why they are useful and when we should each one.
+description: Today, we'll look through a few of the most common lifecycle hooks we can use with React components and we'll discuss why they are useful and when we should use them.
 dayDir: '07'
 hero_image: /assets/images/series/30-days-of-react/headings/7.jpg
 imageUrl:  /assets/images/series/30-days-of-react/headings/7.jpg
@@ -17,24 +17,24 @@ As React mounts our application, it gives us some hooks where we can insert our 
 
 ### `componentWillMount()` / `componentDidMount()`
 
-When a component is defined on a page in our application, we can't depend upon it being available in the DOM immediately as we're defining virtual nodes. Instead, we have to wait until the component itself has actually _mounted_ in the browser. For functionality that we need to run when it has been mounted, we get two different _hooks_ (or functions) we can define. One that is called just before the component is due to be mounted on the page and one that is called just after the component has been mounted.
+When a component is defined on a page in our application, we can't depend upon it being available in the DOM immediately as we're defining virtual nodes. Instead, we have to wait until the component itself has actually been _mounted_ in the browser. For functionality that we need to run when it has been mounted, we get two different _hooks_ (or functions) we can define. One that is called just before the component is due to be mounted on the page and one that is called just after the component has been mounted.
 
 > ### What does `mounting` mean?
 >
 > Since we're defining _virtual representations_ of nodes in our DOM tree with React, we're not actually defining DOM nodes. Instead, we're building up an in-memory view that React maintains and manages for us. When we talk about _mounting_, we're talking about the process of converting the virtual components into actual DOM elements that are placed in the DOM by React.
 
-This is useful for things such as fetching data to populate the component. For instance, let's say that we want to use our activity tracker to display github events, for example. We will want to load these events only when the data itself is going to be rendered. 
+This is useful for things such as fetching data to populate the component. For instance, let's say that we want to use our activity tracker to display GitHub events. We will want to load these events only when the data itself is going to be rendered. 
 
 Recall we defined our `Content` component in our activity list:
 
 {lang=javascript}
 <<[](content1.js)
 
-Let's update the `Content` component to make a request to the [github.com events api](https://developer.github.com/v3/activity/events/) and use the response to display the activities. As such, we'll need to update the `state` of the object.
+Let's update the `Content` component to make a request to the [github.com events API](https://developer.github.com/v3/activity/events/) and use the response to display the activities. As such, we'll need to update the `state` of the object.
 
 <div id="demo1"></div>
 
-As we did yesterday, let's update our component to be stateful by setting `this.state` to an object in the constructor
+As we did yesterday, let's update our component to be stateful by setting `this.state` to an object in the constructor:
 
 ```javascript
 class Content extends React.Component {
@@ -52,9 +52,9 @@ class Content extends React.Component {
 
 Now, we'll want to make an HTTP request when the component itself is getting ready to be mounted (or just after it mounts). By defining the function `componentWillMount()` (or `componentDidMount()`) in our component, React runs the method just before it mounts in the DOM. This is a perfect spot for us to add a `GET` request.
 
-Let's update the `Content` component with the request to the github api. Since we'll only want to display a small list, let's take the latest four events. 
+Let's update the `Content` component with the request to the GitHub API. Since we'll only want to display a small list, let's take the latest four events. 
 
-> We've stored a static JSON file of github data that we'll load directly from source here (we'll get back to making AJAX requests in a few days) using promises. For now, let's focus on how we'll implement updating our component with new data:
+> We've stored a static JSON file of GitHub data that we'll load directly from source here using promises (we'll get back to making AJAX requests in a few days). For now, let's focus on how we'll implement updating our component with new data:
 
 ```javascript
 class Content extends React.Component {
@@ -76,17 +76,17 @@ Since we won't really need to handle this in-depth, we won't worry about setting
 
 ### `componentWillReceiveProps()`
 
-React will call a method when the component is about to receive new `props`. This is the first method that will be called when a component is going to receive a new set of props. Defining this method is a good time to look for updates to specific `props` as it gives us an opportunity to calculate changes and update our component's internal state.
+React will call a method when the component is about to receive new `props`. This is the first method that will be called when a component is going to receive a new set of props. As defining this method allows us to look for updates to specific `props`, it gives us an opportunity to calculate changes and update our component's internal state.
 
 This is the time when we can update our state based on new props. 
 
 > One thing to keep in mind here is that even though the `componentWillReceiveProps()` method gets called, the value of the `props` may not have changed. It's _always_ a good idea to check for changes in the prop values.
 
-For instance, let's add a _refresh_ button to our activity list so our users can request a rerequest of the github events api. 
+For instance, let's add a _refresh_ button to our activity list, so our users can request a rerequest of the GitHub events API. 
 
 <div id="demo2"></div>
 
-We'll use the `componentWillReceiveProps()` hook to ask the component to reload it's data. As our component is stateful, we'll want to refresh this state with new data, so we can't simply update the `props` in a component. We can use the `componentWillReceiveProps()` method to _tell_ the component we want a refresh. 
+We'll use the `componentWillReceiveProps()` hook to ask the component to reload its data. As our component is stateful, we'll want to refresh this state with new data, so we can't simply update the `props` in a component. We can use the `componentWillReceiveProps()` method to _tell_ the component we want a refresh. 
 
 For instance, let's add a button on our containing element that passes a `requestRefresh` boolean prop to tell the `Content` component to refresh.
 
@@ -125,6 +125,6 @@ class Clock extends React.Component {
 }
 ```
 
-These are a few of the lifecycle hooks we can interact with in the React framework. We'll be using these a lot as we build our react apps, so it's a good idea to be familiar with them, that they exist, and how to hook into the life of a component.
+These are a few of the lifecycle hooks we can interact with in the React framework. We'll be using these a lot as we build our React apps, so it's a good idea to be familiar with them, that they exist, and how to hook into the life of a component.
 
-We did introduce one new concept in this post which we glossed over: we added a callback on a component to be called from the child to it's parent component. In the next section, we're going to look at how to define and document the `prop` API of a component for usage when sharing a component across teams and an application in general. 
+We did introduce one new concept in this post, which we glossed over: we added a callback on a component to be called from the child to its parent component. In the next section, we're going to look at how to define and document the `prop` API of a component for usage when sharing a component across teams and an application in general. 
