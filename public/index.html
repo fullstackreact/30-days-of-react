@@ -4,28 +4,332 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-    <!--
-      Notice the use of %PUBLIC_URL% in the tag above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
-
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
     <title>React App</title>
   </head>
   <body>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+    <p>Through this point, we&#39;ve written our first components and set them up in a child/parent relationship. However, we haven&#39;t yet tied any data to our React components. Although it&#39;s a more pleasant experience (in our opinion) writing a website in React, we haven&#39;t taken advantage of the power of React to display any dynamic data.</p>
+<p>Let&#39;s change that today.</p>
+<h2 id="going-data-driven">Going data-driven</h2>
+<p>Recall, yesterday we built the beginning of our timeline component that includes a header and an activity list:</p>
+<div class="demo" id="demo1"></div>
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+<p>We broke down our demo into components and ended up building three separate components with static JSX templates. It&#39;s not very convenient to have to update our component&#39;s template everytime we have a change in our website&#39;s data. </p>
+<p>Instead, let&#39;s give the components data to use to display. Let&#39;s start with the <code>&lt;Header /&gt;</code> component. As it stands right now, the <code>&lt;Header /&gt;</code> component only shows the title of the element as <code>Timeline</code>. It&#39;s a nice element and it would be nice to be able to reuse it in other parts of our page, but the title of <code>Timeline</code> doesn&#39;t make sense for every use.</p>
+<p>Let&#39;s tell React that we want to be able to set the title to something else. </p>
+<h2 id="introducing-props">Introducing props</h2>
+<p>React allows us to send data to a component in the same syntax as HTML, using attributes or <em>properties</em> on a component. This is akin to passing the <code>src</code> attribute to an image tag. We can think about the property of the <code>&lt;img /&gt;</code> tag as a <code>prop</code> we&#39;re setting on a component called <code>img</code>. </p>
+<p>We can access these properties inside a component as <code>this.props</code>. Let&#39;s see <code>props</code> in action.</p>
+<p>Recall, we defined the <code>&lt;Header /&gt;</code> component as:</p>
+<pre><code class="lang-jsx"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Header</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  render() {
+    <span class="hljs-keyword">return</span> (
+      <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"header"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"menuIcon"</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"dashTop"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"dashBottom"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"circle"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 
-      To begin the development, run `npm start`.
-      To create a production bundle, use `npm run build`.
-    -->
+        <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"title"</span>&gt;</span>
+          {this.props.title}
+        <span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+
+        <span class="hljs-tag">&lt;<span class="hljs-name">input</span>
+          <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span>
+          <span class="hljs-attr">className</span>=<span class="hljs-string">"searchInput"</span>
+          <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Search ..."</span> /&gt;</span>
+
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"fa fa-search searchIcon"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    )
+  }
+}</span>
+</code></pre>
+<p>When we use the <code>&lt;Header /&gt;</code> component, we placed it in our <code>&lt;App /&gt;</code> component as like so:</p>
+<pre><code class="lang-javascript">&lt;Header /&gt;
+</code></pre>
+<div class="demo" id="headerDemo1"></div>
+
+<p>We can pass in our <code>title</code> as a prop as an attribute on the <code>&lt;Header /&gt;</code> by updating the usage of the component setting the attribute called <code>title</code> to some string, like so:</p>
+<pre><code class="lang-javascript">&lt;Header title=<span class="hljs-string">"Timeline"</span> /&gt;
+</code></pre>
+<div class="demo" id="headerDemoWithProps"></div>
+
+<p>Inside of our component, we can access this <code>title</code> prop from the <code>this.props</code> property in the <code>Header</code> class. Instead of setting the title statically as <code>Timeline</code> in the template, we can replace it with the property passed in.</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Header</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  render() {
+    <span class="hljs-keyword">return</span> (
+      <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"header"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"menuIcon"</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"dashTop"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"dashBottom"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"circle"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+        <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"title"</span>&gt;</span>
+          {this.props.title}
+        <span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+
+        <span class="hljs-tag">&lt;<span class="hljs-name">input</span>
+          <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span>
+          <span class="hljs-attr">className</span>=<span class="hljs-string">"searchInput"</span>
+          <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Search ..."</span> /&gt;</span>
+
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"fa fa-search searchIcon"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    )
+  }
+}
+
+export default Header</span>
+</code></pre>
+<p>Now our <code>&lt;Header /&gt;</code> component will display the string we pass in as the <code>title</code> when we call the component. For instance, calling our <code>&lt;Header /&gt;</code> component four times like so:</p>
+<pre><code class="lang-javascript">&lt;Header title=<span class="hljs-string">"Timeline"</span> /&gt;
+&lt;Header title="Profile" /&gt;
+&lt;Header title="Settings" /&gt;
+&lt;Header title="Chat" /&gt;
+</code></pre>
+<p>Results in four <code>&lt;Header /&gt;</code> components to mount like so:</p>
+<div class="demo" id="demo2"></div>
+
+<p>Pretty nifty, ey? Now we can reuse the <code>&lt;Header /&gt;</code> component with a dynamic <code>title</code> property. </p>
+<p>We can pass in more than just strings in a component. We can pass in numbers, strings, all sorts of objects, and even functions! We&#39;ll talk more about how to define these different properties so we can build a component api later. </p>
+<p>Instead of statically setting the content and date
+Let&#39;s take the <code>Content</code> component and set the timeline content by a data variable instead of by text. Just like we can do with HTML components, we can pass multiple <code>props</code> into a component. </p>
+<p>Recall, yesterday we defined our <code>Content</code> container like this:</p>
+<pre><code class="lang-javascript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Content</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  render() {
+    <span class="hljs-keyword">return</span> (
+      <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"content"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"line"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+      {/* Timeline item */}
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"item"</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"avatar"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"http://www.croop.cl/UI/twitter/images/doug.jpg"</span> /&gt;</span>
+            Doug
+          <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+          <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"time"</span>&gt;</span>
+            An hour ago
+          <span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Ate lunch<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"commentCount"</span>&gt;</span>
+            2
+          <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+        {/* ... */}
+
+      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    )
+  }
+}</span>
+</code></pre>
+<p>As we did with <code>title</code>, let&#39;s look at what <code>props</code> our <code>Content</code> component needs:</p>
+<ul>
+<li>A user&#39;s avatar image</li>
+<li>A timestamp of the activity</li>
+<li>Text of the activity item</li>
+<li>Number of comments</li>
+</ul>
+<p>Let&#39;s say that we have a JavaScript object that represents an activity item. We will have a few fields, such as a string field (text) and a date object. We might have some nested objects, like a <code>user</code> and <code>comments</code>. For instance:</p>
+<pre><code class="lang-javascript">{
+  <span class="hljs-attr">timestamp</span>: <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>().getTime(),
+  <span class="hljs-attr">text</span>: <span class="hljs-string">"Ate lunch"</span>,
+  <span class="hljs-attr">user</span>: {
+    <span class="hljs-attr">id</span>: <span class="hljs-number">1</span>,
+    <span class="hljs-attr">name</span>: <span class="hljs-string">'Nate'</span>,
+    <span class="hljs-attr">avatar</span>: <span class="hljs-string">"http://www.croop.cl/UI/twitter/images/doug.jpg"</span>
+  },
+  <span class="hljs-attr">comments</span>: [
+    { <span class="hljs-attr">from</span>: <span class="hljs-string">'Ari'</span>, <span class="hljs-attr">text</span>: <span class="hljs-string">'Me too!'</span> }
+  ]
+}
+</code></pre>
+<p>Just like we passed in a string title to the <code>&lt;Header /&gt;</code> component, we can take this activity object and pass it right into the <code>Content</code> component. Let&#39;s convert our component to display the details from this activity inside it&#39;s template.</p>
+<p>In order to pass a dynamic variable&#39;s value into a template, we have to use the template syntax to render it in our template. For instance:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Content</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  render() {
+    <span class="hljs-keyword">const</span> {activity} = <span class="hljs-keyword">this</span>.props; <span class="hljs-comment">// ES6 destructuring</span>
+
+    <span class="hljs-keyword">return</span> (
+      <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"content"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"line"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+        {/* Timeline item */}
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"item"</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"avatar"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">img</span>
+              <span class="hljs-attr">alt</span>=<span class="hljs-string">{activity.text}</span>
+              <span class="hljs-attr">src</span>=<span class="hljs-string">{activity.user.avatar}</span> /&gt;</span>
+            {activity.user.name}
+          <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+          <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"time"</span>&gt;</span>
+            {activity.timestamp}
+          <span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{activity.text}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"commentCount"</span>&gt;</span>
+            {activity.comments.length}
+          <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    )
+  }
+}
+
+export default Content</span>
+</code></pre>
+<blockquote>
+<p>We&#39;ve use a little bit of ES6 in our class definition on the first line of the <code>render()</code> function called <em>destructuring</em>. The two following lines are functionally equivalent:</p>
+<pre><code class="lang-javascript"><span class="hljs-comment">// these lines do the same thing</span>
+<span class="hljs-keyword">const</span> activity = <span class="hljs-keyword">this</span>.props.activity;
+<span class="hljs-keyword">const</span> {activity} = <span class="hljs-keyword">this</span>.props;
+</code></pre>
+<p>Destructuring allows us to save on typing and define variables in a shorter, more compact way. </p>
+</blockquote>
+<p>We can then <em>use</em> this new content by passing in an object as a prop instead of a hard-coded string. For instance:</p>
+<pre><code class="lang-javascript">&lt;Content activity={moment1} /&gt;
+</code></pre>
+<div class="demo" id="demo3"></div>
+
+<p>Fantastic, now we have our activity item driven by an object. However, you might have noticed that we would have to implement this multiple times with different comments. Instead, we could pass an array of objects into a component. </p>
+<p>Let&#39;s say we have an object that contains multiple activity items:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> activities = [
+  {
+    <span class="hljs-attr">timestamp</span>: <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>().getTime(),
+    <span class="hljs-attr">text</span>: <span class="hljs-string">"Ate lunch"</span>,
+    <span class="hljs-attr">user</span>: {
+      <span class="hljs-attr">id</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">name</span>: <span class="hljs-string">'Nate'</span>,
+      <span class="hljs-attr">avatar</span>: <span class="hljs-string">"http://www.croop.cl/UI/twitter/images/doug.jpg"</span>
+    },
+    <span class="hljs-attr">comments</span>: [{ <span class="hljs-attr">from</span>: <span class="hljs-string">'Ari'</span>, <span class="hljs-attr">text</span>: <span class="hljs-string">'Me too!'</span> }]
+  },
+  {
+    <span class="hljs-attr">timestamp</span>: <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>().getTime(),
+    <span class="hljs-attr">text</span>: <span class="hljs-string">"Woke up early for a beautiful run"</span>,
+    <span class="hljs-attr">user</span>: {
+      <span class="hljs-attr">id</span>: <span class="hljs-number">2</span>, <span class="hljs-attr">name</span>: <span class="hljs-string">'Ari'</span>,
+      <span class="hljs-attr">avatar</span>: <span class="hljs-string">"http://www.croop.cl/UI/twitter/images/doug.jpg"</span>
+    },
+    <span class="hljs-attr">comments</span>: [{ <span class="hljs-attr">from</span>: <span class="hljs-string">'Nate'</span>, <span class="hljs-attr">text</span>: <span class="hljs-string">'I am so jealous'</span> }]
+  },
+]
+</code></pre>
+<p>We can rearticulate our usage of <code>&lt;Content /&gt;</code> by passing in multiple activities instead of just one:</p>
+<pre><code class="lang-javascript">&lt;Content activities={activities} /&gt;
+</code></pre>
+<p>However, if we refresh the view nothing will show up! We need to first update our <code>Content</code> component to accept multiple activities. As we learned about previously, JSX is really <em>just</em> JavaScript executed by the browser. We can execute JavaScript functions inside the JSX content as it will just get run by the browser like the rest of our JavaScript.</p>
+<p>Let&#39;s move our activity item JSX inside of a <code>map</code> that we&#39;ll run over for every item.</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Content</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  render() {
+    <span class="hljs-keyword">const</span> {activities} = <span class="hljs-keyword">this</span>.props; <span class="hljs-comment">// ES6 destructuring</span>
+
+    <span class="hljs-keyword">return</span> (
+      <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"content"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"line"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+        {/* Timeline item */}
+        {activities.map((activity) =&gt; {
+          return (
+            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"item"</span>&gt;</span>
+              <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"avatar"</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">img</span>
+                  <span class="hljs-attr">alt</span>=<span class="hljs-string">{activity.text}</span>
+                  <span class="hljs-attr">src</span>=<span class="hljs-string">{activity.user.avatar}</span> /&gt;</span>
+                {activity.user.name}
+              <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+              <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"time"</span>&gt;</span>
+                {activity.timestamp}
+              <span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+              <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{activity.text}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+              <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"commentCount"</span>&gt;</span>
+                {activity.comments.length}
+              <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+          );
+        })}
+
+      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    )
+  }
+}
+
+export default Content</span>
+</code></pre>
+<div class="demo" id="demo4"></div>
+
+<p>Now we can pass any number of activities to our array and the <code>Content</code> component will handle it, however if we leave the component right now, then we&#39;ll have a relatively complex component handling both containing and displaying a list of activities. Leaving it like this really isn&#39;t the React way. </p>
+<h2 id="activityitem">ActivityItem</h2>
+<p>Here is where it makes sense to write one more component to contain displaying a single activity item and then rather than building a complex <code>Content</code> component, we can move the responsibility. This will also make it easier to test, add functionality, etc. </p>
+<p>Let&#39;s update our <code>Content</code> component to display a list of <code>ActivityItem</code> components (we&#39;ll create this next). </p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>
+
+<span class="hljs-keyword">import</span> ActivityItem <span class="hljs-keyword">from</span> <span class="hljs-string">'./ActivityItem'</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Content</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  render() {
+    <span class="hljs-keyword">const</span> {activities} = <span class="hljs-keyword">this</span>.props; <span class="hljs-comment">// ES6 destructuring</span>
+
+    <span class="hljs-keyword">return</span> (
+      <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"content"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"line"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+        {/* Timeline item */}
+        {activities.map((activity) =&gt; (
+          <span class="hljs-tag">&lt;<span class="hljs-name">ActivityItem</span>
+            <span class="hljs-attr">activity</span>=<span class="hljs-string">{activity}</span> /&gt;</span>
+        ))}
+
+      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    )
+  }
+}
+
+export default Content</span>
+</code></pre>
+<p>Not only is this much simpler and easier to understand, but it makes testing both components easier.</p>
+<p>With our freshly-minted <code>Content</code> component, let&#39;s create the <code>ActivityItem</code> component. Since we already have the view created for the <code>ActivityItem</code>, all we need to do is copy it from what was our <code>Content</code> component&#39;s template as it&#39;s own module.</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ActivityItem</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  render() {
+    <span class="hljs-keyword">const</span> {activity} = <span class="hljs-keyword">this</span>.props; <span class="hljs-comment">// ES6 destructuring</span>
+
+    <span class="hljs-keyword">return</span> (
+      <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"item"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"avatar"</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">img</span> 
+            <span class="hljs-attr">alt</span>=<span class="hljs-string">{activity.text}</span> 
+            <span class="hljs-attr">src</span>=<span class="hljs-string">{activity.user.avatar}</span> /&gt;</span>
+          {activity.user.name}
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+        <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"time"</span>&gt;</span>
+          {activity.timestamp}
+        <span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{activity.text}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"commentCount"</span>&gt;</span>
+          {activity.comments.length}
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    )
+  }
+}
+
+export default ActivityItem</span>
+</code></pre>
+<div class="demo" id="demo5"></div>
+
+<p>This week we updated our components to be driven by data by using the React <code>props</code> concept. In the next section, we&#39;ll dive into stateful components. </p>
+
   </body>
 </html>
