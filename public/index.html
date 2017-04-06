@@ -4,28 +4,109 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-    <!--
-      Notice the use of %PUBLIC_URL% in the tag above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
-
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
     <title>React App</title>
   </head>
   <body>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+    <p>Let&#39;s get our application set up to be tested. Since we&#39;re going to be using a few different libraries, we&#39;ll need to install them before we can use them (obviously).</p>
+<h2 id="dependencies">Dependencies</h2>
+<p>We&#39;re going to use the following <code>npm</code> libraries:</p>
+<h3 id="jest-jest-cli">jest/jest-cli</h3>
+<p><a href="https://facebook.github.io/jest/">Jest</a> is the official testing framework released by Facebook and is a fantastic testing framework for testing React applications. It is incredibly fast, provides sandboxed testing environments, support for snapshot testing, and more.</p>
+<h3 id="babel-jest-babel-preset-stage-0">babel-jest/babel-preset-stage-0</h3>
+<p>We&#39;ll write our tests using the stage 0 (or ES6-edge functionality), so we&#39;ll want to make sure our test framework can read and process our ES6 in our tests and source files.</p>
+<h3 id="sinon">sinon</h3>
+<p>Sinon is a test utility library which provides a way for us to write spies, stubs, and mocks. We&#39;ll discuss what these are when we need them, but we&#39;ll install the library for now.</p>
+<h3 id="react-addons-test-utils-enzyme">react-addons-test-utils/enzyme</h3>
+<p>The <code>react-addons-test-utils</code> package contains testing utilities provided by the React team.</p>
+<p><a href="http://airbnb.io/enzyme/">Enzyme</a>, a JavaScript testing library built/maintained by Airbnb is a bit easier to work with and provides really nice methods for traversing/manipulating React&#39;s virtual DOM output. While we&#39;ll start with <code>react-addons-test-utils</code>, we&#39;ll transition to using Enzyme as we prefer using it in our tests.</p>
+<h3 id="react-test-renderer">react-test-renderer</h3>
+<p>The <code>react-test-renderer</code> library allows us to use the snapshot feature from the jest library. Snapshots are a way for Jest to serialize the rendered output from the virtual DOM into a file which we can automate comparisons from one test to the next.</p>
+<h3 id="redux-mock-store">redux-mock-store</h3>
+<p>The <a href="https://github.com/arnaudbenard/redux-mock-store">redux-mock-store</a> library allows us to easily make a redux store for testing. We&#39;ll use it to test our action creators, middleware, and our reducers.</p>
+<p>To install all of these libraries, we&#39;ll use the following <code>npm</code> command in the terminal while in the root directory of our projects:</p>
+<pre><code class="lang-bash">yarn add --dev babel-jest babel-preset-stage-0 enzyme jest-cli react-addons-test-utils react-test-renderer redux-mock-store sinon
+</code></pre>
+<h2 id="configuration">Configuration</h2>
+<p>We&#39;ll also need to configure our setup. First, let&#39;s add an npm script that will allow us to run our tests using the <code>npm test</code> command. In our <code>package.json</code> file in the root of our project, let&#39;s add the <code>test</code> script. Find the scripts key in the <code>package.json</code> file and add the <code>test</code> command, like so:</p>
+<pre><code class="lang-javascript">{
+  <span class="hljs-comment">// ...</span>
+  <span class="hljs-string">"scripts"</span>: {
+    <span class="hljs-string">"start"</span>: <span class="hljs-string">"react-scripts start"</span>,
+    <span class="hljs-string">"build"</span>: <span class="hljs-string">"react-scripts build"</span>,
+    <span class="hljs-string">"eject"</span>: <span class="hljs-string">"react-scripts eject"</span>,
+    <span class="hljs-string">"test"</span>: <span class="hljs-string">"react-scripts test --env=jsdom"</span>
+  },
+}
+</code></pre>
+<h2 id="writing-tests">Writing tests</h2>
+<p>Let&#39;s confirm that our test setup is working properly. Jest will automatically look for test files in the entire tree in a directory called <code>__tests__</code> (yes, with the underscores). Let&#39;s create our first <code>__tests__</code> directory in our <code>src/components/Timeline</code> directory and create our first test file:</p>
+<pre><code class="lang-bash">mkdir src/components/Timeline/__tests__
+touch src/components/Timeline/__tests__/Timeline-test.js
+</code></pre>
+<p>The <code>Timeline-test.js</code> file will include all the tests for our <code>Timeline</code> component (as indicated by the filename). Let&#39;s create our first test for the Timeline component.</p>
+<div class="demo" id="demo1"></div>
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+<p>We&#39;ll write our tests using the <a href="http://jasmine.github.io">Jasmine</a> framework. Jasmine provides a few methods we&#39;ll use quite a bit. Both of the following methods accept two arguments, the first being a description string and the second a function to execute:</p>
+<ul>
+<li><code>describe()</code></li>
+<li><code>it()</code></li>
+</ul>
+<p>The <code>describe()</code> function provides a way for us to group our tests together in logical bundles. Since we&#39;re writing a bunch of tests for our <code>Timeline</code>, we&#39;ll use the <code>describe()</code> function in our test to indicate we&#39;re testing the Timeline.</p>
+<p>In the <code>src/components/Timeline/__tests__/Timeline-test.js</code> file, let&#39;s add the describe block:</p>
+<pre><code class="lang-javascript">describe(<span class="hljs-string">'Timeline'</span>, () =&gt; {
 
-      To begin the development, run `npm start`.
-      To create a production bundle, use `npm run build`.
-    -->
+});
+</code></pre>
+<p>We can add our first test using the <code>it()</code> function. The <code>it()</code> function is where we will set our expectations. Let&#39;s set up our tests with our first expectations, one passing and one failing so we can see the difference in output.</p>
+<p>In the same file, let&#39;s add two tests:</p>
+<pre><code class="lang-javascript">describe(<span class="hljs-string">'Timeline'</span>, () =&gt; {
+
+  it(<span class="hljs-string">'passing test'</span>, () =&gt; {
+    expect(<span class="hljs-literal">true</span>).toBeTruthy();
+  })
+
+  it(<span class="hljs-string">'failing test'</span>, () =&gt; {
+    expect(<span class="hljs-literal">false</span>).toBeTruthy();
+  })
+})
+</code></pre>
+<p>We&#39;ll look at the possible expectations we can set in a moment. First, let&#39;s run our tests.</p>
+<h2 id="executing-tests">Executing tests</h2>
+<p>The <code>create-react-app</code> package sets up a quality testing environment using Jest automatically for us. We can execute our tests by using the <code>yarn test</code> or <code>npm test</code> script. </p>
+<p>In the terminal, let&#39;s execute our tests:</p>
+<pre><code class="lang-bash">yarn <span class="hljs-built_in">test</span>
+</code></pre>
+<p><img class="wide" src="/assets/images/series/30-days-of-react/day-23/first-tests.jpg" /></p>
+<p>From this output, we can see the two tests with one passing test (with a green checkmark) and one failing test (with the red x and a description of the failure).</p>
+<p>Let&#39;s update the second test to make it pass by changing the expectation to <code>toBeFalsy()</code>:</p>
+<pre><code>describe('Timeline', () =&gt; {
+
+  it('passing test', () =&gt; {
+    expect(<span class="hljs-name">true</span>).toBeTruthy()<span class="hljs-comment">;</span>
+  })
+
+  it('failing test', () =&gt; {
+    expect(<span class="hljs-name">false</span>).toBeTruthy()<span class="hljs-comment">;</span>
+  })
+})
+</code></pre><p>Re-running the test, we can see we have two passing tests</p>
+<pre><code class="lang-bash">yarn <span class="hljs-built_in">test</span>
+</code></pre>
+<p><img class="wide" src="/assets/images/series/30-days-of-react/day-23/second-tests.png" /></p>
+<h2 id="expectations">Expectations</h2>
+<p>Jest provides a few global commands in our tests by default (i.e. things you don&#39;t need to require). One of those is the <code>expect()</code> command. The <code>expect()</code> command has a few expectations which we can call on it, including the two we&#39;ve used already:</p>
+<ul>
+<li><code>toBeTruthy()</code></li>
+<li><code>toBeFalsy()</code></li>
+<li><code>toBe()</code></li>
+<li><code>toEqual()</code></li>
+<li><code>toBeDefined()</code></li>
+<li><code>toBeCalled()</code></li>
+<li>etc.</li>
+</ul>
+<p>The entire suite of expectations is available on the jest documentation page at: <a href="https://facebook.github.io/jest/docs/api.html#writing-assertions-with-expect">https://facebook.github.io/jest/docs/api.html#writing-assertions-with-expect</a>.</p>
+<p>The <code>expect()</code> function takes a single argument: the value or function that returns a value to be tested. For instance, our two tests we&#39;ve already writen pass the boolean values of <code>true</code> and <code>false</code>.</p>
+<p>Now that we&#39;ve written our first tests and confirmed our setup, we&#39;ll actually get down to testing our Timeline component tomorrow. Great job today and see you tomorrow!</p>
+
   </body>
 </html>
