@@ -4,28 +4,169 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-    <!--
-      Notice the use of %PUBLIC_URL% in the tag above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
-
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
     <title>React App</title>
   </head>
   <body>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+    <p>We&#39;ve made it through 16 days already! Pat yourself on the back... but not for too long... there is still a lot more. </p>
+<p>Right now, our app is limited to a single page. It&#39;s pretty rare to find any complex application that shows a single view. For instance, an application might have a login view where a user can log in or a search results page that shows a user a list of their search results. These are two different views with two different page structures. </p>
+<p>Let&#39;s see how we can change that with our app today.</p>
+<p>We&#39;ll use the very popular <a href="https://github.com/reactjs/react-router">react-router</a> library for handling different links. In order to use the <code>react-router</code> library, we&#39;ll need to install it using the <code>npm</code> package manager:</p>
+<pre><code class="lang-bash">npm install --save react-router-dom
+</code></pre>
+<p><img class="wide" src="/assets/images/series/30-days-of-react/day-17/install-react-router.png" /></p>
+<p>With <code>react-router</code> installed, we&#39;ll import a few packages from the library and update our app architecture. Before we make those updates, let&#39;s take a step back and from a high level look at <em>how</em> and <em>why</em> we architect our application this way.</p>
+<p>Conceptually with React, we&#39;ve seen how we can create tree structures using components and nested components. Using this perspective with a single page app with routes, we can think of the different parts of a page as children. Routing in a single page app from this perspective is the idea that we can take a part of a subtree and switch it out with another subtree. We can then <em>dynamically</em> switch out the different trees in the browser.</p>
+<p>In <em>other</em> words, we&#39;ll define a React component that acts as a <em>root</em> component of the routable elements. We can then tell React to change a view, which can just swap out an entire React component for another one as though it&#39;s a completely different page rendered by a server.</p>
+<p>We&#39;ll take our <code>App</code> component and define all of the different routes we can make in our app in this <code>App</code> component. We&#39;ll need to pull some components from the <code>react-router</code> package. These components we&#39;ll use to set up this structure are as follows:</p>
+<h4 id="-browserrouter-router-"><code>&lt;BrowserRouter /&gt;</code> / <code>&lt;Router /&gt;</code></h4>
+<p>This is the component we&#39;ll use to define the <em>root</em> or the routing tree. The <code>&lt;BrowserRouter /&gt;</code> component is the component where React will replace it&#39;s children on a per-route basis. </p>
+<h4 id="-route-"><code>&lt;Route /&gt;</code></h4>
+<p>We&#39;ll use the <code>&lt;Route /&gt;</code> component to create a route available at a specific location available at a url. The <code>&lt;Route /&gt;</code> component is mounted at page URLs that match a particular route set up in the route&#39;s configuration <code>props</code>.</p>
+<p>One older, compatible way of handling client-side navigation is to use the <code>#</code> (hash) mark denoting the application endpoint. We&#39;ll use this method. We&#39;ll need this object imported to tell the browser this is how we want to handle our navigation.</p>
+<p>From the app we created a few days ago&#39;s root directory, let&#39;s update our <code>src/App.js</code> to import these modules. We&#39;ll import the <code>BrowserRouter</code> using a different name syntax via ES6:</p>
+<pre><code class="lang-javascript">import React from 'react';
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+import {
+  BrowserRouter as Router,
+  Route
+} from 'react-router-dom'
 
-      To begin the development, run `npm start`.
-      To create a production bundle, use `npm run build`.
-    -->
+export class App extends React.Component {
+
+  render() {
+    &lt;Router&gt;
+      {/* routes will go here */}
+    &lt;/Router&gt;
+  }
+
+}
+</code></pre>
+<p>Now let&#39;s define the routing root in the DOM using the <code>&lt;Router /&gt;</code> component we imported in the <code>render()</code> function. We&#39;ll define the type of routing we are using using the <code>history</code> prop. In this example, we&#39;ll use the universally-compatible hash history type: </p>
+<pre><code class="lang-javascript">export class App extends React.Component {
+  // ...
+  render() {
+    &lt;Router&gt;
+      {/* routes will go here */}
+    &lt;/Router&gt;
+  }
+  // ...
+}
+</code></pre>
+<p>Now let&#39;s define our first route. To define a route, we&#39;ll use the <code>&lt;Route /&gt;</code> component export from <code>react-router</code> and pass it a few props:</p>
+<ul>
+<li><code>path</code> - The path for the route to be active</li>
+<li><code>component</code> - The component that defines the view of the route</li>
+</ul>
+<p>Let&#39;s define the a route at the root path <code>/</code> with a stateless component that just displays some static content:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> Home = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Welcome home<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>)
+  <span class="hljs-comment">// ...</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">App</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  render() {
+    <span class="hljs-keyword">return</span> (
+      <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Router</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">Route</span> <span class="hljs-attr">path</span>=<span class="hljs-string">"/"</span> <span class="hljs-attr">component</span>=<span class="hljs-string">{Home}</span> /&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">Router</span>&gt;</span>
+    )
+  }
+}</span>
+</code></pre>
+<div class="demo" id="demo1"></div>
+
+<p>Loading this page in the browser, we can see we get our single route at the root url. Not very exciting. Let&#39;s add a second route that shows an about page at the <code>/about</code> URL.</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> Home = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Welcome home<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>)
+  <span class="hljs-comment">// ...</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">App</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  render() {
+    <span class="hljs-keyword">return</span> (
+      &lt;Router&gt;
+        &lt;div&gt;
+          &lt;Route path="/" component={Home} /&gt;
+          &lt;Route path="/about" component={About} /&gt;
+        &lt;/div&gt;
+      &lt;/Router&gt;
+    )
+  }
+}
+</code></pre>
+<div class="demo" id="demo2"></div>
+
+<p>In our view we&#39;ll need to add a link (or an anchor tag -- <code>&lt;a /&gt;</code>) to enable our users to travel freely between the two different routes. However, using the <code>&lt;a /&gt;</code> tag will tell the browser to treat the route like it&#39;s a server-side route. Instead, we&#39;ll need to use a different component (surprise) called: <code>&lt;Link /&gt;</code>.</p>
+<p>The <code>&lt;Link /&gt;</code> component requires a prop called <code>to</code> to point to the client-side route where we want to render. Let&#39;s update our <code>Home</code> and <code>About</code> components to use the <code>Link</code>:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> Home = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Welcome home<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">Link</span> <span class="hljs-attr">to</span>=<span class="hljs-string">'/about'</span>&gt;</span>Go to about<span class="hljs-tag">&lt;/<span class="hljs-name">Link</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>)
+<span class="hljs-keyword">const</span> About = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>About<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">Link</span> <span class="hljs-attr">to</span>=<span class="hljs-string">'/'</span>&gt;</span>Go home<span class="hljs-tag">&lt;/<span class="hljs-name">Link</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>)
+</code></pre>
+<div class="demo" id="demo3"></div>
+
+<p>Wait a minute... we don&#39;t quite want <em>both</em> routes to show up... This happens because the react router will render <em>all</em> content that matches the path (unless otherwise specified). For this case, react router supplies us with the <code>Switch</code> component. </p>
+<p>The <code>&lt;Switch /&gt;</code> component will <em>only render the first matching route</em> it finds. Let&#39;s update our component to use the <code>Switch</code> component. As react router will try to render <em>both</em> components, we&#39;ll need to specify that we only want an <code>exact</code> match on the root component. </p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> Home = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Welcome home<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">Link</span> <span class="hljs-attr">to</span>=<span class="hljs-string">'/about'</span>&gt;</span>Go to about<span class="hljs-tag">&lt;/<span class="hljs-name">Link</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>)
+  <span class="hljs-comment">// ...</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">App</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  render() {
+    <span class="hljs-keyword">return</span> (
+      &lt;Router&gt;
+        &lt;Switch&gt;
+          &lt;Route path="/about" component={About} /&gt;
+          &lt;Route path="/" component={Home} /&gt;
+        &lt;/Switch&gt;
+      &lt;/Router&gt;
+    )
+  }
+}
+</code></pre>
+<div class="demo" id="demo4"></div>
+
+<h3 id="showing-views">Showing views</h3>
+<p>Althogh this is a limited introduction, we could not leave the discussion of dealing with react router without talking about the different ways we can get subcomponents to render.</p>
+<p>We&#39;ve already seen the simplest way possible, using the <code>component</code> prop, however there is a more powerful method using a prop called <code>render</code>. The <code>render</code> prop is expected to be a function that will be called with the <code>match</code> object along with the <code>location</code> and route configuration. </p>
+<p>The <code>render</code> prop allows us to render <em>whatever</em> we want in a subroute, which includes rendering other routes. Nifty, ey? Let&#39;s see this in action:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> Home = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Welcome home<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">Link</span> <span class="hljs-attr">to</span>=<span class="hljs-string">'/about'</span>&gt;</span>Go to about<span class="hljs-tag">&lt;/<span class="hljs-name">Link</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>)
+<span class="hljs-keyword">const</span> About = <span class="hljs-function">(<span class="hljs-params">{ name }</span>) =&gt;</span> (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>About {name}<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>)
+  <span class="hljs-comment">// ...</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">App</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  render() {
+    <span class="hljs-keyword">return</span> (
+      &lt;Router&gt;
+        &lt;Switch&gt;
+          &lt;Route
+            path="/about"
+            render={(renderProps) =&gt; (
+              &lt;div&gt;
+                &lt;Link to='/about/ari'&gt;Ari&lt;/Link&gt;
+                &lt;Link to='/about/nate'&gt;Nate&lt;/Link&gt;
+                &lt;Route
+                  path="/about/:name"
+                  render={(renderProps) =&gt; (
+                    &lt;div&gt;
+                      &lt;About name={renderProps.match.params.name} /&gt;
+                      &lt;Link to='/'&gt;Go home&lt;/Link&gt;
+                    &lt;/div&gt;
+                  )} /&gt;
+              &lt;/div&gt;
+            )} /&gt;
+          &lt;Route
+            path="/"
+            render={(renderProps) =&gt; (
+              &lt;div&gt;
+                Home is underneath me
+                &lt;Home {...this.props} {...renderProps} /&gt;
+              &lt;/div&gt;
+            )} /&gt;
+        &lt;/Switch&gt;
+      &lt;/Router&gt;
+    )
+  }
+}
+</code></pre>
+<div class="demo" id="demo5"></div>
+
+<p>Now we have multiple pages in our application. We&#39;ve looked at how we can render these routes through nested components with just a few of the exports from <code>react-router</code>. </p>
+<p><code>react-router</code> provides so much more functionality that we don&#39;t have time to cover in our brisk intro to routing. More information is available at:</p>
+<ul>
+<li><a href="https://github.com/reactjs/react-router/tree/master/docs">https://github.com/reactjs/react-router/tree/master/docs</a></li>
+<li><a href="https://fullstackreact.com">fullstack react routing</a></li>
+</ul>
+<p>Tomorrow, we&#39;re going to be starting integration with Redux. Here&#39;s where we start integrating more complex data handling.</p>
+
   </body>
 </html>
