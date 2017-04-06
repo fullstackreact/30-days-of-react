@@ -1,21 +1,58 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+} from 'react-router-dom';
+import { connect } from 'react-redux';
+import { tryLogout } from './redux/actions/auth';
+
+import Navbar from './components/Nav/Navbar';
+
+import Home from './views/Home';
+import Login from './views/Login';
+import About from './views/About';
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+      <div className="app">
+        <Router>
+          <div>
+            <Navbar {...this.props} />
+            <Switch>
+              <Route
+                path='/login'
+                render={(props) => (
+                  <Login {...props} {...this.props} />
+                )} />
+              <Route
+                path='/about'
+                render={(props) => (
+                  <About {...props} {...this.props} />
+                )} />
+              <Route
+                path='/'
+                render={(props) => (
+                  <Home {...props} {...this.props} />
+                )} />
+            </Switch>
+          </div>
+        </Router>
       </div>
     );
   }
 }
 
-export default App;
+const mapStateToProps = state => ({
+  auth: state.auth
+})
+
+const mapDispatchToProps = dispatch => ({
+  logout: () => dispatch(tryLogout())
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(App);
