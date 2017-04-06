@@ -4,28 +4,56 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-    <!--
-      Notice the use of %PUBLIC_URL% in the tag above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
-
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
     <title>React App</title>
   </head>
   <body>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+    <p>As our applications get bigger and more complex, we&#39;ll need a better data handling approach. With more data, we&#39;ll have more to keep track of. </p>
+<p>Our code is required to handle more data and application state with new features. From asynchronous server responses to locally-generated, unsynchronized data, we have to not only keep track of this data, but also tie it to the view in a sane way.</p>
+<p>Recognizing this need for data management, the Facebook team released a pattern for dealing with data called <a href="https://facebook.github.io/flux/docs/overview.html">Flux</a>. </p>
+<p>Today, we&#39;re going to take a look at the Flux architecture, what it is and why it exists. </p>
+<h2 id="what-is-flux">What is flux</h2>
+<p>Flux is a pattern for managing how data flows through a React application. As we&#39;ve seen, the preferred method of working with React components is through passing data from one parent component to it&#39;s children components. The Flux pattern makes this model the default method for handling data.</p>
+<p>There are three distinct roles for dealing with data in the flux methodology: </p>
+<ul>
+<li>Dispatcher</li>
+<li>Stores</li>
+<li>Views (our components)</li>
+</ul>
+<p>The major idea behind Flux is that there is a single-source of truth (the stores) and they can only be updated by triggering <em>actions</em>. The actions are responsible for calling the dispatcher, which the stores can <em>subscribe</em> for changes and update their own data accordingly.</p>
+<p>When a dispatch has been triggered, and the store updates, it will emit a change event which the views can rerender accordingly. </p>
+<p><img style="width: 100%" src="http://facebook.github.io/flux/img/flux-simple-f8-diagram-with-client-action-1300w.png" alt="flux diagram" /></p>
+<p>This may seem unnecessarily complex, but the structure makes it incredibly easy to reason about where our data is coming from, what causes it&#39;s changes, how it changes, and lets us track specific user flows, etc. </p>
+<p>The key idea behind <em>Flux</em> is:</p>
+<p>Data flows in one direction and kept entirely in the stores.</p>
+<h2 id="implementations">Implementations</h2>
+<p>Although we can create our own flux implementation, many have already created some fantastic libraries we can pick from.</p>
+<ul>
+<li><a href="https://github.com/facebook/flux">Facebook&#39;s flux</a></li>
+<li><a href="http://alt.js.org/">alt</a></li>
+<li><a href="https://optimizely.github.io/nuclear-js/">nuclear-js</a></li>
+<li><a href="http://fluxible.io/">Fluxible</a></li>
+<li><a href="https://github.com/reflux/refluxjs">reflux</a></li>
+<li><a href="http://fluxxor.com/">Fluxxor</a></li>
+<li><a href="https://github.com/christianalfoni/flux-react">flux-react</a></li>
+<li>And more... many many more</li>
+</ul>
+<blockquote>
+<h2 id="plug-for-fullstackreact">Plug for fullstackreact</h2>
+<p>We discuss this material in-depth about Flux, using libraries, and even implementing our own version of flux that suits us best.
+Check it out at <a href="https://fullstackreact.com">fullstackreact.com</a></p>
+</blockquote>
+<p>It can be pretty intense trying to pick the <em>right</em> choice for our applications. Each has their own features and are great for different reasons. However, to a large extent, the React community has focused in on using another flux tool called <a href="http://redux.js.org/">Redux</a>.</p>
+<h2 id="-redux-http-redux-js-org-"><a href="http://redux.js.org/">Redux</a></h2>
+<p>Redux is a small-ish library that takes it&#39;s design inspiration from the Flux pattern, but is not itself a pure flux implementation. It provides the same general principles around how to update the data in our application, but in slightly different way.</p>
+<p>Unlike Flux, Redux does not use a dispatcher, but instead it uses pure functions to define data mutating functions. It still uses stores and actions, which can be tied directly to React components.</p>
+<p>The <a href="http://redux.js.org/docs/introduction/ThreePrinciples.html">3 major principles</a> of Redux we&#39;ll keep in mind as we implement Redux in our app are:</p>
+<ul>
+<li>Updates are made with pure functions (in reducers)</li>
+<li><code>state</code> is a read-only property</li>
+<li><code>state</code> is the single source of truth (there is only one <code>store</code> in a Redux app)</li>
+</ul>
+<p>One big difference with Redux and Flux is the concept of middleware. Redux added the idea of middleware that we can use to manipulate actions as we receive them, both coming in and heading out of our application. We&#39;ll discuss them in further detail in a few days.</p>
+<p>In any case, this is a lot of introduction to the flux pattern. Tomorrow we&#39;ll actually start moving our data to use Redux. </p>
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start`.
-      To create a production bundle, use `npm run build`.
-    -->
   </body>
 </html>
