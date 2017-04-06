@@ -4,28 +4,199 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-    <!--
-      Notice the use of %PUBLIC_URL% in the tag above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
-
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
     <title>React App</title>
   </head>
   <body>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+    <p>As of today, we&#39;ve worked through promises, built our app using the <code>npm</code> packager, installed our remote object fetching library (<code>whatwg-fetch</code>) and we&#39;re finally ready to integrate remote data into our application.</p>
+<h2 id="fetching-data">Fetching data</h2>
+<p>Let&#39;s get into using the <code>fetch</code> library we installed on <a href="/articles/30-days-of-react/14-ajax">day 14</a>. </p>
+<p>For simplicity purposes, let&#39;s break out our demo from yesterday where we fetched the current time from an API server:</p>
+<div class="demo" id="demo1"></div>
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+<p>This demo react component makes a request to the API server and reports back the current time from it&#39;s clock. Before we add the call to fetch, let&#39;s create a few stateful components we&#39;ll use to display the time and update the time request.</p>
+<blockquote>
+<h4 id="walls-of-code-warning">Walls of code warning</h4>
+<p>We realize the next few lines are <em>walls of code</em>, which we generally try to avoid, especially without discussing how they work. However, since we&#39;re not talking about how to create a component in detail here, yet we still want to fill out a complete component, we&#39;ve made an exception.</p>
+<p>Please leave us feedback (links at the bottom) if you prefer us to change this approach for today.</p>
+</blockquote>
+<p>First, the basis of the wrapper component which will show and fetch the current time looks like the following. Let&#39;s copy and paste this code into our app at <code>src/App.js</code>:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-string">'whatwg-fetch'</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-string">'./App.css'</span>;
+<span class="hljs-keyword">import</span> TimeForm <span class="hljs-keyword">from</span> <span class="hljs-string">'./TimeForm'</span>;
 
-      To begin the development, run `npm start`.
-      To create a production bundle, use `npm run build`.
-    -->
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">App</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  <span class="hljs-keyword">constructor</span>(props) {
+    <span class="hljs-keyword">super</span>(props);
+    <span class="hljs-keyword">this</span>.state = {
+      <span class="hljs-attr">currentTime</span>: <span class="hljs-literal">null</span>, <span class="hljs-attr">msg</span>: <span class="hljs-string">'now'</span>
+    }
+  }
+
+  <span class="hljs-comment">// methods we'll fill in shortly</span>
+  fetchCurrentTime() {}
+  getApiUrl() {}
+  handleFormSubmit(evt) {}
+  handleChange(newState) {}
+
+  render() {
+    <span class="hljs-keyword">const</span> {currentTime, tz} = <span class="hljs-keyword">this</span>.state;
+    <span class="hljs-keyword">const</span> apiUrl = <span class="hljs-keyword">this</span>.getApiUrl();
+
+    <span class="hljs-keyword">return</span> (
+      <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+        {!currentTime &amp;&amp;
+          <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{this.fetchCurrentTime.bind(this)}</span>&gt;</span>
+            Get the current time
+          <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>}
+        {currentTime &amp;&amp; <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>The current time is: {currentTime}<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>}
+        <span class="hljs-tag">&lt;<span class="hljs-name">TimeForm</span>
+          <span class="hljs-attr">onFormSubmit</span>=<span class="hljs-string">{this.handleFormSubmit.bind(this)}</span>
+          <span class="hljs-attr">onFormChange</span>=<span class="hljs-string">{this.handleChange.bind(this)}</span>
+          <span class="hljs-attr">tz</span>=<span class="hljs-string">{tz}</span>
+          <span class="hljs-attr">msg</span>=<span class="hljs-string">{</span>'<span class="hljs-attr">now</span>'}
+        /&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>We'll be making a request from: <span class="hljs-tag">&lt;<span class="hljs-name">code</span>&gt;</span>{apiUrl}<span class="hljs-tag">&lt;/<span class="hljs-name">code</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    )
+  }
+}
+
+export default App;</span>
+</code></pre>
+<p>The previous component is a basic stateful React component as we&#39;ve created. Since we&#39;ll want to show a form, we&#39;ve included the intended usage of the <code>TimeForm</code> let&#39;s create next. </p>
+<p>Let&#39;s create this component in our react app using <code>create-react-app</code>. Add the file <code>src/TimeForm.js</code> into our project:</p>
+<pre><code class="lang-bash">touch src/TimeForm.js
+</code></pre>
+<p>Now let&#39;s add content. We&#39;ll want our <code>TimeForm</code> to take the role of allowing the user to switch between timezones in their browser. We can handle this by creating a <em>stateful</em> component we&#39;ll call the <code>TimeForm</code>. Our <code>TimeForm</code> component might look like the following:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>
+<span class="hljs-keyword">const</span> timezones = [<span class="hljs-string">'PST'</span>, <span class="hljs-string">'MST'</span>, <span class="hljs-string">'MDT'</span>, <span class="hljs-string">'EST'</span>, <span class="hljs-string">'UTC'</span>]
+
+<span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TimeForm</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  <span class="hljs-keyword">constructor</span>(props) {
+    <span class="hljs-keyword">super</span>(props);
+
+    <span class="hljs-keyword">const</span> {tz, msg} = <span class="hljs-keyword">this</span>.props;
+    <span class="hljs-keyword">this</span>.state = {tz, msg};
+  }
+
+  _handleChange(evt) {
+    <span class="hljs-keyword">typeof</span> <span class="hljs-keyword">this</span>.props.onFormChange === <span class="hljs-string">'function'</span> &amp;&amp; 
+      <span class="hljs-keyword">this</span>.props.onFormChange(<span class="hljs-keyword">this</span>.state);
+  }
+
+  _changeTimezone(evt) {
+    <span class="hljs-keyword">const</span> tz = evt.target.value;
+    <span class="hljs-keyword">this</span>.setState({tz}, <span class="hljs-keyword">this</span>._handleChange);
+  }
+
+  _changeMsg(evt) {
+    <span class="hljs-keyword">const</span> msg = 
+      <span class="hljs-built_in">encodeURIComponent</span>(evt.target.value).replace(<span class="hljs-regexp">/%20/</span>, <span class="hljs-string">'+'</span>);
+    <span class="hljs-keyword">this</span>.setState({msg}, <span class="hljs-keyword">this</span>._handleChange);
+  }
+
+  _handleFormSubmit(evt) {
+    evt.preventDefault();
+    <span class="hljs-keyword">typeof</span> <span class="hljs-keyword">this</span>.props.onFormSubmit === <span class="hljs-string">'function'</span> &amp;&amp;
+      <span class="hljs-keyword">this</span>.props.onFormSubmit(<span class="hljs-keyword">this</span>.state);
+  }
+
+  render() {
+    <span class="hljs-keyword">const</span> {tz} = <span class="hljs-keyword">this</span>.state;
+
+    <span class="hljs-keyword">return</span> (
+      &lt;form onSubmit={this._handleFormSubmit.bind(this)}&gt;
+        &lt;select
+          onChange={this._changeTimezone.bind(this)}
+          defaultValue={tz}&gt;
+          {timezones.map(t =&gt; {
+            return (&lt;option key={t} value={t}&gt;{t}&lt;/option&gt;)
+          })}
+        &lt;/select&gt;
+        &lt;input
+          type="text"
+          placeholder="A chronic string message (such as 7 hours from now)"
+          onChange={this._changeMsg.bind(this)}
+        /&gt;
+        &lt;input
+          type="submit"
+          value="Update request"
+        /&gt;
+      &lt;/form&gt;
+    )
+  }
+}
+
+export default TimeForm;
+</code></pre>
+<p>With these Components created, let&#39;s load up our app in the browser after running it with <code>npm start</code> and we&#39;ll see our form (albeit not incredibly beautiful yet). Of course, at this point, we won&#39;t have a running component as we haven&#39;t implemented our data fetching. Let&#39;s get to that now.</p>
+<div class="demo" id="demo2"></div>
+
+<h3 id="fetching-data">Fetching data</h3>
+<p>As we said yesterday, we&#39;ll use the <code>fetch()</code> API with promise support. When we call the <code>fetch()</code> method, it will return us a promise, where we can handle the request however we want. We&#39;re going to make a request to our now-based API server (so start-up might be slow if it hasn&#39;t been run in a while).</p>
+<p>We&#39;re going to be building up the URL we&#39;ll request as it represents the time query we&#39;ll request on the server. </p>
+<p>I&#39;ve already defined the method <code>getApiUrl()</code> in the <code>App</code> component, so let&#39;s fill that function in.</p>
+<p>The chronic api server accepts a few variables that we&#39;ll customize in the form. It will take the timezone to along with a chronic message. We&#39;ll start simply and ask the chronic library for the <code>pst</code> timezone and the current time (<code>now</code>):</p>
+<pre><code class="lang-javascript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">App</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  <span class="hljs-keyword">constructor</span>(props) {
+    <span class="hljs-keyword">super</span>(props);
+    <span class="hljs-keyword">this</span>.state = {
+      <span class="hljs-attr">currentTime</span>: <span class="hljs-literal">null</span>, <span class="hljs-attr">msg</span>: <span class="hljs-string">'now'</span>, <span class="hljs-attr">tz</span>: <span class="hljs-string">'PST'</span>
+    }
+  }
+  <span class="hljs-comment">// ...</span>
+  getApiUrl() {
+    <span class="hljs-keyword">const</span> {tz, msg} = <span class="hljs-keyword">this</span>.state;
+    <span class="hljs-keyword">const</span> host = <span class="hljs-string">'https://andthetimeis.com'</span>;
+    <span class="hljs-keyword">return</span> host + <span class="hljs-string">'/'</span> + tz + <span class="hljs-string">'/'</span> + msg + <span class="hljs-string">'.json'</span>;
+  }
+  <span class="hljs-comment">// ...</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> App;
+</code></pre>
+<p>Now, when we call <code>getApiUrl()</code>, the URL of the next request will be returned for us. Now, finally, let&#39;s implement our <code>fetch()</code> function. The <code>fetch()</code> function accepts a few arguments that can help us customize our requests. The most basic <code>GET</code> request can just take a single URL endpoint. The return value on <code>fetch()</code> is a promise object, that we explored in-depth yesterday. </p>
+<p>Let&#39;s update our <code>fetchCurrentTime()</code> method to fetch the current time from the remote server. We&#39;ll use the <code>.json()</code> method on the response object to turn the body of the response from a JSON object into JavaScript object and then update our component by setting the response value of the <code>dateString</code> as the <code>currentTime</code> in the component state:</p>
+<pre><code class="lang-javascript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">App</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  <span class="hljs-comment">// ...</span>
+  fetchCurrentTime() {
+    fetch(<span class="hljs-keyword">this</span>.getApiUrl())
+      .then(<span class="hljs-function"><span class="hljs-params">resp</span> =&gt;</span> resp.json())
+      .then(<span class="hljs-function"><span class="hljs-params">resp</span> =&gt;</span> {
+        <span class="hljs-keyword">const</span> currentTime = resp.dateString;
+        <span class="hljs-keyword">this</span>.setState({currentTime})
+      })
+  }
+  <span class="hljs-comment">// ...</span>
+}
+</code></pre>
+<p>The final piece of our project today is getting the data back from the form to update the parent component. That is, when the user updates the values from the <code>TimeForm</code> component, we&#39;ll want to be able to access the data in the <code>App</code> component. The <code>TimeForm</code> component already handles this process for us, so we just need to implement our form functions.</p>
+<p>When a piece of state changes on the form component, it will call a prop called <code>onFormChange</code>. By defining this method in our <code>App</code> component, we can get access to the latest version of the form.</p>
+<p>In fact, we&#39;ll just call <code>setState()</code> to keep track of the options the form allows the user to manipulate:</p>
+<pre><code class="lang-javascript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">App</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+
+<span class="hljs-comment">// ...</span>
+  handleChange(newState) {
+    <span class="hljs-keyword">this</span>.setState(newState);
+  }
+
+<span class="hljs-comment">// ...</span>
+}
+</code></pre>
+<p>Finally, when the user submits the form (clicks on the button <em>or</em> presses enter in the input field), we&#39;ll want to make another request for the time. This means we can define our <code>handleFormSubmit</code> prop to just call the <code>fetchCurrentTime()</code> method:</p>
+<pre><code class="lang-javascript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">App</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+
+<span class="hljs-comment">// ...</span>
+  handleFormSubmit(evt) {
+    <span class="hljs-keyword">this</span>.fetchCurrentTime();
+  }
+
+<span class="hljs-comment">// ...</span>
+}
+</code></pre>
+<div id="demo3"></div>
+
+<p>Try playing around with the demo and passing in different chronic options. It&#39;s actually quite fun.</p>
+<p>In any case, today we worked on quite a bit to get remote data into our app. However, at this point, we only have a single page in our single page app. What if we want to show a different page in our app? Tomorrow, we&#39;re going to start adding multiple pages in our app so we can feature different views.</p>
+
   </body>
 </html>
