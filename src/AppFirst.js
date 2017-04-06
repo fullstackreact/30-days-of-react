@@ -8,7 +8,7 @@ import {
 
 // We'll load our views from the `src/views`
 // directory
-import Home from './views/Home/Home';
+import Home from './views/Home/HomeFirst';
 import About from './views/About/About';
 
 const App = props => {
