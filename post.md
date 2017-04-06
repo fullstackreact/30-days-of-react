@@ -1,3 +1,20 @@
+---
+page_id: 30-days-of-react/day-3
+series: 30-days-of-react
+permalink: day-3
+title: Our First Components
+description: >-
+  The first two articles in this series were heavy on discussion. In today's
+  session, let's dive into some code and write our first React app.
+hero_image: /assets/images/series/30-days-of-react/headings/3.jpg
+imageUrl: /assets/images/series/30-days-of-react/headings/3.jpg
+dayDir: '03'
+introBannerUrl: /assets/images/series/30-days-of-react/headings/3_wide.jpg
+date: 'Thu Oct 06 2016 21:29:42 GMT-0700 (PDT)'
+day: 3
+imagesDir: /assets/images/series/30-days-of-react/day-3
+includeFile: ./../_params.yaml
+---
 
 Let's revisit the "Hello world" app we introduced on day one. Here it is again, written slightly differently:
 
@@ -61,7 +78,7 @@ We mentioned at the beginning of this series that at the heart of all React appl
 
 Let's look at a component we'll call `App`. Like all other React components, this ES6 class will extend the `React.Component` class from the React package:
 
-```html
+```javascript
 class App extends React.Component {
   render() {
     return <h1>Hello from our app</h1>
@@ -129,3 +146,4 @@ Notice that we can render our React app using the `App` class as though it is a 
 The idea that our React components act just like any other element on our page allows us to build a component tree **just as if we were creating a native browser tree**.
 
 While we're rendering a React component now, our app still lacks richness or interactivity. Soon, we'll see how to make React components data-driven and dynamic. But first, in the next installment of this series, we'll explore how we can layer components. Nested components are the foundation of a rich React web application.
+

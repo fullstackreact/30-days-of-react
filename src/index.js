@@ -1,9 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
+import HelloWorld from './HelloWorld'
 import './index.css';
 
-ReactDOM.render(
-  <App />,
-  document.getElementById('root')
-);
+export const load = () => {
+  ReactDOM.render(
+    <HelloWorld />,
+    document.getElementById('demo1')
+  )
+
+  ReactDOM.render(
+    <App />,
+    document.getElementById('demo2')
+  );
+}
+
+// try {
+//   load()
+// } catch(e) {}
