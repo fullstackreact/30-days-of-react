@@ -1,9 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-import './index.css';
+import Frame from 'react-frame-component';
 
-ReactDOM.render(
-  <App />,
-  document.getElementById('root')
-);
+import './index.css';
+import RootFirst from './RootFirst'
+import Root from './Root'
+
+export const load = () => {
+  ReactDOM.render(
+    <Frame>
+      <RootFirst />
+    </Frame>,
+    document.getElementById('demo1')
+  )
+
+  ReactDOM.render(
+    <Frame>
+      <Root />
+    </Frame>,
+    document.getElementById('demo2')
+  )
+}
+
+try {
+  //load()
+} catch(e) {}
