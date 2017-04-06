@@ -1,9 +1,6 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
-import './index.css';
+export const load = () => {
+}
 
-ReactDOM.render(
-  <App />,
-  document.getElementById('root')
-);
+// try {
+  // load()
+// } catch(e) {}
