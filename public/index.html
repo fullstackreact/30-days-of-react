@@ -4,28 +4,159 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-    <!--
-      Notice the use of %PUBLIC_URL% in the tag above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
-
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
     <title>React App</title>
   </head>
   <body>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+    <p>Up through this point, we&#39;ve been building a basic application without any external data. Before we get there (we&#39;ll start on this functionality tomorrow), let&#39;s look over something we glossed over in the previous two weeks:</p>
+<h2 id="repeating-elements">Repeating elements</h2>
+<p>We&#39;ve already seen this before where we&#39;ve iterated over a list of objects and render multiple components on screen. Before we add too much complexity in our app with loading external data, today we&#39;ll take a quick peek at how to repeat components/elements in our app.</p>
+<p>Since JSX is seen as plain JavaScript by the browser, we can use any ole&#39; JavaScript inside the template tags in JSX. We&#39;ve already seen this in action. As a quick demo:</p>
+<pre><code class="lang-javascript"><span class="token keyword">const</span> App <span class="token operator">=</span> <span class="token punctuation">(</span>props<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token operator">&lt;</span>ul<span class="token operator">></span>
+      <span class="token punctuation">{</span>a<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>i <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token operator">&lt;</span>li<span class="token operator">></span><span class="token punctuation">{</span>i<span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>li<span class="token operator">></span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">}</span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span>ul<span class="token operator">></span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<div id="demo1"></div>
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+<p>Notice the things inside of the template tags <code>{}</code> look like simple JavaScript. That&#39;s because it is <em>just</em> JavaScript. This feature allows us to use (most) native features of JavaScript inside our template tags <strong>including</strong> native iterators, such as <code>map</code> and <code>forEach</code>. </p>
+<p>Let&#39;s see what we mean here. Let&#39;s convert the previous example&#39;s <code>a</code> value from a single integer to a list of integers:</p>
+<pre><code class="lang-javascript"><span class="token keyword">const</span> a <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">,</span> <span class="token number">10000</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+</code></pre>
+<p>We can map over the <code>a</code> variable here inside our components and return a list of React components that will build the virtual DOM for us.</p>
+<pre><code class="lang-javascript"><span class="token keyword">const</span> App <span class="token operator">=</span> <span class="token punctuation">(</span>props<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token operator">&lt;</span>ul<span class="token operator">></span>
+      <span class="token punctuation">{</span>a<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>i <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token operator">&lt;</span>li<span class="token operator">></span><span class="token punctuation">{</span>i<span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>li<span class="token operator">></span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">}</span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span>ul<span class="token operator">></span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>What is the <code>map()</code> function?</p>
+<p>The <code>map</code> function is a native JavaScript built-in function on the array. 
+It accepts a function to be run on each element of the array, so the function above will be run four times with the value of <code>i</code> starting as <code>1</code> and then it will run it again for the second value where <code>i</code> will be set as <code>10</code> and so on and so forth.</p>
+</blockquote>
+<div id="demo2"></div>
 
-      To begin the development, run `npm start`.
-      To create a production bundle, use `npm run build`.
-    -->
+<p>Let&#39;s update the app we created on day 12 with our <code>App</code> component here. Let&#39;s open up our <code>src/App.js</code> file and replace the content of the <code>App</code> component with this source. Cleaning up a few unused variables and your <code>src/App.js</code> should look similar to this:</p>
+<pre><code class="lang-javascript"><span class="token keyword">import</span> React <span class="token keyword">from</span> <span class="token string">'react'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> a <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">,</span> <span class="token number">10000</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> App <span class="token operator">=</span> <span class="token punctuation">(</span>props<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token operator">&lt;</span>ul<span class="token operator">></span>
+      <span class="token punctuation">{</span>a<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>i <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token operator">&lt;</span>li<span class="token operator">></span><span class="token punctuation">{</span>i<span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>li<span class="token operator">></span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">}</span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span>ul<span class="token operator">></span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> App
+</code></pre>
+<p>Starting the app again with the command generated by the <code>create-react-app</code> command: <code>npm start</code>, we can see the app is working in the browser!</p>
+<p><img class="wide" src="/assets/images/series/30-days-of-react/day-13/run-no-key.jpg" /></p>
+<p>However, if we open the developer console, we&#39;ll see we have an error printed out. This error is caused by the fact that React doesn&#39;t know how to keep track of the individual components in our list as each one just looks like a <code>&lt;li /&gt;</code> component. </p>
+<p>For performance reasons, React uses the virtual DOM to attempt to limit the number of DOM elements that need to be updated when it rerenders the view. That is if nothing has changed, React won&#39;t make the browser update anything to save on work. </p>
+<p>This feature is really fantastic for building web applications, but sometimes we have to help React out by providing unique identifiers for nodes. Mapping over a list and rendering components in the map is one of those times. </p>
+<p>React expects us to <strong>uniquely</strong> identify components by using a special prop: the <code>key</code> prop for each element of the list. The <code>key</code> prop can be anything we want, but it <strong>must be unique</strong> for that element. In our example, we can use the <code>i</code> variable in the map as no other element in the array has the same value.</p>
+<p>Let&#39;s update our mapping to set the key:</p>
+<pre><code class="lang-javascript"><span class="token keyword">const</span> App <span class="token operator">=</span> <span class="token punctuation">(</span>props<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token operator">&lt;</span>ul<span class="token operator">></span>
+      <span class="token punctuation">{</span>a<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>i <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token operator">&lt;</span>li key<span class="token operator">=</span><span class="token punctuation">{</span>i<span class="token punctuation">}</span><span class="token operator">></span><span class="token punctuation">{</span>i<span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>li<span class="token operator">></span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">}</span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span>ul<span class="token operator">></span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="children">Children</h2>
+<p>We talked about building a parent-child relationship a bit earlier this week, but let&#39;s dive a bit more into detail about how we get access to the children inside a parent component and how we can render them.</p>
+<p>On day 11, we built a <code>&lt;Formatter /&gt;</code> component to handle date formatting within the Clock component to give our users flexibility with their own custom clock rendering. Recall that the implementation we created is actually pretty ugly and relatively complex.</p>
+<pre><code class="lang-javascript"><span class="token keyword">const</span> Formatter <span class="token operator">=</span> <span class="token punctuation">(</span>props<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> children <span class="token operator">=</span> props<span class="token punctuation">.</span>format<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">''</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span>e<span class="token punctuation">,</span> idx<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>e <span class="token operator">===</span> <span class="token string">'h'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token operator">&lt;</span>Hour key<span class="token operator">=</span><span class="token punctuation">{</span>idx<span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token operator">...</span>props<span class="token punctuation">}</span> <span class="token operator">/</span><span class="token operator">></span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>e <span class="token operator">===</span> <span class="token string">'m'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token operator">&lt;</span>Minute key<span class="token operator">=</span><span class="token punctuation">{</span>idx<span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token operator">...</span>props<span class="token punctuation">}</span> <span class="token operator">/</span><span class="token operator">></span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>e <span class="token operator">===</span> <span class="token string">'s'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token operator">&lt;</span>Second key<span class="token operator">=</span><span class="token punctuation">{</span>idx<span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token operator">...</span>props<span class="token punctuation">}</span> <span class="token operator">/</span><span class="token operator">></span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>e <span class="token operator">===</span> <span class="token string">'p'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token operator">&lt;</span>Ampm key<span class="token operator">=</span><span class="token punctuation">{</span>idx<span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token operator">...</span>props<span class="token punctuation">}</span> <span class="token operator">/</span><span class="token operator">></span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>e <span class="token operator">===</span> <span class="token string">' '</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token operator">&lt;</span>span key<span class="token operator">=</span><span class="token punctuation">{</span>idx<span class="token punctuation">}</span><span class="token operator">></span> <span class="token operator">&lt;</span><span class="token operator">/</span>span<span class="token operator">></span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token operator">&lt;</span>Separator key<span class="token operator">=</span><span class="token punctuation">{</span>idx<span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token operator">...</span>props<span class="token punctuation">}</span> <span class="token operator">/</span><span class="token operator">></span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">return</span> <span class="token operator">&lt;</span>span<span class="token operator">></span><span class="token punctuation">{</span>children<span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>span<span class="token operator">></span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>We can use the <code>React.Children</code> object to map over a list of React objects and let React do this heavy-lifting. The result of this is a much cleaner <code>Formatter</code> component (not perfect, but functional):</p>
+<pre><code class="lang-javascript"><span class="token keyword">const</span> Formatter <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">{</span>format<span class="token punctuation">,</span> state<span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> children <span class="token operator">=</span> format<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">''</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>e <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>e <span class="token operator">==</span> <span class="token string">'h'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token operator">&lt;</span>Hour <span class="token operator">/</span><span class="token operator">></span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>e <span class="token operator">==</span> <span class="token string">'m'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token operator">&lt;</span>Minute <span class="token operator">/</span><span class="token operator">></span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>e <span class="token operator">==</span> <span class="token string">'s'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token operator">&lt;</span>Second <span class="token operator">/</span><span class="token operator">></span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>e <span class="token operator">==</span> <span class="token string">'p'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token operator">&lt;</span>Ampm <span class="token operator">/</span><span class="token operator">></span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>e <span class="token operator">==</span> <span class="token string">' '</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token operator">&lt;</span>span<span class="token operator">></span> <span class="token operator">&lt;</span><span class="token operator">/</span>span<span class="token operator">></span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token operator">&lt;</span>Separator <span class="token operator">/</span><span class="token operator">></span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token operator">&lt;</span>span<span class="token operator">></span>
+      <span class="token punctuation">{</span>React<span class="token punctuation">.</span>Children
+        <span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>children<span class="token punctuation">,</span> c <span class="token operator">=</span><span class="token operator">></span> React<span class="token punctuation">.</span><span class="token function">cloneElement</span><span class="token punctuation">(</span>c<span class="token punctuation">,</span> state<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">}</span>
+      <span class="token operator">&lt;</span><span class="token operator">/</span>span<span class="token operator">></span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<h3 id="react-cloneelement">React.cloneElement</h3>
+<p>We have yet to talk about the <code>React.cloneElement()</code> function, so let&#39;s look at it briefly here.
+Remember WWWWWAAAAAYYYYY back on day 2 we looked at how the browser <em>sees</em> JSX? It turns it into JavaScript that looks similar to:</p>
+<pre><code class="lang-javascript">React<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">"div"</span><span class="token punctuation">,</span> <span class="token keyword">null</span><span class="token punctuation">,</span> 
+ React<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">"img"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>src<span class="token punctuation">:</span> <span class="token string">"profile.jpg"</span><span class="token punctuation">,</span> alt<span class="token punctuation">:</span> <span class="token string">"Profile photo"</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+ React<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">"h1"</span><span class="token punctuation">,</span> <span class="token keyword">null</span><span class="token punctuation">,</span> <span class="token string">"Welcome back Ari"</span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Rather than creating a new component instance (if we already have one), sometimes we&#39;ll want to copy it or add custom props/children to the component so we can retain the same props it was created with. We can use <code>React.cloneElement()</code> to handle this for us.</p>
+<p>The <code>React.cloneElement()</code> has the same API as the <code>React.createElement()</code> function where the arguments are:</p>
+<ol>
+<li>The ReactElement we want to clone</li>
+<li>Any <code>props</code> we want to add to the instance</li>
+<li>Any <code>children</code> we want it to have.</li>
+</ol>
+<p>In our <code>Formatter</code> example, we&#39;re creating a copy of all the children in the list (the <code>&lt;Hour /&gt;</code>, <code>&lt;Minute /&gt;</code>, etc. components) and passing them the <code>state</code> object as their props.</p>
+</blockquote>
+<p>The <code>React.Children</code> object provides some nice utility functions for dealing with children. Our <code>Formatter</code> example above uses the <code>map</code> function to iterate through the children and clone each one in the list. It creates a <code>key</code> (if necessary) for each one, freeing us from having to manage the uniqueness ourselves.</p>
+<p>Let&#39;s use the <code>React.Children.map()</code> function to update our App component:</p>
+<pre><code class="lang-javascript"><span class="token keyword">const</span> App <span class="token operator">=</span> <span class="token punctuation">(</span>props<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token operator">&lt;</span>ul<span class="token operator">></span>
+      <span class="token punctuation">{</span>React<span class="token punctuation">.</span>Children<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> i <span class="token operator">=</span><span class="token operator">></span> <span class="token operator">&lt;</span>li<span class="token operator">></span><span class="token punctuation">{</span>i<span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>li<span class="token operator">></span><span class="token punctuation">)</span><span class="token punctuation">}</span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span>ul<span class="token operator">></span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Back in the browser, everything still works. </p>
+<p><img class="wide" src="/assets/images/series/30-days-of-react/day-13/children-map.jpg" /></p>
+<p>There are several other really useful methods in the <code>React.Children</code> object available to us. We&#39;ll mostly use the <code>React.Children.map()</code> function, but it&#39;s good to know about the other ones <a href="https://facebook.github.io/react/docs/top-level-api.html#react.children">available</a> to us. Check out the <a href="https://facebook.github.io/react/docs/top-level-api.html#react.children">documentation</a> for a longer list.</p>
+<p>Up through this point, we&#39;ve only dealt with local data, not really focusing on remote data (although we <em>did</em> briefly mention it when building our activity feed component). Tomorrow we&#39;re going to get into interacting with a server so we can use it in our React apps.</p>
+<p>Great work today!</p>
+
   </body>
 </html>
