@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+    <title>React App</title>
+  </head>
+  <body>
+    <p>Yesterday we went through the difficult part of integrating our React app with Redux. From here on out, we&#39;ll be defining functionality with our Redux setup.</p>
+<p>As it stands now, we have our demo application showing the current time. But there currently isn&#39;t any way to update to the new time. Let&#39;s modify this now.</p>
+<h2 id="triggering-updates">Triggering updates</h2>
+<p>Recall that the only way we can change data in Redux is through an action creator. We created a redux store yesterday, but we haven&#39;t created a way for us to update the store.</p>
+<div id="demo1"></div>
+
+<p>What we <em>want</em> is the ability for our users to update the time by clicking on a button. In order to add this functionality, we&#39;ll have to take a few steps:</p>
+<ol>
+<li>Create an actionCreator to <em>dispatch</em> the action on our store</li>
+<li>Call the actionCreator <code>onClick</code> of an element</li>
+<li>Handle the action in the reducer</li>
+</ol>
+<p>We already implemented the third step, so we only have two things to do to get this functionality working as we expect.</p>
+<p>Yesterday, we discussed what actions are, but not really why we are using this thing called actionCreators or what they are. </p>
+<p>As a refresher, an action is a simple object that <em>must</em> include a <code>type</code> value. We created a <code>types.js</code> file that holds on to action type constants, so we can use these values as the <code>type</code> property.</p>
+<pre><code class="lang-javascript">xport <span class="hljs-keyword">const</span> FETCH_NEW_TIME = <span class="hljs-string">'FETCH_NEW_TIME'</span>;
+</code></pre>
+<p>As a quick review, our actions can be any object value that has the <code>type</code> key. We can send data along with our action (conventionally, we&#39;ll pass extra data along as the <code>payload</code> of an action). </p>
+<pre><code class="lang-javascript">{
+  <span class="hljs-attr">type</span>: types.FETCH_NEW_TIME,
+  <span class="hljs-attr">payload</span>: <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>().toString()
+}
+</code></pre>
+<p>Now we need to <em>dispatch</em> this along our <code>store</code>. One way we could do that is by calling the <code>store.dispatch()</code> function. </p>
+<pre><code class="lang-javascript">store.dispatch({
+  <span class="hljs-attr">type</span>: types.FETCH_NEW_TIME,
+  <span class="hljs-attr">payload</span>: <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>().toString()
+})
+</code></pre>
+<p>However, this is pretty poor practice. Rather than dispatch the action directly, we&#39;ll use a function to return an action... the function will <em>create</em> the action (hence the name: actionCreator). This provides us with a better testing story (easy to test), reusability, documentation, and encapsulation of logic. </p>
+<p>Let&#39;s create our first <code>actionCreator</code> in a file called <code>redux/actionCreators.js</code>. We&#39;ll export a function who&#39;s entire responsibility is to return an appropriate action to dispatch on our store.</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> types <span class="hljs-keyword">from</span> <span class="hljs-string">'./types'</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> fetchNewTime = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> ({
+  <span class="hljs-attr">type</span>: types.FETCH_NEW_TIME,
+  <span class="hljs-attr">payload</span>: <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>().toString(),
+})
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> login = <span class="hljs-function">(<span class="hljs-params">user</span>) =&gt;</span> ({
+  <span class="hljs-attr">type</span>: types.LOGIN,
+  <span class="hljs-attr">payload</span>: user
+})
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> logout = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> ({
+  <span class="hljs-attr">type</span>: types.LOGOUT,
+})
+</code></pre>
+<p>Now if we call this function, <em>nothing</em> will happen except an action object is returned. How do we get this action to dispatch on the store?</p>
+<p>Recall we used the <code>connect()</code> function export from <code>react-redux</code> yesterday? The first argument is called <code>mapStateToProps</code>, which maps the state to a prop object. The <code>connect()</code> function accepts a second argument which allows us to map functions to props as well. It gets called with the <code>dispatch</code> function, so here we can <em>bind</em> the function to call <code>dispatch()</code> on the store.</p>
+<p>Let&#39;s see this in action. In our <code>src/views/Home/Home.js</code> file, let&#39;s update our call to connect by providing a second function to use the actionCreator we just created. We&#39;ll call this function <code>mapDispatchToProps</code>.</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> { fetchNewTime } <span class="hljs-keyword">from</span> <span class="hljs-string">'../../redux/actionCreators'</span>;
+  <span class="hljs-comment">// ...</span>
+<span class="hljs-keyword">const</span> mapDispatchToProps = <span class="hljs-function"><span class="hljs-params">dispatch</span> =&gt;</span> ({
+  <span class="hljs-attr">updateTime</span>: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> dispatch(fetchNewTime())
+})
+  <span class="hljs-comment">// ...</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Home);
+</code></pre>
+<p>Now the <code>updateTime()</code> function will be passed in as a prop and will call <code>dispatch()</code> when we fire the action. Let&#39;s update our <code>&lt;Home /&gt;</code> component so the user can press a button to update the time.</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> Home = <span class="hljs-function">(<span class="hljs-params">props</span>) =&gt;</span> {
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"home"</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Welcome home!<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Current time: {props.currentTime}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{props.updateTime}</span>&gt;</span>
+        Update time
+      <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+  );
+}
+</code></pre>
+<div id="demo2" class="demo"></div>
+
+<p>Although this example isn&#39;t that exciting, it does showcase the features of redux pretty well. Imagine if the button makes a fetch to get new tweets or we have a socket driving the update to our redux store. This basic example demonstrates the full functionality of redux.</p>
+<div id="demo2"></div>
+
+<h2 id="multi-reducers">Multi-reducers</h2>
+<p>As it stands now, we have a single reducer for our application. This works for now as we only have a small amount of simple data and (presumably) only one person working on this app. Just imagine the headache it would be to develop with one gigantic switch statement for <em>every single piece of data</em> in our apps...</p>
+<p>Ahhhhhhhhhhhhhh...</p>
+<p>Redux to the rescue! Redux has a way for us to split up our redux reducers into multiple reducers, each responsible for only a leaf of the state tree.</p>
+<p>We can use the <code>combineReducers()</code> export from <code>redux</code> to compose an object of reducer functions. For every action that gets triggered, each of these functions will be called with the corresponding action. Let&#39;s see this in action.</p>
+<p>Let&#39;s say that we (perhaps more realistically) want to keep track of the current user. Let&#39;s create a <code>currentUser</code> redux module in... you guessed it: <code>src/redux/currentUser.js</code>:</p>
+<pre><code class="lang-bash">touch src/redux/currentUser.js
+</code></pre>
+<p>We&#39;ll export the same four values we exported from the <code>currentTime</code> module... of course, this time it is specific to the currentUser. We&#39;ve added a basic structure here for handling a current user:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> types <span class="hljs-keyword">from</span> <span class="hljs-string">'./types'</span>
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> initialState = {
+  <span class="hljs-attr">user</span>: {},
+  <span class="hljs-attr">loggedIn</span>: <span class="hljs-literal">false</span>
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> reducer = <span class="hljs-function">(<span class="hljs-params">state = initialState, action</span>) =&gt;</span> {
+  <span class="hljs-keyword">switch</span> (action.type) {
+    <span class="hljs-keyword">case</span> types.LOGIN:
+      <span class="hljs-keyword">return</span> {
+        ...state, <span class="hljs-attr">user</span>: action.payload, <span class="hljs-attr">loggedIn</span>: <span class="hljs-literal">true</span>};
+    <span class="hljs-keyword">case</span> types.LOGOUT:
+      <span class="hljs-keyword">return</span> {
+        ...state, <span class="hljs-attr">user</span>: {}, <span class="hljs-attr">loggedIn</span>: <span class="hljs-literal">false</span>};
+    <span class="hljs-keyword">default</span>:
+      <span class="hljs-keyword">return</span> state;
+  }
+}
+</code></pre>
+<p>Let&#39;s update our <code>configureStore()</code> function to take these branches into account, using the <code>combineReducers</code> to separate out the two branches</p>
+<pre><code class="lang-javascript">
+<span class="hljs-keyword">import</span> { createStore, combineReducers } <span class="hljs-keyword">from</span> <span class="hljs-string">'redux'</span>;
+
+<span class="hljs-keyword">import</span> { rootReducer, initialState } <span class="hljs-keyword">from</span> <span class="hljs-string">'./reducers'</span>
+<span class="hljs-keyword">import</span> { reducer, initialState <span class="hljs-keyword">as</span> userInitialState } <span class="hljs-keyword">from</span> <span class="hljs-string">'./currentUser'</span>
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> configureStore = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+  <span class="hljs-keyword">const</span> store = createStore(
+    combineReducers({
+      <span class="hljs-attr">time</span>: rootReducer,
+      <span class="hljs-attr">user</span>: reducer
+    }), <span class="hljs-comment">// root reducer</span>
+    {
+      <span class="hljs-attr">time</span>: initialState, 
+      <span class="hljs-attr">user</span>: userInitialState
+    }, <span class="hljs-comment">// our initialState</span>
+  );
+
+  <span class="hljs-keyword">return</span> store;
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> configureStore;
+</code></pre>
+<p>Now we can create the <code>login()</code> and <code>logout()</code> action creators to send along the action on our store.</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> login = <span class="hljs-function">(<span class="hljs-params">user</span>) =&gt;</span> ({
+  <span class="hljs-attr">type</span>: types.LOGIN,
+  <span class="hljs-attr">payload</span>: user
+})
+  <span class="hljs-comment">// ...</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> logout = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> ({
+  <span class="hljs-attr">type</span>: types.LOGOUT,
+})
+</code></pre>
+<p>Now we can use the actionCreators to call <code>login</code> and <code>logout</code> just like the <code>updateTime()</code> action creator. </p>
+<p>Phew! This was another hefty day of Redux code. Today, we completed the circle between data updating and storing data in the global Redux state. In addition, we learned how to extend Redux to use multiple reducers and actions as well as multiple connected components.</p>
+<p>However, we have yet to make an asynchronous call for off-site data. Tomorrow we&#39;ll get into how to use middleware with Redux, which will give us the ability to handle fetching remote data from within our app and still use the power of Redux to keep our data.</p>
+<p>Good job today and see you tomorrow!</p>
+
+  </body>
+</html>

@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+    <title>React App</title>
+  </head>
+  <body>
+    <p>Yesterday we connected the dots with Redux, from working through reducers, updating action creators, and connecting Redux to React components. <strong>Redux middleware</strong> unlocks even more power which we&#39;ll touch on today.</p>
+<h2 id="redux-middleware">Redux middleware</h2>
+<p>Middleware generally refers to software services that &quot;glue together&quot; separate features in existing software. For Redux, middleware provides a third-party extension point between dispatching an action and handing the action off to the reducer:</p>
+<p>[ Action ] &lt;-&gt; [ Middleware ] &lt;-&gt; [ Dispatcher ]</p>
+<p>Examples of middleware include logging, crash reporting, routing, handling asynchronous requests, etc.</p>
+<p>Let&#39;s take the case of handling asynchronous requests, like an HTTP call to a server. Middleware is a great spot to do this.</p>
+<h2 id="our-api-middleware">Our API middleware</h2>
+<p>We&#39;ll implement some middleware that will handle making asynchronous requests on our behalf.</p>
+<p>Middleware sits between the action and the reducer. It can listen for all dispatches and execute code with the details of the actions and the current states. Middleware provides a powerful abstraction. Let&#39;s see exactly how we can use it to manage our own.</p>
+<p>Continuing with our <code>currentTime</code> redux work from yesterday, let&#39;s build our middleware to fetch the current time from the server we used a few days ago to actually GET the time from the API service.</p>
+<p>Before we get too much further, let&#39;s pull out the <code>currentTime</code> work from the <code>rootReducer</code> in the <code>reducers.js</code> file out to it&#39;s own file. We left the root reducer in a state where we kept the <code>currentTime</code> work in the root reducer. More conventionally, we&#39;ll move these in their own files and use the <code>rootReducer.js</code> file (which we called <code>reducers.js</code>) to hold just the main combination reducer. </p>
+<p>First, let&#39;s pull the work into it&#39;s own file in <code>redux/currentTime.js</code>. We&#39;ll export two objects from here (and each reducer):</p>
+<ul>
+<li><code>initialState</code> - the initial state for this branch of the state tree</li>
+<li><code>reducer</code> - this branch&#39;s reducer</li>
+</ul>
+<pre><code class="lang-javascript"><span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> types <span class="token keyword">from</span> <span class="token string">'./types'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">export</span> <span class="token keyword">const</span> initialState <span class="token operator">=</span> <span class="token punctuation">{</span>
+  currentTime<span class="token punctuation">:</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">export</span> <span class="token keyword">const</span> reducer <span class="token operator">=</span> <span class="token punctuation">(</span>state <span class="token operator">=</span> initialState<span class="token punctuation">,</span> action<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token keyword">switch</span><span class="token punctuation">(</span>action<span class="token punctuation">.</span>type<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">case</span> types<span class="token punctuation">.</span>FETCH_NEW_TIME<span class="token punctuation">:</span>
+      <span class="token keyword">return</span> <span class="token punctuation">{</span> <span class="token operator">...</span>state<span class="token punctuation">,</span> currentTime<span class="token punctuation">:</span> action<span class="token punctuation">.</span>payload<span class="token punctuation">}</span>
+    <span class="token keyword">default</span><span class="token punctuation">:</span>
+      <span class="token keyword">return</span> state<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> reducer
+</code></pre>
+<p>With our <code>currentTime</code> out of the root reducer, we&#39;ll need to update the <code>reducers.js</code> file to accept the new file into the root reducer. Luckily, this is pretty easy:</p>
+<pre><code class="lang-javascript"><span class="token keyword">import</span> <span class="token punctuation">{</span> combineReducers <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'redux'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> currentUser <span class="token keyword">from</span> <span class="token string">'./currentUser'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> currentTime <span class="token keyword">from</span> <span class="token string">'./currentTime'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">export</span> <span class="token keyword">const</span> rootReducer <span class="token operator">=</span> <span class="token function">combineReducers</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  currentTime<span class="token punctuation">:</span> currentTime<span class="token punctuation">.</span>reducer<span class="token punctuation">,</span>
+  currentUser<span class="token punctuation">:</span> currentUser<span class="token punctuation">.</span>reducer<span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+<span class="token keyword">export</span> <span class="token keyword">const</span> initialState <span class="token operator">=</span> <span class="token punctuation">{</span>
+  currentTime<span class="token punctuation">:</span> currentTime<span class="token punctuation">.</span>initialState<span class="token punctuation">,</span>
+  currentUser<span class="token punctuation">:</span> currentUser<span class="token punctuation">.</span>initialState<span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> rootReducer
+</code></pre>
+<p>Lastly, let&#39;s update the <code>configureStore</code> function to pull the rootReducer and initial state from the file:</p>
+<pre><code class="lang-javascript"><span class="token keyword">import</span> <span class="token punctuation">{</span> rootReducer<span class="token punctuation">,</span> initialState <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./reducers'</span>
+<span class="token comment" spellcheck="true">// ...</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> configureStore <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> store <span class="token operator">=</span> <span class="token function">createStore</span><span class="token punctuation">(</span>
+    rootReducer<span class="token punctuation">,</span>
+    initialState<span class="token punctuation">,</span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">return</span> store<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="back-to-middleware">Back to middleware</h2>
+<p>Middleware is basically a function that accepts the <code>store</code>, which is expected to return a function that accepts the <code>next</code> function, which is expected to return a function which accepts an action. Confusing? Let&#39;s look at what this means.</p>
+<h2 id="the-simplest-middleware-possible">The simplest middleware possible</h2>
+<p>Let&#39;s build the smallest middleware we possibly can to understand exactly what&#39;s happening and how to add it to our stack. </p>
+<p>Let&#39;s create our first middleware.</p>
+<p>Now the signature of middleware looks like this:</p>
+<pre><code class="lang-javascript"><span class="token keyword">const</span> loggingMiddleware <span class="token operator">=</span> <span class="token punctuation">(</span>store<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">(</span>next<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">(</span>action<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// Our middleware</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Befuddled about this middleware thing? Don&#39;t worry, we all are the first time we see it. Let&#39;s peel it back a little bit and destructure what&#39;s going on. That <code>loggingMiddleware</code> description above could be rewritten like the following:</p>
+<pre><code class="lang-javascript"><span class="token keyword">const</span> loggingMiddleware <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span>store<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// Called when calling applyMiddleware so</span>
+  <span class="token comment" spellcheck="true">// our middleware can have access to the store</span>
+
+  <span class="token keyword">return</span> <span class="token keyword">function</span><span class="token punctuation">(</span>next<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// next is the following action to be run</span>
+    <span class="token comment" spellcheck="true">// after this middleware</span>
+
+    <span class="token keyword">return</span> <span class="token keyword">function</span><span class="token punctuation">(</span>action<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// finally, this is where our logic lives for</span>
+      <span class="token comment" spellcheck="true">// our middleware.</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>We don&#39;t need to worry about <em>how</em> this gets called, just that it does get called in that order. Let&#39;s enhance our <code>loggingMiddleware</code> so that we do actually log out the action that gets called:</p>
+<pre><code class="lang-javascript"><span class="token keyword">const</span> loggingMiddleware <span class="token operator">=</span> <span class="token punctuation">(</span>store<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">(</span>next<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">(</span>action<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// Our middleware</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`Redux Log:`</span></span><span class="token punctuation">,</span> action<span class="token punctuation">)</span>
+  <span class="token comment" spellcheck="true">// call the next function</span>
+  <span class="token function">next</span><span class="token punctuation">(</span>action<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Our middleware causes our store to, when every time an action is called, we&#39;ll get a <code>console.log</code> with the details of the action.</p>
+<p>In order to apply middleware to our stack, we&#39;ll use this aptly named <code>applyMiddleware</code> function as the third argument to the <code>createStore()</code> method.</p>
+<pre><code class="lang-javascript"><span class="token keyword">import</span> <span class="token punctuation">{</span> createStore<span class="token punctuation">,</span> applyMiddleware <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'redux'</span><span class="token punctuation">;</span>
+</code></pre>
+<p>To <em>apply</em> middleware, we can call this <code>applyMiddleware()</code> function in the <code>createStore()</code> method. In our <code>src/redux/configureStore.js</code> file, let&#39;s update the store creation by adding a call to <code>applyMiddleware()</code>:</p>
+<pre><code class="lang-javascript">  <span class="token keyword">const</span> store <span class="token operator">=</span> <span class="token function">createStore</span><span class="token punctuation">(</span>
+    rootReducer<span class="token punctuation">,</span>
+    initialState<span class="token punctuation">,</span>
+    <span class="token function">applyMiddleware</span><span class="token punctuation">(</span>
+      apiMiddleware<span class="token punctuation">,</span>
+      loggingMiddleware<span class="token punctuation">,</span>
+    <span class="token punctuation">)</span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Now our middleware is in place. Open up the console in your browser to see all the actions that are being called for this demo. Try clicking on the <code>Update</code> button with the console open...</p>
+<div id="demo1"></div>
+
+<p>As we&#39;ve seen, middleware gives us the ability to insert a function in our Redux action call chain. Inside that function, we have access to the action, state, and we can dispatch other actions.</p>
+<p>We want to write a middleware function that can handle API requests. We can write a middleware function that listens only to actions corresponding to API requests. Our middleware can &quot;watch&quot; for actions that have a special marker. For instance, we can have a <code>meta</code> object on the action with a <code>type</code> of <code>&#39;api&#39;</code>. We can use this to ensure our middleware does not handle any actions that are not related to API requests:</p>
+<pre><code class="lang-javascript"><span class="token keyword">const</span> apiMiddleware <span class="token operator">=</span> store <span class="token operator">=</span><span class="token operator">></span> next <span class="token operator">=</span><span class="token operator">></span> action <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>action<span class="token punctuation">.</span>meta <span class="token operator">||</span> action<span class="token punctuation">.</span>meta<span class="token punctuation">.</span>type <span class="token operator">!==</span> <span class="token string">'api'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token function">next</span><span class="token punctuation">(</span>action<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment" spellcheck="true">// This is an api request</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>If an action does have a meta object with a type of <code>&#39;api&#39;</code>, we&#39;ll pick up the request in the <code>apiMiddleware</code>.</p>
+<p>Let&#39;s convert our <code>updateTime()</code> actionCreator to include these properties into an API request. Let&#39;s open up the <code>currentTime</code> redux module we&#39;ve been working with (in <code>src/redux/currentTime.js</code>) and find the <code>fetchNewTime()</code> function definition.</p>
+<p>Let&#39;s pass in the URL to our <code>meta</code> object for this request. We can even accept parameters from inside the call to the action creator:</p>
+<pre><code class="lang-javascript"><span class="token keyword">const</span> host <span class="token operator">=</span> <span class="token string">'https://andthetimeis.com'</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> fetchNewTime <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">{</span> timezone <span class="token operator">=</span> <span class="token string">'pst'</span><span class="token punctuation">,</span> str<span class="token operator">=</span><span class="token string">'now'</span><span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">(</span><span class="token punctuation">{</span>
+  type<span class="token punctuation">:</span> types<span class="token punctuation">.</span>FETCH_NEW_TIME<span class="token punctuation">,</span>
+  payload<span class="token punctuation">:</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  meta<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    type<span class="token punctuation">:</span> <span class="token string">'api'</span><span class="token punctuation">,</span>
+    url<span class="token punctuation">:</span> host <span class="token operator">+</span> <span class="token string">'/'</span> <span class="token operator">+</span> timezone <span class="token operator">+</span> <span class="token string">'/'</span> <span class="token operator">+</span> str <span class="token operator">+</span> <span class="token string">'.json'</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+<p>When we press the button to update the time, our <code>apiMiddleware</code> will catch this before it ends up in the reducer. For any calls that we catch in the middleware, we can pick apart the meta object and make requests using these options. Alternatively, we can just pass the entire sanitized <code>meta</code> object through the <code>fetch()</code> API as-is.</p>
+<p>The steps our API middleware will have to take:</p>
+<ol>
+<li>Find the request URL and compose request options from meta</li>
+<li>Make the request</li>
+<li>Convert the request to a JavaScript object</li>
+<li>Respond back to Redux/user</li>
+</ol>
+<p>Let&#39;s take this step-by-step. First, to pull off the <code>URL</code> and create the <code>fetchOptions</code> to pass to <code>fetch()</code>. We&#39;ll put these steps in the comments in the code below:</p>
+<pre><code class="lang-javascript"><span class="token keyword">const</span> apiMiddleware <span class="token operator">=</span> store <span class="token operator">=</span><span class="token operator">></span> next <span class="token operator">=</span><span class="token operator">></span> action <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>action<span class="token punctuation">.</span>meta <span class="token operator">||</span> action<span class="token punctuation">.</span>meta<span class="token punctuation">.</span>type <span class="token operator">!==</span> <span class="token string">'api'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token function">next</span><span class="token punctuation">(</span>action<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token comment" spellcheck="true">// This is an api request</span>
+
+  <span class="token comment" spellcheck="true">// Find the request URL and compose request options from meta</span>
+  <span class="token keyword">const</span> <span class="token punctuation">{</span>url<span class="token punctuation">}</span> <span class="token operator">=</span> action<span class="token punctuation">.</span>meta<span class="token punctuation">;</span>
+  <span class="token keyword">const</span> fetchOptions <span class="token operator">=</span> Object<span class="token punctuation">.</span><span class="token function">assign</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> action<span class="token punctuation">.</span>meta<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment" spellcheck="true">// Make the request</span>
+  <span class="token function">fetch</span><span class="token punctuation">(</span>url<span class="token punctuation">,</span> fetchOptions<span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true">// convert the response to json</span>
+    <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>resp <span class="token operator">=</span><span class="token operator">></span> resp<span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>json <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// respond back to the user</span>
+      <span class="token comment" spellcheck="true">// by dispatching the original action without</span>
+      <span class="token comment" spellcheck="true">// the meta object</span>
+      <span class="token keyword">let</span> newAction <span class="token operator">=</span> Object<span class="token punctuation">.</span><span class="token function">assign</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> action<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+        payload<span class="token punctuation">:</span> json<span class="token punctuation">.</span>dateString
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">delete</span> newAction<span class="token punctuation">.</span>meta<span class="token punctuation">;</span>
+      store<span class="token punctuation">.</span><span class="token function">dispatch</span><span class="token punctuation">(</span>newAction<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> apiMiddleware
+</code></pre>
+<p>We have several options for how we respond back to the user in the Redux chain. Personally, we prefer to respond with the same type the request was fired off without the <code>meta</code> tag and placing the response body as the <code>payload</code> of the new action. </p>
+<p>In this way, we don&#39;t have to change our redux reducer to manage the response any differently than if we weren&#39;t making a request.</p>
+<p>We&#39;re also not limited to a single response either. Let&#39;s say that our user passed in an <code>onSuccess</code> callback to be called when the request was complete. We could call that <code>onSuccess</code> callback and then dispatch back up the chain:</p>
+<pre><code class="lang-javascript"><span class="token keyword">const</span> apiMiddleware <span class="token operator">=</span> store <span class="token operator">=</span><span class="token operator">></span> next <span class="token operator">=</span><span class="token operator">></span> action <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>action<span class="token punctuation">.</span>meta <span class="token operator">||</span> action<span class="token punctuation">.</span>meta<span class="token punctuation">.</span>type <span class="token operator">!==</span> <span class="token string">'api'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token function">next</span><span class="token punctuation">(</span>action<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token comment" spellcheck="true">// This is an api request</span>
+
+  <span class="token comment" spellcheck="true">// Find the request URL and compose request options from meta</span>
+  <span class="token keyword">const</span> <span class="token punctuation">{</span>url<span class="token punctuation">}</span> <span class="token operator">=</span> action<span class="token punctuation">.</span>meta<span class="token punctuation">;</span>
+  <span class="token keyword">const</span> fetchOptions <span class="token operator">=</span> Object<span class="token punctuation">.</span><span class="token function">assign</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> action<span class="token punctuation">.</span>meta<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment" spellcheck="true">// Make the request</span>
+  <span class="token function">fetch</span><span class="token punctuation">(</span>url<span class="token punctuation">,</span> fetchOptions<span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true">// convert the response to json</span>
+    <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>resp <span class="token operator">=</span><span class="token operator">></span> resp<span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>json <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">typeof</span> action<span class="token punctuation">.</span>meta<span class="token punctuation">.</span>onSuccess <span class="token operator">===</span> <span class="token string">'function'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        action<span class="token punctuation">.</span>meta<span class="token punctuation">.</span><span class="token function">onSuccess</span><span class="token punctuation">(</span>json<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      <span class="token keyword">return</span> json<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// For the next promise in the chain</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>json <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// respond back to the user</span>
+      <span class="token comment" spellcheck="true">// by dispatching the original action without</span>
+      <span class="token comment" spellcheck="true">// the meta object</span>
+      <span class="token keyword">let</span> newAction <span class="token operator">=</span> Object<span class="token punctuation">.</span><span class="token function">assign</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> action<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+        payload<span class="token punctuation">:</span> json<span class="token punctuation">.</span>dateString
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">delete</span> newAction<span class="token punctuation">.</span>meta<span class="token punctuation">;</span>
+      store<span class="token punctuation">.</span><span class="token function">dispatch</span><span class="token punctuation">(</span>newAction<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>The possibilities here are virtually endless. Let&#39;s add the <code>apiMiddleware</code> to our chain by updating it in the <code>configureStore()</code> function:</p>
+<pre><code class="lang-javascript"><span class="token keyword">import</span> <span class="token punctuation">{</span> createStore<span class="token punctuation">,</span> applyMiddleware <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'redux'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> rootReducer<span class="token punctuation">,</span> initialState <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./reducers'</span>
+
+<span class="token keyword">import</span> loggingMiddleware <span class="token keyword">from</span> <span class="token string">'./loggingMiddleware'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> apiMiddleware <span class="token keyword">from</span> <span class="token string">'./apiMiddleware'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">export</span> <span class="token keyword">const</span> configureStore <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> store <span class="token operator">=</span> <span class="token function">createStore</span><span class="token punctuation">(</span>
+    rootReducer<span class="token punctuation">,</span>
+    initialState<span class="token punctuation">,</span>
+    <span class="token function">applyMiddleware</span><span class="token punctuation">(</span>
+      apiMiddleware<span class="token punctuation">,</span>
+      loggingMiddleware<span class="token punctuation">,</span>
+    <span class="token punctuation">)</span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">return</span> store<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> configureStore<span class="token punctuation">;</span>
+</code></pre>
+<div id="demo2"></div>
+
+<p>Notice that we didn&#39;t have to change <em>any</em> of our view code to update how the data was populated in the state tree. Pretty nifty, eh?</p>
+<p>This middleware is pretty simplistic, but it&#39;s a good solid basis for building it out. Can you think of how you might implement a caching service, so that we don&#39;t need to make a request for data we already have? How about one to keep track of pending requests, so we can show a spinner for requests that are outstanding?</p>
+<p>Awesome! Now we really are Redux ninjas. We&#39;ve conquered the Redux mountain and are ready to move on to the next step. Before we head there, however... pat yourself on the back. We&#39;ve made it through week 3!</p>
+
+  </body>
+</html>

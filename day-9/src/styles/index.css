@@ -1,0 +1,6 @@
+@import "../components/Timeline/Timeline.css";
+@import "../components/Timer/Clock.css";
+
+.demo {
+  margin: 20px 0;
+}

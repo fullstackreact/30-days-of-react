@@ -1,0 +1,58 @@
+[
+  {
+    "id": 1,
+    "timestamp": "Tue Apr 04 2017 17:00:51 GMT-0700 (MST)",
+    "text": "Ate lunch",
+    "user": {
+      "id": 1,
+      "name": "Nate",
+      "avatar": "http://www.croop.cl/UI/twitter/images/doug.jpg"
+    },
+    "comments": [{ 
+      "from": "Ari", 
+      "text": "Me too!" 
+    }]
+  },
+  {
+    "id": 2,
+    "timestamp": "Tue Apr 04 2017 17:00:51 GMT-0700 (MST)",
+    "text": "Played tennis",
+    "user": {
+      "id": 1,
+      "name": "Ari",
+      "avatar": "http://www.croop.cl/UI/twitter/images/doug.jpg"
+    },
+    "comments": [{ 
+      "from": "Ari", 
+      "text": "that was me!" 
+    }]
+  },
+  {
+    "id": 3,
+    "timestamp": "Tue Apr 04 2017 17:00:51 GMT-0700 (MST)",
+    "text": "Walked the dog",
+    "user": {
+      "id": 1,
+      "name": "Nate",
+      "avatar": "http://www.croop.cl/UI/twitter/images/doug.jpg"
+    },
+    "comments": []
+  },
+  {
+    "id": 4,
+    "timestamp": "Tue Apr 04 2017 17:00:51 GMT-0700 (MST)",
+    "text": "Called mom",
+    "user": {
+      "id": 1,
+      "name": "Ari",
+      "avatar": "http://www.croop.cl/UI/twitter/images/doug.jpg"
+    },
+    "comments": [{ 
+      "from": "Nate", 
+      "text": "Great job!" 
+    }, { 
+      "from": "Ari", 
+      "text": "Thanks" 
+    }]
+  }
+]

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+    <title>React App</title>
+  </head>
+  <body>
+    <p>The React team noticed that there is a lot of configuration required (and the community helped bloat -- us included) to run a React app. Luckily, some smart folks in the React team/community got together and built/released an official generator app that makes it much easier to get up and running quickly.</p>
+<h2 id="create-react-app">create-react-app</h2>
+<p>The <a href="https://github.com/facebookincubator/create-react-app">create-react-app</a> project is released through Facebook helps us get up and running quickly with a React app on our system with no custom configuring required on our part.</p>
+<p>The package is released as a <a href="https://nodejs.org/">Node</a> <a href="https://www.npmjs.com/package/create-react-app">Package</a> and can be installed using <code>npm</code>. </p>
+<blockquote>
+<h3 id="a-plug-for-nvm-and-n-">A plug for <code>nvm</code> and <code>n</code></h3>
+<p>The <a href="https://nodejs.org">Node</a> homepage has simple documentation on how to install node, if you don&#39;t already have it installed on your system. </p>
+<p>We recommend using the <a href="https://github.com/creationix/nvm">nvm</a> or the <a href="https://github.com/tj/n">n</a> version management tools. These tools make it incredibly easy to install/use multiple versions of node on your system at any point. </p>
+</blockquote>
+<p>With <code>node</code> installed on our system, we can install the <code>create-react-app</code> package:</p>
+<pre><code class="lang-bash">npm install --global create-react-app
+</code></pre>
+<p><img class="wide" src="/assets/images/series/30-days-of-react/day-12/install-create-react-app.jpg" /></p>
+<p>With <code>create-react-app</code> installed globally, we&#39;ll be able to use the <code>create-react-app</code> command anywhere in our terminal.</p>
+<p>Let&#39;s create a new app we&#39;ll call 30days using the <code>create-react-app</code> command we just installed. Open a Terminal window in a directory where you want to create your app.</p>
+<p>In terminal, we can create a new React application using the command and adding a name to the app we want to create.</p>
+<pre><code class="lang-bash">create-react-app 30days &amp;&amp; <span class="hljs-built_in">cd</span> 30days
+</code></pre>
+<p><img class="wide" src="/assets/images/series/30-days-of-react/day-12/create-app.jpg" /></p>
+<p>Let&#39;s start our app in the browser. The <code>create-react-app</code> package comes with a few built-in scripts it created for us (in the <code>package.json</code> file). We can <em>start</em> editing our app using the built-in webserver using the <code>npm start</code> command:</p>
+<pre><code class="lang-bash">npm start
+</code></pre>
+<p><img class="wide" src="/assets/images/series/30-days-of-react/day-12/npm-start.jpg" /></p>
+<p>This command will open a window in Chrome to the default app it created for us running at the url: <a href="http://localhost:3000/">http://localhost:3000/</a>.</p>
+<p><img class="wide" src="/assets/images/series/30-days-of-react/day-12/chrome-start.jpg" /></p>
+<p>Let&#39;s edit the newly created app. Looking at the directory structure it created, we&#39;ll see we have a basic node app running with a <code>public/index.html</code> and a few files in the <code>src/</code> directory that comprise our running app.</p>
+<p><img class="wide" src="/assets/images/series/30-days-of-react/day-12/tree.jpg" /></p>
+<p>Let&#39;s open up the <code>src/App.js</code> file and we&#39;ll see we have a very basic component that should all look familiar. It has a simple render function which returns the result we see in the Chrome window.</p>
+<p><img class="wide" src="/assets/images/series/30-days-of-react/day-12/app.jpg" /></p>
+<p>The <code>index.html</code> file has a single <code>&lt;div /&gt;</code> node with the id of <code>#root</code>, where the app itself will be mounted for us automatically (this is handled in the <code>src/index.js</code> file). Anytime we want to add webfonts, style tags, etc. we can load them in the <code>index.html</code> file.</p>
+<p><img class="wide" src="/assets/images/series/30-days-of-react/day-12/index-html.jpg" /></p>
+<h2 id="shipping">Shipping</h2>
+<p>We&#39;ll get to deployment in a few weeks, but for the time being know that the generator created a build command so we can create minified, optimize versions of our app that we can upload to a server. </p>
+<p>We can build our app using the <code>npm run build</code> command in the root of our project:</p>
+<pre><code class="lang-bash">npm run build
+</code></pre>
+<p><img class="wide" src="/assets/images/series/30-days-of-react/day-12/build.jpg" /></p>
+<p>With that, we now have a live-reloading single-page app (SPA) ready for development. Tomorrow, we&#39;ll use this new app we built diving into rendering multiple components at run-time.</p>
+
+  </body>
+</html>

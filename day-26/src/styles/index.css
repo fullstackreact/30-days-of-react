@@ -1,0 +1,61 @@
+@import "../components/Timeline/Timeline.css";
+
+.demo {
+  margin: 20px 0;
+}
+
+.root {
+  display: block;
+  width: 100%;
+
+  .app {
+    border: 2px solid #333;
+    border-radius: 5px;
+
+    .login {
+      margin: 0 auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+
+      form {
+        display: flex;
+        flex-direction: row;
+
+        input {
+          border: 1px solid #999;
+          font-size: 1.3em;
+          padding: 5px;
+        }
+      }
+    }
+
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-direction: row;
+      border-bottom: 1px solid #333;
+      background: #eeeeee;
+      box-shadow: 0px 2px 2px #999;
+      
+
+      > div {
+        flex: 1;
+        display: flex;
+        flex-direction: row;
+        margin: 15px 10px;
+        &.actions {
+          justify-content: flex-end;
+          a {
+            text-decoration: none;
+          }
+          > div {
+            padding: 0 20px;
+            border-radius: 5px;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,334 @@
+---
+page_id: 30-days-of-react/day-10
+series: 30-days-of-react
+permalink: day-10
+title: Interactivity
+description: Today we'll walk through how to add interactivity to our applications to make them engaging and dynamic.
+dayDir: '10'
+day: 10
+hero_image: /assets/images/series/30-days-of-react/headings/10.jpg
+imageUrl:  /assets/images/series/30-days-of-react/headings/10.jpg
+introBannerUrl: '/assets/images/series/30-days-of-react/headings/10_wide.jpg'
+date: Wed Oct 13 2016 21:29:42 GMT-0700 (PDT)
+includeFile: ./../_params.yaml
+---
+
+Through this point, we've built our few handful of components without adding much user interaction. Today, we're going to change that.
+
+## User interaction
+
+The browser is an event-driven application. Everything that a user does in the browser fires an event, from clicking buttons to even just moving the mouse. In plain JavaScript, we can listen for these events and attach a JavaScript function to interact with them. 
+
+For instance, we can attach a function to the `mousemove` browser event with the JS: 
+
+{lang=javascript,crop-query=.go}
+<<[](mousemove.js)
+
+This results in the following functionality:
+
+<div class="demo" id="mousemove">
+  Move your mouse over this text
+</div>
+
+In React, however we don't have to interact with the browser's event loop in raw JavaScript as React provides a way for us to handle events using `props`. 
+
+For instance, to listen for the `mousemove` event from the (rather unimpressive) demo above in React, we'll set the prop `onMouseMove` (notice the camelcasing of the event name). 
+
+```javascript
+<div onMouseMove={(evt) => console.log(evt)}>
+  Move the mouse
+</div>
+```
+
+React provides a lot of `props` we can set to listen for different browser events, such as click, touch, drag, scroll, selection events, and many more (see the [events](https://facebook.github.io/react/docs/events.html) documentation for a list of all of them).
+
+<div class="demo" id="demo1"></div>
+
+To see some of these in action, the following is a small demo of some of the `props` we can pass on our elements. Each text element in the list set the prop it lists. Try playing around with the list and seeing how the events are called and handled within the element.
+
+<div class="demo" id="demo2"></div>
+
+We'll be using the `onClick` prop quite a bit all throughout our apps quite a bit, so it's a good idea to be familiar with it. In our activity list header, we have a search icon that we haven't hooked up yet to show a search box. 
+
+The interaction we _want_ is to show a search `<input />` when our users click on the search icon. Recall that our `Header` component is implemented like this:
+
+{lang=javascript,crop-query=.Header}
+<<[](./components/Timeline/Header.js)
+
+When the user clicks on the `<div className="fa fa-search searchIcon"></div>` element, we'll want to run a function to update the state of the component so the `searchInputClasses` object gets updated. Using the `onClick` handler, this is pretty simple.
+
+Let's make this component stateful (it needs to track if the search field should be showing or not). We can convert our component to be stateful using the `constructor()` function:
+
+{lang=javascript,crop-query=(firstLineOf(.Header),.Header.constructor,lastLineOf(.Header))}
+<<[](HeaderClick.js)
+
+> ### What is a `constructor` function?
+>
+> In JavaScript, the `constructor` function is a function that runs when an object is created. It returns a reference to the Object function that created the instance's `prototype`. 
+> 
+> In plain English, a constructor function is the function that runs when the JavaScript runtime creates a new object. We'll use the constructor method to set up instance variables on the object as it runs right when the object is created.
+>
+> When using the `ES6` class syntax to create an object, we have to call the `super()` method before any other method. Calling the `super()` function calls the parent class's `constructor()` function. We'll call it with the _same arguments_ as the `constructor()` function of our class is called with.  
+
+When the user clicks on the button, we'll want to update the state to say that the `searchVisible` flag gets updated. Since we'll want the user to be able to close/hide the `<input />` field after clicking on the search icon for a second time, we'll _toggle_ the state rather than just set it to true. 
+
+Let's create this method to bind our click event:
+
+{lang=javascript,crop-query=(firstLineOf(.Header),.Header.showSearch,lastLineOf(.Header))}
+<<[](HeaderClick.js)
+
+Finally, we can attach a click handler (using the `onClick` prop) on the icon element to call our new `showSearch()` method. The entire updated source for our `Header` component looks like this:
+
+{lang=javascript,crop-query=.Header}
+<<[](HeaderClick.js)
+
+Try clicking on the search icon and watch the input field appear and disappear (the animation effect is handled by CSS animations).
+
+<div class="demo" id="demo3"></div>
+
+## Input events
+
+Whenever we build a form in React, we'll use the input events offered by React. Most notably, we'll use the `onSubmit()` and `onChange()` props most often.
+
+Let's update our search box demo to capture the text inside the search field when it updates. Whenever an `<input />` field has the `onChange()` prop set, it will call the function _every time the field changes_. When we click on it and start typing, the function will be called. 
+
+Using this prop, we can capture the value of the field in our state. 
+
+Rather than updating our `<Header />` component, let's create a new child component to contain a `<form />` element. By moving the form-handling responsibilities to it's own form, we can simplify the `<Header />` code and we can call up to the parent of the header when our user submits the form (this is a usual React pattern).
+
+Let's create a new component we'll call `SearchForm`. This new component is a stateful component as we'll need to hold on to the value of the search input (track it as it changes):
+
+{lang=javascript,crop-query=(firstLineOf(.SearchForm),.SearchForm.constructor,lastLineOf(.SearchForm))}
+<<[](SearchForm.js)
+
+Now, we already have the HTML for the form written in the `<Header />` component, so let's grab that from our `Header` component and return it from our `SearchForm.render()` function:
+
+{lang=javascript,crop-query=(firstLineOf(.SearchForm),.SearchForm.render,lastLineOf(.SearchForm))}
+<<[](SearchForm.js)
+
+Notice that we lost the styles on our `<input />` field. Since we no longer have the `searchVisible` state in our new component, we can't use it to style the `<input />` any longer. _However_, we can pass a prop from our `Header` component that tells the `SearchForm` to render the input as visible. 
+
+Let's define the `searchVisible` prop (using `React.PropTypes`, of course) and update the `render` function to use the new prop value to show (or hide) the search `<input />`. We'll also set a default value for the visibility of the field to be false (since our `Header` shows/hides it nicely):
+
+{lang=javascript,crop-query=(firstLineOf(.SearchForm),choose(.SearchForm.propTypes, 0),lastLineOf(.SearchForm))}
+<<[](SearchForm.js)
+
+<div class="demo" id="searchStylesDemo"></div>
+
+Now we have our styles back on the `<input />` element, let's add the functionality for when the user types in the search box, we'll want to capture the value of the search field. We can achieve this workflow by attaching the `onChange` prop to the `<input />` element and passing it a function to call every time the `<input />` element is changed.
+
+{lang=javascript,crop-query=(firstLineOf(.SearchForm),choose(.SearchForm.updateSearchInput, 0),.SearchForm.render,lastLineOf(.SearchForm))}
+<<[](SearchForm.js)
+
+When we type in the field, the `updateSearchInput()` function will be called. We'll keep track of the value of the form by updating the state. In the `updateSearchInput()` function, we can call directly to `this.setState()` to update the state of the component. 
+
+> The value is held on the `event` object's target as `event.target.value`.
+
+{lang=javascript,crop-query=(firstLineOf(.SearchForm),choose(.SearchForm.updateSearchInput, 0),lastLineOf(.SearchForm))}
+<<[](SearchForm.js)
+
+> #### Controlled vs. uncontrolled
+> 
+> We're creating what's known as an **uncontrolled** component as we're not setting the value of the `<input />` element. We can't provide any validation or post-processing on the input text value as it stands right now.
+>
+> If we want to validate the field or manipulate the value of the `<input />` component, we'll have to create what is called a **controlled** component, which really just means that we pass it a value using the `value` prop. A controlled component version's `render()` function would look like:
+>
+> ```javascript
+> class SearchForm extends React.Component {
+>   render() {
+>     return (
+>       <input
+>         type="search"
+>         value={this.state.searchText}
+>         className={searchInputClasses}
+>         onChange={this.updateSearchInput.bind(this)}
+>         placeholder="Search ..." />
+>     );
+>   }
+> }
+> ```
+
+As of now, we have no way to actually submit the form, so our user's can't really search. Let's change this. We'll want to wrap the `<input />` component in a `<form />` DOM element so our users can press the enter key to submit the form. We can capture the form submission by using the `onSubmit` prop on the `<form />` element.
+
+Let's update the `render()` function to reflect this change.
+
+{lang=javascript,crop-query=(firstLineOf(.SearchForm),choose(.SearchForm.submitForm, 0),.SearchForm.render,lastLineOf(.SearchForm))}
+<<[](SearchFormWithSubmit.js)
+
+> We immediately call `event.preventDefault()` on the `submitForm()` function. This stops the browser from bubbling the event up which would causes the default behavior of the entire page to reload (the default function when a browser submits a form). 
+
+Now when we type into the `<input />` field and press enter, the `submitForm()` function gets called with the event object.
+
+So... great, we can submit the form and stuff, but when do we actually do the searching? For demonstration purposes right now, we'll pass the search text up the parent-child component chain so the `Header` can decide _what_ to search. 
+
+> The `SearchForm` component certainly doesn't know what it's searching, so we'll have to pass the responsibility up the chain. We'll use this callback strategy quite a bit. 
+
+In order to pass the search functionality up the chain, our `SearchForm` will need to accept a prop function to call when the form is submitted. Let's define a prop we'll call `onSubmit` that we can pass to our `SearchForm` component. Being good developers, we'll also add a default `prop` value and a `propType` for this `onSubmit` function. Since we'll want to make sure the `onSubmit()` is defined, we'll set the `onSubmit` prop to be a required prop:
+
+{lang=javascript,crop-query=(firstLineOf(.SearchForm),choose(.SearchForm.propTypes, 0),choose(.SearchForm.defaultProps, 0),lastLineOf(.SearchForm))}
+<<[](SearchForm.js)
+
+When the form is submitted, we can call this function directly from the `props`. Since we're keeping track of the search text in our state, we can call the function with the `searchText` value in the state so the `onSubmit()` function only gets the value and doesn't need to deal with an event.
+
+```javascript
+class SearchForm extends React.Component {
+  // ...
+  submitForm(event) {
+    // prevent the form from reloading the entire page
+    event.preventDefault();
+    // call the callback with the search value
+    this.props.onSubmit(this.state.searchText);
+  }
+}
+```
+
+Now, when the user presses enter we can call this `onSubmit()` function passed in the `props` by our `Header` component. 
+
+<div class="demo" id="searchForm"></div>
+
+We can use this `SearchForm` component in our `Header` component and pass it the two props we've defined (`searchVisible` and `onSubmit`):
+
+{lang=javascript,crop-query=1-EOF}
+<<[](HeaderSearch.js)
+
+<div class="demo" id="headerSearch"></div>
+
+Now we have a search form component we can use and reuse across our app. Of course, we're not actually searching anything yet. Let's fix that and implement search.
+
+## Implementing search
+
+To implement search in our component, we'll want to pass up the search responsibility one more level from our `Header` component to a container component we'll call `Panel`. 
+
+First things first, let's implement the same pattern of passing a callback to a parent component from within a child component from the `Panel` container to the `Header` component.
+
+On the `Header` component, let's update the `propTypes` for a prop we'll define as a prop called `onSearch`:
+
+```javascript
+class Header extends React.Component {
+  // ...
+}
+Header.propTypes = {
+  onSearch: React.PropTypes.func
+}
+```
+
+Inside the `Header` component's 'submitForm()' function, call this `onSearch()` prop we will pass into it:
+
+```javascript
+class Header extends React.Component {
+  // ...
+  submitForm(val) {
+    this.props.onSearch(val);
+  }
+  // ...
+}
+Header.propTypes = {
+  onSearch: React.PropTypes.func
+}
+```
+
+> Notice that our virtual tree looks like this:
+>
+> ```javascript
+> <Panel>
+>   <Header>
+>     <SearchForm></SearchForm>
+>   </Header>
+> </Panel>
+> ```
+>
+> When the `<SearchForm />` is updated, it will pass along it's awareness of the search input's change to it's parent, the `<Header />`, when it will pass along upwards to the `<Panel />` component. This method is _very common_ in React apps and provides a good set of functional isolation for our components.
+
+Back in our `Panel` component we built on day 7, we'll pass a function to the `Header` as the `onSearch()` prop on the `Header`. What we're saying here is that when the search form has been submitted, we want the search form to call back to the header component which will then call to the `Panel` component to handle the search. 
+
+Since the `Header` component doesn't control the content listing, the `Panel` component does, we _have_ to pass the responsibility one more level up, as we're defining here.
+
+In any case, our `Panel` component is essentially a copy of our `Content` component we previously worked on:
+
+{lang=javascript,crop-query=.Panel}
+<<[](ContentSearch.js)
+
+Let's update our state to include a `searchFilter` string, which will just be the searching value:
+
+```javascript
+class Panel extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      loading: false,
+      searchFilter: '',
+      activities: []
+    }
+  }
+}
+```
+
+In order to actually handle the searching, we'll need to pass a `onSearch()` function to our `Header` component. Let's define an `onSearch()` function in our `Panel` component and pass it off to the `Header` props in the `render()` function:
+
+```javascript
+class Panel extends React.Component {
+  // ...
+  // after the content has refreshed, we want to 
+  // reset the loading variable
+  onComponentRefresh() {this.setState({loading: false});}
+
+  handleSearch(val) {
+    // handle search here
+  }
+
+  render() {
+    const {loading} = this.state;
+    
+    return (
+      <div>
+        <Header
+          onSearch={this.handleSearch.bind(this)} 
+          title="Github activity" />
+        <Content 
+          requestRefresh={loading}
+          onComponentRefresh={this.onComponentRefresh.bind(this)}
+          fetchData={this.updateData.bind(this)} />
+      </div>
+    )
+  }
+}
+```
+
+All we did here was add a `handleSearch()` function and pass it to the header. Now when the user types in the search box, the `handleSearch()` function on our `Panel` component will be called. 
+
+To actually _implement_ search, we'll need to keep track of this string and update our `updateData()` function to take into account search filtering. First, let's set the `searchFilter` on the state. We can also force the `Content` to reload the data by setting `loading` to true, so we can do this in one step:
+
+```javascript
+class Panel extends React.Component {
+  // ...
+  handleSearch(val) {
+    this.setState({
+      searchFilter: val,
+      loading: true
+    });
+  }
+  // ...
+}
+```
+
+Lastly, let's update our `updateData()` function to take _search_ into account. 
+
+{lang=javascript,crop-query=(firstLineOf(choose(.SearchableContent, 0)),choose(.SearchableContent.updateData, 1),lastLineOf(choose(.SearchableContent, 0)))}
+<<[](WorkingSearch.js)
+
+
+Although this might look complex, it's actually nearly identical to our existing `updateData()` function with the exception of the fact that we updated our `fetch()` result to call the `filter()` method on the json collection. 
+
+All the `collection.filter()` function does is run the function passed in for every element and it filters _out_ the values that return falsy values, keeping the ones that return truthy ones. Our search function simply looks for a match on the Github activity's `actor.login` (the Github user) to see if it regexp-matches the `searchFilter` value.
+
+With the `updateData()` function updated, our search is complete. 
+
+Try searching for `auser`.
+
+Now we have a 3-layer app component that handles search from a nested child component. We jumped from beginner to intermediate with this post. Pat yourself on the back. This was some hefty material. Make sure you understand this because we'll use these concepts we covered today quite often.
+
+In the next section, we'll jump out and look at building _pure_ components.
+
+<div class="demo" id="searchDemo"></div>
+

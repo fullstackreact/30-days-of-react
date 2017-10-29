@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+    <title>React App</title>
+  </head>
+  <body>
+    <p>Yesterday, we discussed (in light detail) the reason for the Flux pattern, what it is, the different options we have available to us, as well as introduced <a href="http://redux.js.org/">Redux</a>.</p>
+<p>Today, we are going to get back to code and on to adding Redux in our app. The app we&#39;re building with it right now is bare-bones simple, which will just show us the last time the page fetched the current time. For simplicity for now, we won&#39;t call out to a remote server, just using the JavaScript <code>Date</code> object.</p>
+<p>The first thing we&#39;ll have to do to use Redux is install the library. We can use the <code>npm</code> package manager to install <code>redux</code>. In the root directory of our app we previously built, let&#39;s run the <code>npm install</code> command to install redux:</p>
+<pre><code class="lang-bash">npm install --save redux
+</code></pre>
+<p>We&#39;ll also need to install another package that we&#39;ll use with redux, the <code>react-redux</code> that will help us tie together <code>react</code> and <code>redux</code>:</p>
+<pre><code class="lang-bash">npm install --save react-redux
+</code></pre>
+<p><img class="wide" src="/assets/images/series/30-days-of-react/day-19/install-redux.png" /></p>
+<h2 id="configuration-and-setup">Configuration and setup</h2>
+<p>The next bit of work we need to do is to set up Redux inside of our app. We&#39;ll need to do the following to get it set up:</p>
+<ol>
+<li>Define reducers</li>
+<li>Create a store</li>
+<li>Create action creators</li>
+<li>Tie the store to our React views</li>
+<li>Profit</li>
+</ol>
+<blockquote>
+<p>No promises on step 5, but it would be nice, eh?</p>
+</blockquote>
+<h2 id="precursor">Precursor</h2>
+<p>We&#39;ll talk terminology as we go, so take this setup discussion lightly (implementing is more important to get our fingers moving). We&#39;ll restructure our app just slightly (annoying, I know... but this is the last time) so we can create a wrapper component to provide data down through our app.</p>
+<p>When we&#39;re complete, our app tree will have the following shape:</p>
+<pre><code>[R<span class="hljs-function"><span class="hljs-title">oot</span>] -&gt;</span> [A<span class="hljs-function"><span class="hljs-title">pp</span>] -&gt;</span> [R<span class="hljs-function"><span class="hljs-title">outer</span>/Routes] -&gt;</span> [Component]
+</code></pre><p>Without delaying any longer, let&#39;s move our <code>src/App.js</code> into the <code>src/containers</code> directory and we&#39;ll need to update some of the paths from our imports at the same time. We&#39;ll be using the react router material we discussed a few days ago.</p>
+<p>We&#39;ll include a few routes with the <code>&lt;Switch /&gt;</code> statement to ensure only one shows up at a time.</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
+
+<span class="hljs-keyword">import</span> {
+  BrowserRouter <span class="hljs-keyword">as</span> Router,
+  Route,
+  Switch
+} <span class="hljs-keyword">from</span> <span class="hljs-string">'react-router-dom'</span>
+
+<span class="hljs-comment">// We'll load our views from the `src/views`</span>
+<span class="hljs-comment">// directory</span>
+<span class="hljs-keyword">import</span> Home <span class="hljs-keyword">from</span> <span class="hljs-string">'./views/Home/Home'</span>;
+<span class="hljs-keyword">import</span> About <span class="hljs-keyword">from</span> <span class="hljs-string">'./views/About/About'</span>;
+
+<span class="hljs-keyword">const</span> App = <span class="hljs-function"><span class="hljs-params">props</span> =&gt;</span> {
+  <span class="hljs-keyword">return</span> (
+    &lt;Router&gt;
+      &lt;Switch&gt;
+        &lt;Route
+          path="/about"
+          component={About} /&gt;
+        &lt;Route
+          path="*"
+          component={Home} /&gt;
+      &lt;/Switch&gt;
+    &lt;/Router&gt;
+  )
+}
+
+export default App;
+</code></pre>
+<p>In addition, we&#39;ll need to create a new container we&#39;ll call <code>Root</code> which will wrap our entire <code>&lt;App /&gt;</code> component and make the store available to the rest of the app. Let&#39;s create the <code>src/containers/Root.js</code> file:</p>
+<pre><code class="lang-bash">touch src/containers/Root.js
+</code></pre>
+<p>For the time being, we&#39;ll use a placeholder component here, but we&#39;ll replace this content as we talk about the store. For now, let&#39;s export <em>something</em>:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
+<span class="hljs-keyword">import</span> App <span class="hljs-keyword">from</span> <span class="hljs-string">'./App'</span>;
+
+<span class="hljs-keyword">const</span> Root = <span class="hljs-function">(<span class="hljs-params">props</span>) =&gt;</span> {
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">App</span> /&gt;</span>
+  );
+}
+
+export default Root;</span>
+</code></pre>
+<p>Finally, let&#39;s update the route that we render our app in the <code>src/index.js</code> file to use our new <code>Root</code> container instead of the <code>App</code> it previously used. </p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
+<span class="hljs-keyword">import</span> ReactDOM <span class="hljs-keyword">from</span> <span class="hljs-string">'react-dom'</span>;
+<span class="hljs-keyword">import</span> Root <span class="hljs-keyword">from</span> <span class="hljs-string">'./containers/Root'</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-string">'./index.css'</span>;
+
+ReactDOM.render(
+  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Root</span> /&gt;</span>,
+  document.getElementById('root')
+);</span>
+</code></pre>
+<h2 id="adding-in-redux">Adding in Redux</h2>
+<p>Now with a solid app structure in place, we can start to add in Redux. The steps we&#39;ll take to tie in some Redux structure are generally all the same for most every application we&#39;ll build. We&#39;ll need to:</p>
+<ol>
+<li>Write a root reducer</li>
+<li>Write actionCreators</li>
+<li>Configure the store with the rootReducer, the store, and the app</li>
+<li>Connect the views to the actionCreators</li>
+</ol>
+<p>We&#39;ll purposefully be keeping this high-level introduction a tad short, so hang tight if that&#39;s a mouthful, it will all make more sense shortly.</p>
+<p>Let&#39;s setup the structure to allow us to add redux. We&#39;ll do almost all of our work in a <code>src/redux</code> directory. Let&#39;s create that directory.</p>
+<pre><code class="lang-bash">mkdir -p src/redux
+touch src/redux/configureStore.js
+touch src/redux/reducers.js
+</code></pre>
+<p><img class="wide" src="/assets/images/series/30-days-of-react/day-19/structure.png" /></p>
+<p>Let&#39;s start by creating our reducer first. Although it sounds complex, a reducer is actually pretty straight-forward with some experience. A reducer is <em>literally</em> only a function. It&#39;s sole responsibility is to return a representation of the <em>next</em> state. </p>
+<p>In the Redux pattern, unlike flux we are only handling <em>one</em> global store for the <em>entire</em> application. This makes things much easier to deal with as there&#39;s a single place for the data of our application to live. </p>
+<p>The <em>root</em> reducer function is responsible to return a representation of the current global state of the application. When we dispatch an action on the store, this reducer function will be called with the current state of the application and the action that causes the state to update.</p>
+<p>Let&#39;s build our root reducer in a file at <code>src/redux/reducers.js</code>. </p>
+<pre><code class="lang-javascript"><span class="hljs-comment">// Initial (starting) state</span>
+<span class="hljs-keyword">const</span> initialState = {
+  <span class="hljs-attr">currentTime</span>: <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>().toString()
+}
+
+<span class="hljs-comment">// Our root reducer starts with the initial state</span>
+<span class="hljs-comment">// and must return a representation of the next state</span>
+<span class="hljs-keyword">const</span> rootReducer = <span class="hljs-function">(<span class="hljs-params">state = initialState, action</span>) =&gt;</span> {
+  <span class="hljs-keyword">return</span> state;
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> rootReducer
+</code></pre>
+<p>In the function, we&#39;re defining the first argument to start out as the initial state (the first time it runs, the <code>rootReducer</code> is called with no arguments, so it will always return the <code>initialState</code> on the first run). </p>
+<p>That&#39;s the rootReducer for now. As it stands right now, the state always will be the same value as the initialState. In our case, this means our data tree has a single key of <code>currentTime</code>. </p>
+<h3 id="what-is-an-action-">What is an action?</h3>
+<p>The second argument here is the action that gets dispatched from the store. We&#39;ll come back to what that means exactly shortly. For now, let&#39;s look at the action. </p>
+<p>At the very minimum, an action <em>must</em> include a <code>type</code> key. The <code>type</code> key can be any value we want, but it must be present. For instance, in our application, we&#39;ll occassionally dispatch an action that we want to tell the store to get the <em>new</em> current time. We might call this action a string value of <code>FETCH_NEW_TIME</code>.</p>
+<p>The action we might dispatch from our store to handle this update looks like:</p>
+<pre><code class="lang-javascript">{
+  <span class="hljs-attr">type</span>: <span class="hljs-string">'FETCH_NEW_TIME'</span>
+}
+</code></pre>
+<p>As we&#39;ll by typing this string a lot and we want to avoid a possible mispelling somewhere, it&#39;s common to create a <code>types.js</code> file that exports the action types as constants. Let&#39;s follow this convention and create a <code>src/redux/types.js</code> file:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> FETCH_NEW_TIME = <span class="hljs-string">'FETCH_NEW_TIME'</span>;
+</code></pre>
+<p>Instead of calling the action with the hard-coded string of &#39;FETCH_NEW_TIME&#39;, we&#39;ll reference it from the <code>types.js</code> file:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> types <span class="hljs-keyword">from</span> <span class="hljs-string">'./types'</span>;
+
+{
+  <span class="hljs-attr">type</span>: types.FETCH_NEW_TIME,
+}
+</code></pre>
+<p>When we want to send data along with our action, we can add any keys we want to our action. We&#39;ll commonly see this called <code>payload</code>, but it can be called anything. It&#39;s a convention to call additional information the <code>payload</code>.</p>
+<p>Our <code>FETCH_NEW_TIME</code> action will send a payload with the new current time. Since we want to send a <em>serializable</em> value with our actions, we&#39;ll send the string value of the new current time.</p>
+<pre><code class="lang-javascript">{
+  <span class="hljs-attr">type</span>: types.FETCH_NEW_TIME,
+  <span class="hljs-attr">payload</span>: <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>().toString() <span class="hljs-comment">// Any serializable value</span>
+}
+</code></pre>
+<p>Back in our reducer, we can check for the action type and take the appropriate steps to create the next state. In our case, we&#39;ll just store the <code>payload</code>. If the <code>type</code> of the action is <code>FETCH_NEW_TIME</code>, we&#39;ll return the new currentTime (from our action payload) and the rest of the state (using the ES6 spread syntax):</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> rootReducer = <span class="hljs-function">(<span class="hljs-params">state = initialState, action</span>) =&gt;</span> {
+  <span class="hljs-keyword">switch</span>(action.type) {
+    <span class="hljs-keyword">case</span> types.FETCH_NEW_TIME:
+      <span class="hljs-keyword">return</span> { ...state, <span class="hljs-attr">currentTime</span>: action.payload}
+    <span class="hljs-keyword">default</span>:
+      <span class="hljs-keyword">return</span> state;
+  }
+}
+</code></pre>
+<p>Remember, the reducers <em>must</em> return a state, so in the default case, make sure to return the current state <em>at the very minimum</em>.</p>
+<blockquote>
+<h2 id="keep-it-light">Keep it light</h2>
+<p>Since the reducer functions run everytime an action is dispatched, we want to make sure these functions are as simple and fast as possible. We don&#39;t want them to cause any side-effects or have much delay at all.</p>
+<p>We&#39;ll handle our side-effects <em>outside</em> of the reducer in the action creators.</p>
+</blockquote>
+<p>Before we look at action creators (and why we call them action creators), let&#39;s hook up our store to our application. </p>
+<p>We&#39;ll be using the <code>react-redux</code> package to connect our views to our redux store. Let&#39;s make sure to install this package using <code>npm</code>:</p>
+<pre><code class="lang-bash">npm install --save react-redux
+</code></pre>
+<h2 id="hooking-up-the-store-to-the-view">Hooking up the store to the view</h2>
+<p>The <code>react-redux</code> package exports a component called <code>Provider</code>. The <code>Provider</code> component makes the store available to all of our container components in our application without needing for us to need to pass it in manually every time. </p>
+<p>The <code>Provider</code> component expects a <code>store</code> prop that it expects to be a valid redux store, so we&#39;ll need to complete a <code>configureStore</code> function before our app will run without error. For now, let&#39;s hook up the <code>Provider</code> component in our app. We&#39;ll do this by updating our wrapper <code>Root</code> component we previously created to use the <code>Provider</code> component.</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> { Provider } <span class="hljs-keyword">from</span> <span class="hljs-string">'react-redux'</span>;
+  <span class="hljs-comment">// ...</span>
+<span class="hljs-keyword">const</span> Root = <span class="hljs-function">(<span class="hljs-params">props</span>) =&gt;</span> {
+  <span class="hljs-comment">// ...</span>
+
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Provider</span> <span class="hljs-attr">store</span>=<span class="hljs-string">{store}</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">App</span> /&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">Provider</span>&gt;</span></span>
+  );
+}
+</code></pre>
+<p>Notice we&#39;re sending in the <code>store</code> value to our <code>Provider</code> component... but we haven&#39;t created the store yet! Let&#39;s fix that now.</p>
+<h2 id="configuring-the-store">Configuring the store</h2>
+<p>In order to create a store, we&#39;ll use the new <code>src/redux/configureStore.js</code> to export a function which will be responsible for creating the store. </p>
+<p>How do we create a store? </p>
+<p>The <code>redux</code> package exports a function called <code>createStore</code> which will create the actual store for us, so let&#39;s open up the <code>src/redux/configureStore.js</code> file and export a function (we&#39;ll define shortly) called <code>configureStore()</code> and import the <code>createStore</code> helper:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> {createStore} <span class="hljs-keyword">from</span> <span class="hljs-string">'redux'</span>;
+  <span class="hljs-comment">// ...</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> configureStore = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+  <span class="hljs-comment">// ...</span>
+}
+  <span class="hljs-comment">// ...</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> configureStore;
+</code></pre>
+<p>We don&#39;t actually return anything in our store quite yet, so let&#39;s actually create the <code>redux</code> store using the <code>createStore</code> function we imported from redux:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> {createStore} <span class="hljs-keyword">from</span> <span class="hljs-string">'redux'</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> configureStore = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+  <span class="hljs-keyword">const</span> store = createStore();
+
+  <span class="hljs-keyword">return</span> store;
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> configureStore;
+</code></pre>
+<p>If we load our page in the browser, we&#39;ll see we have one giant error and no page gets rendered.</p>
+<p><img class="wide" src="/assets/images/series/30-days-of-react/day-19/no-reducer.png" /></p>
+<p>The error redux is giving us is telling us that we don&#39;t have a reducer inside our store. Without a reducer, it won&#39;t know what to do with actions or how to create the state, etc. In order to move beyond this error, we&#39;ll need to reference our rootReducer we created.</p>
+<p>The <code>createStore</code> function expects us to pass the rootReducer in as the first argument. It&#39;ll also expect the initial state to be passed in as the second argument. We&#39;ll import both of these values from the <code>reducers.js</code> file we created.</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> { rootReducer, initialState } <span class="hljs-keyword">from</span> <span class="hljs-string">'./reducers'</span>
+  <span class="hljs-comment">// ...</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> configureStore = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+  <span class="hljs-keyword">const</span> store = createStore(
+    rootReducer, <span class="hljs-comment">// root reducer</span>
+    initialState, <span class="hljs-comment">// our initialState</span>
+  );
+
+  <span class="hljs-keyword">return</span> store;
+}
+</code></pre>
+<p>Now let&#39;s update our <code>Root.js</code> file with an instance of the <code>store</code> created by calling the <code>configureStore()</code> function.</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> Root = <span class="hljs-function">(<span class="hljs-params">props</span>) =&gt;</span> {
+  <span class="hljs-keyword">const</span> store = configureStore();
+
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Provider</span> <span class="hljs-attr">store</span>=<span class="hljs-string">{store}</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">App</span> /&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">Provider</span>&gt;</span></span>
+  );
+}
+</code></pre>
+<h2 id="connecting-the-view-cont-d-">Connecting the view (cont&#39;d)</h2>
+<p>Everything in our app is set-up to use Redux without <em>too</em> much overhead. One more convenience that <code>redux</code> offers is a way to <em>bind</em> pieces of the state tree to different components using the <code>connect()</code> function exported by the <code>react-redux</code> package.</p>
+<p>The <code>connect()</code> function returns a function that expects the 1st argument to be that of a component. This is often called a higher-order component.</p>
+<p>The <code>connect()</code> function expects us to pass in at least one argument to the function (but often we&#39;ll pass in two). The first argument it expects is a function that will get called with the <code>state</code> and expects an object in return that connects data to the view. Let&#39;s see if we can demystify this behavior in code.</p>
+<p>We&#39;ll call this function the <code>mapStateToProps</code> function. Since it&#39;s responsibility is to map the state to an object which is merged with the component&#39;s original <code>props</code>.</p>
+<p>Let&#39;s create the Home view in <code>src/views/Home.js</code> and use this <code>connect()</code> function to bind the value of <code>currentTime</code> in our state tree. </p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> { connect } <span class="hljs-keyword">from</span> <span class="hljs-string">'react-redux'</span>;
+  <span class="hljs-comment">// ...</span>
+<span class="hljs-keyword">const</span> mapStateToProps = <span class="hljs-function"><span class="hljs-params">state</span> =&gt;</span> {
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">currentTime</span>: state.currentTime
+  }
+}
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> connect(
+  mapStateToProps
+)(Home);
+</code></pre>
+<p>This <code>connect()</code> function <em>automatically</em> passes any of the keys in the function&#39;s first argument as <code>props</code> to the <code>Home</code> component. </p>
+<p>In our demo&#39;s case, the <code>currentTime</code> prop in the <code>Home</code> component will be mapped to the state tree key at <code>currentTime</code>. Let&#39;s update the <code>Home</code> component to show the value in the <code>currentTime</code>:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> Home = <span class="hljs-function">(<span class="hljs-params">props</span>) =&gt;</span> {
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"home"</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Welcome home!<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Current time: {props.currentTime}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+  );
+}
+</code></pre>
+<p>Although this demo isn&#39;t very interesting, it shows we have our <code>Redux</code> app set up with our <code>data</code> committed to the global state and our view components mapping the data.</p>
+<div className="demo" id="demo1"></div>
+
+<p>Tomorrow we&#39;re going to start triggering updates into our global state through action creators as well as work through combining multiple redux modules together. </p>
+
+  </body>
+</html>

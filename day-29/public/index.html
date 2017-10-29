@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+    <title>React App</title>
+  </head>
+  <body>
+    <p>We&#39;ve deployed our application to the &quot;cloud&quot;, now we want to make sure everything runs as we expect it. We&#39;ve started a test suite, but now we want to make sure it passes completely before we deploy. </p>
+<p>We <em>could</em> set a step-by-step procedure for a developer to follow to make sure we run our tests before we deploy manually, but sometimes this can get in the way of deployment, especially under high-pressure deadlines in the middle of the night. There are better methods.</p>
+<h2 id="testing-then-deployment">Testing then deployment</h2>
+<p>The core idea is that we want to deploy our application only <em>after</em> all of our tests have run and passed (sometimes known as &quot;going green&quot;). There are many ways we can do this. Mentioned above, we can handle it through humans, but that can become tedious and we&#39;re pretty good at forgetting things... what was I saying again?</p>
+<p>Let&#39;s look at some better ways. One of the ways we can handle it is through a deployment script that only succeeds if all of our tests pass. This is the easiest, but needs to be replicated across a team of developers. </p>
+<p>Another method is to push our code to a continuous integration server whose only responsibility is to run our tests and deploy our application if and only if the tests pass. </p>
+<p>Just like hosting services, we have many options for running continuous integration servers. The following is a short list of some of the popular CI servers available:</p>
+<ul>
+<li><a href="https://travis-ci.org/">travis ci</a></li>
+<li><a href="https://circleci.com">circle ci</a></li>
+<li><a href="https://codeship.io">codeship</a></li>
+<li><a href="https://jenkins.io">jenkins</a></li>
+<li><a href="https://aws.amazon.com/ec2/">AWS EC2</a></li>
+</ul>
+<p>Let&#39;s look at a few ways of handling this process. </p>
+<h2 id="custom-build-script">Custom build script</h2>
+<p>Without involving any extra servers, we can write a script to execute our tests before we deploy. </p>
+<p>Let&#39;s create a script that actually does do the deployment process first. In our case, let&#39;s take the <code>surge.sh</code> example from yesterday. Let&#39;s add one more script we&#39;ll call <code>deploy.sh</code> in our <code>scripts/</code> directory:</p>
+<pre><code class="lang-bash">touch scripts/deploy.sh
+chmod u+x scripts/deploy.sh
+</code></pre>
+<p>In here, let&#39;s add the surge deploy script (changing the names to your domain name, of course):</p>
+<pre><code class="lang-bash"><span class="hljs-meta">#!/usr/local/env bash</span>
+surge -p build --domain hateful-impulse.surge.sh
+</code></pre>
+<p>Let&#39;s write the release script next. To execute it, let&#39;s add the script to the <code>package.json</code> <code>scripts</code> object:</p>
+<pre><code class="lang-javascript">{
+  <span class="hljs-comment">// ...</span>
+  <span class="hljs-string">"scripts"</span>: {
+    <span class="hljs-string">"start"</span>: <span class="hljs-string">"node ./scripts/start.js"</span>,
+    <span class="hljs-string">"build"</span>: <span class="hljs-string">"node ./scripts/build.js"</span>,
+    <span class="hljs-string">"release"</span>: <span class="hljs-string">"node ./scripts/release.js"</span>,
+    <span class="hljs-string">"test"</span>: <span class="hljs-string">"jest"</span>
+  },
+}
+</code></pre>
+<p>Now let&#39;s create the <code>scripts/release.js</code> file. From the root directory in our terminal, let&#39;s execute the following command:</p>
+<pre><code class="lang-bash">touch scripts/release.js
+</code></pre>
+<p>Inside this file, we&#39;ll want to run a few command-line scripts, first our <code>build</code> step, then we&#39;ll want to run our tests, and finally we&#39;ll run the deploy script, if everything else succeeds first. </p>
+<p>In a node file, we&#39;ll first set the <code>NODE_ENV</code> to be <code>test</code> for our build tooling. We&#39;ll also include a script to run a command from the command-line from within the node script and store <em>all</em> the output to an array.</p>
+<pre><code class="lang-javascript">process.env.NODE_ENV = <span class="hljs-string">'test'</span>;
+
+<span class="hljs-keyword">var</span> chalk = <span class="hljs-built_in">require</span>(<span class="hljs-string">'chalk'</span>);
+<span class="hljs-keyword">const</span> exec = <span class="hljs-built_in">require</span>(<span class="hljs-string">'child_process'</span>).exec;
+
+<span class="hljs-keyword">var</span> output = [];
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">runCmd</span>(<span class="hljs-params">cmd</span>) </span>{
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {
+    <span class="hljs-keyword">const</span> testProcess = exec(cmd, {<span class="hljs-attr">stdio</span>:[<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>]});
+
+    testProcess.stdout.on(<span class="hljs-string">'data'</span>, msg =&gt; output.push(msg));
+    testProcess.stderr.on(<span class="hljs-string">'data'</span>, msg =&gt; output.push(msg));
+    testProcess.on(<span class="hljs-string">'close'</span>, (code) =&gt; (code === <span class="hljs-number">0</span>) ? resolve() : reject())
+  });
+}
+</code></pre>
+<p>When called, the <code>runCmd()</code> function will return a promise that is resolved when the command exits successfully and will reject if there is an error. </p>
+<p>Our release script will need to be able to do the following tasks:</p>
+<ol>
+<li>build</li>
+<li>test</li>
+<li>deploy</li>
+<li>report any errors</li>
+</ol>
+<p>Mentally, we can think of this pipeline as:</p>
+<pre><code class="lang-javascript">build()
+  .then(runTests)
+  .then(deploy)
+  .catch(error)
+</code></pre>
+<p>Let&#39;s build these functions which will use our <code>runCmd</code> function we wrote earlier:</p>
+<pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">build</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-built_in">console</span>.log(chalk.cyan(<span class="hljs-string">'Building app'</span>));
+  <span class="hljs-keyword">return</span> runCmd(<span class="hljs-string">"npm run build"</span>);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">runTests</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-built_in">console</span>.log(chalk.cyan(<span class="hljs-string">'Running tests...'</span>));
+  <span class="hljs-keyword">return</span> runCmd(<span class="hljs-string">"npm test"</span>);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">deploy</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-built_in">console</span>.log(chalk.green(<span class="hljs-string">'Deploying...'</span>));
+  <span class="hljs-keyword">return</span> runCmd(<span class="hljs-string">`sh -c "<span class="hljs-subst">${__dirname}</span>/deploy.sh"`</span>);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">error</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-built_in">console</span>.log(chalk.red(<span class="hljs-string">'There was an error'</span>));
+  output.forEach(<span class="hljs-function"><span class="hljs-params">msg</span> =&gt;</span> process.stdout.write(msg));
+}
+</code></pre>
+<p>With our <code>scripts/release.js</code> file complete, let&#39;s execute our <code>npm run release</code> command to make sure it deploys:</p>
+<pre><code class="lang-bash">npm run release
+</code></pre>
+<p>With all our tests passing, our updated application will be deployed successfully!</p>
+<p><img class="wide" src="/assets/images/series/30-days-of-react/day-29/deploy-script.jpg" /></p>
+<p>If any of our tests fail, we&#39;ll get all the output of our command, including the failure errors. Let&#39;s update one of our tests to make them fail purposefully to test the script.</p>
+<p>I&#39;ll update the <code>src/components/Nav/__tests__/Navbar-test.js</code> file to change the first test to <b>fail</b>: </p>
+<pre><code class="lang-javascript"><span class="hljs-comment">// ...</span>
+it(<span class="hljs-string">'wraps content in a div with .navbar class'</span>, () =&gt; {
+  wrapper = shallow(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Navbar</span> /&gt;</span>);
+  expect(wrapper.find('.navbars').length).toEqual(1);
+});</span>
+</code></pre>
+<p>Let&#39;s rerun the <code>release</code> script and watch it fail and <em>not</em> run the deploy script:</p>
+<pre><code class="lang-bash">npm run release
+</code></pre>
+<p><img class="wide" src="/assets/images/series/30-days-of-react/day-29/deploy-fail.jpg" /></p>
+<p>As we see, we&#39;ll get the output of the failing test in our logs, so we can fix the bug and then rerelease our application again by running the <code>npm run release</code> script again.</p>
+<h2 id="travis-ci">Travis CI</h2>
+<p><a href="https://travis-ci.org/">Travis ci</a> is a hosted continuous integration environment and is pretty easy to set up. Since we&#39;ve pushed our container to github, let&#39;s continue down this track and set up travis with our github account. </p>
+<p>Head to <a href="https://travis-ci.org/">travis-ci.org</a> and sign up there. </p>
+<p><img class="wide" src="/assets/images/series/30-days-of-react/day-29/travis-setup.jpg" /></p>
+<p>Once you&#39;re signed up, click on the <code>+</code> button and find your repository:</p>
+<p><img class="wide" src="/assets/images/series/30-days-of-react/day-29/travis-select-repo.jpg" /></p>
+<p>From the project screen, click on the big &#39;activate repo&#39; button. </p>
+<p><img class="wide" src="/assets/images/series/30-days-of-react/day-29/travis-activate-repo.jpg" /></p>
+<p>Now we need to configure travis to do what we want, which is run our test scripts and then deploy our app. To configure travis, we&#39;ll need to create a <code>.travis.yml</code> file in the root of our app.</p>
+<pre><code class="lang-bash">touch .travis.yml
+</code></pre>
+<p>Let&#39;s add the following content to set the language to node with the node version of 5.4:</p>
+<pre><code class="lang-yaml"><span class="hljs-attr">language:</span> <span class="hljs-string">node_js</span>
+<span class="hljs-attr">node_js:</span>
+<span class="hljs-bullet">  -</span> <span class="hljs-string">"5.4"</span>
+</code></pre>
+<p>Now all we need to do is add this file <code>.travis.yml</code> to git and push the repo changes to github. </p>
+<pre><code class="lang-bash">git add .travis.yml
+git commit -am <span class="hljs-string">"Added travis-ci configuration file"</span>
+git push github master
+</code></pre>
+<p>That&#39;s it. Now travis will execute our tests based on the default script of <code>npm test</code>.</p>
+<p><img class="wide" src="/assets/images/series/30-days-of-react/day-29/travis-output.jpg" /></p>
+<p>Now, we&#39;ll want travis to actually deploy our app for us. Since we already have a <code>scripts/deploy.sh</code> script that will deploy our app, we can use this to deploy from travis. </p>
+<p>To tell travis to run our <code>deploy.sh</code> script after we deploy, we will need to add the <code>deploy</code> key to our <code>.travis.yml</code> file. Let&#39;s update the yml config to tell it to run our deploy script:</p>
+<pre><code class="lang-yaml"><span class="hljs-attr">language:</span> <span class="hljs-string">node_js</span>
+<span class="hljs-attr">node_js:</span>
+<span class="hljs-bullet">  -</span> <span class="hljs-string">"5.4"</span>
+<span class="hljs-attr">deploy:</span>
+<span class="hljs-attr">  provider:</span> <span class="hljs-string">script</span>
+<span class="hljs-attr">  script:</span> <span class="hljs-string">scripts/deploy.sh</span>
+<span class="hljs-attr">  on:</span>
+<span class="hljs-attr">    branch:</span> <span class="hljs-string">master</span>
+</code></pre>
+<p>The next time we push, travis will take over and push up to surge (or whereever the <code>scripts/deploy.sh</code> scripts will tell it to deploy).</p>
+<p>Particulars for authentication. To deploy to github pages, we&#39;ll need to add a token to the script. The gist at <a href="https://gist.github.com/domenic/ec8b0fc8ab45f39403dd">https://gist.github.com/domenic/ec8b0fc8ab45f39403dd</a> is a great resource to follow for deploying to github pages.</p>
+<h2 id="other-methods">Other methods</h2>
+<p>There are a lot of other options we have to run our tests before we deploy. This is just a getting started guide to get our application up. </p>
+<blockquote>
+<p>The Travis CI service is fantastic for open-source projects, however to use it in a private project, we&#39;ll need to create a billable account. </p>
+<p>An open-source CI service called <a href="https://jenkins.io">Jenkins</a> which can take a bit of work to setup (although it&#39;s getting a lot <a href="https://jenkins.io/projects/blueocean/">easier</a>). </p>
+</blockquote>
+<p>Congrats! We have our application up and running, complete with testing and all.</p>
+<p>See you tomorrow for our last day!</p>
+
+  </body>
+</html>

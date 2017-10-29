@@ -1,0 +1,10 @@
+@import "../components/Timeline/Timeline.css";
+
+.demo {
+  margin: 20px 0;
+}
+
+iframe {
+  border: 1px solid #999;
+  width: 100%;
+}

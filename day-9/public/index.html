@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+    <title>React App</title>
+  </head>
+  <body>
+    <p>Through this point, we haven&#39;t touched the styling of our components beyond attaching CSS class names to components. Today, we&#39;ll spend time working through a few ways how to style our React components to make them look great, yet still keeping our sanity.</p>
+<p>Let&#39;s look at a few of the different ways we can style a component.</p>
+<ol>
+<li>CasCasding Stylesheets (CSS)</li>
+<li>Inline styles</li>
+<li>Styling libraries</li>
+</ol>
+<h2 id="css">CSS</h2>
+<p>Using CSS to style our web applications is a practice we&#39;re already familiar with and is nothing new. If you&#39;ve ever written a web application before, you most likely have used/written CSS. In short, CSS is a way for us to add style to a DOM component outside of the actual markup itself.</p>
+<p>Using CSS alongside React isn&#39;t novel. We&#39;ll use CSS in React just like we use CSS when <em>not</em> using React. We&#39;ll assign ids/classes to components and use CSS selectors to target those elements on the page and let the browser handle the styling.</p>
+<p>As an example, let&#39;s style our <code>Header</code> component we&#39;ve been working with a bit.</p>
+<div id="demo1"></div>
+
+
+<p>Let&#39;s say we wanted to turn the header color orange using CSS. We can easily handle this by adding a stylesheet to our page and targeting the CSS class of <code>.header</code> in a CSS class. </p>
+<p>Recall, the render function of our <code>Header</code> component currently looks like this:</p>
+<pre><code class="lang-javascript"><span class="token keyword">class</span> <span class="token class-name">Header</span> <span class="token keyword">extends</span> <span class="token class-name">React<span class="token punctuation">.</span>Component</span> <span class="token punctuation">{</span>
+  <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// Classes to add to the &lt;input /> element</span>
+    <span class="token keyword">let</span> searchInputClasses <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"searchInput"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// Update the class array if the state is visible</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">.</span>searchVisible<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      searchInputClasses<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token string">"active"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>
+      <span class="token operator">&lt;</span>div className<span class="token operator">=</span><span class="token string">"header"</span><span class="token operator">></span>
+        <span class="token operator">&lt;</span>div className<span class="token operator">=</span><span class="token string">"fa fa-more"</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+
+        <span class="token operator">&lt;</span>span className<span class="token operator">=</span><span class="token string">"title"</span><span class="token operator">></span>
+          <span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span>title<span class="token punctuation">}</span>
+        <span class="token operator">&lt;</span><span class="token operator">/</span>span<span class="token operator">></span>
+
+        <span class="token operator">&lt;</span>input
+          type<span class="token operator">=</span><span class="token string">"text"</span>
+          className<span class="token operator">=</span><span class="token punctuation">{</span>searchInputClasses<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token string">' '</span><span class="token punctuation">)</span><span class="token punctuation">}</span>
+          placeholder<span class="token operator">=</span><span class="token string">"Search ..."</span> <span class="token operator">/</span><span class="token operator">></span>
+
+        <span class="token operator">&lt;</span>div className<span class="token operator">=</span><span class="token string">"fa fa-search searchIcon"</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+      <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+    <span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>We can target the <code>header</code> by defining the styles for a <code>.header</code> class in a regular css file. As per-usual, we&#39;ll need to make sure we use a <code>&lt;link /&gt;</code> tag to include the CSS class in our HTML page. Supposing we define our styles in a file called <code>styles.css</code> in the same directory as the <code>index.html</code> file, this <code>&lt;link /&gt;</code> tag will look like the following:</p>
+<pre><code class="lang-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>stylesheet<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>text/css<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>styles.css<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+</code></pre>
+<p>Let&#39;s fill in the styles for the <code>Header</code> class names:</p>
+<pre><code class="lang-html">.header {
+  background: rgba(251, 202, 43, 1);
+}
+.header, .fa, .title, .searchIcon {
+  color: #333333;
+}
+</code></pre>
+<div id="demo2"></div>
+
+<p>One of the most common complaints about CSS in the first place is the cascading feature itself. The way CSS works is that it <em>cascades</em> (hence the name) parent styles to it&#39;s children. This is often a cause for bugs as classes often have common names and it&#39;s easy to overwrite class styles for non-specific classes. </p>
+<p>Using our example, the class name of <code>.header</code> isn&#39;t very specific. Not only could the page itself have a header, but content boxes on the page might, articles, even ads we place on the page might have a class name of <code>.header</code>. </p>
+<blockquote>
+<p>One way we can avoid this problem is to use something like <a href="https://glenmaddern.com/articles/css-modules">css modules</a> to define custom, very unique CSS class names for us.
+There is nothing magical about CSS modules other than it forces our build-tool to define custom CSS class names for us so we can work with less unique names. 
+We&#39;ll look into using CSS modules a bit later in our workflow. </p>
+</blockquote>
+<p>React provides a not-so-new method for avoiding this problem entirely by allowing us to define styles inline along with our JSX.</p>
+<h2 id="inline-styles">Inline styles</h2>
+<p>Adding styles to our actual components not only allow us to define the styles inside our components, but allow us to dynamically define styles based upon different states of the app. </p>
+<p>React gives us a way to define styles using a JavaScript object rather than a separate CSS file. Let&#39;s take our <code>Header</code> component one more time and instead of using css classes to define the style, let&#39;s move it to inline styles.</p>
+<p>Defining styles inside a component is easy using the <code>style</code> prop. All DOM elements inside React accept a <code>style</code> property, which is expected to be an object with camel-cased keys defining a style name and values which map to their value. </p>
+<p>For example, to add a <code>color</code> style to a <code>&lt;div /&gt;</code> element in JSX, this might look like:</p>
+<pre><code class="lang-javascript"><span class="token keyword">const</span> style <span class="token operator">=</span> <span class="token punctuation">{</span> color<span class="token punctuation">:</span> <span class="token string">'blue'</span> <span class="token punctuation">}</span>
+<span class="token operator">&lt;</span>div style<span class="token operator">=</span><span class="token punctuation">{</span>style<span class="token punctuation">}</span><span class="token operator">></span>
+  This text will have the color blue
+<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+</code></pre>
+<div id="blueTextDemo"></div>
+
+<blockquote>
+<p>Notice that we defined the styles with two braces surrounding it. As we are passing a JavaScript object within a template tag, the inner brace is the JS object and the outer is the template tag.</p>
+<p>Another example to possibly make this clearer would be to pass a JavaScript object defined outside of the JSX, i.e.</p>
+<pre><code class="lang-javascript"><span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> divStyle <span class="token operator">=</span> <span class="token punctuation">{</span> color<span class="token punctuation">:</span> <span class="token string">'blue'</span> <span class="token punctuation">}</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token operator">&lt;</span>div style<span class="token operator">=</span><span class="token punctuation">{</span>divStyle<span class="token punctuation">}</span><span class="token operator">></span>
+    This text will have the color blue
+  <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</blockquote>
+<p>In any case, as these are JS-defined styles, so we can&#39;t use just any ole&#39; css style name (as <code>background-color</code> would be invalid in JavaScript). Instead, React requires us to camel-case the style name. </p>
+<blockquote>
+<p><a href="https://en.wikipedia.org/wiki/CamelCase">camelCase</a> is writing compound words using a capital letter for every word with a capital letter except for the first word, like <code>backgroundColor</code> and <code>linearGradient</code>.</p>
+</blockquote>
+<p>To update our header component to use these styles instead of depending on a CSS class definition, we can add the <code>className</code> prop along with a <code>style</code> prop:</p>
+<pre><code class="lang-javascript"><span class="token keyword">class</span> <span class="token class-name">Header</span> <span class="token keyword">extends</span> <span class="token class-name">React<span class="token punctuation">.</span>Component</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// ...</span>
+  <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// Classes to add to the &lt;input /> element</span>
+    <span class="token keyword">let</span> searchInputClasses <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"searchInput"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// Update the class array if the state is visible</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">.</span>searchVisible<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      searchInputClasses<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token string">"active"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">const</span> wrapperStyle <span class="token operator">=</span> <span class="token punctuation">{</span>
+      backgroundColor<span class="token punctuation">:</span> <span class="token string">'rgba(251, 202, 43, 1)'</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">const</span> titleStyle <span class="token operator">=</span> <span class="token punctuation">{</span>
+      color<span class="token punctuation">:</span> <span class="token string">'#111111'</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">const</span> menuColor <span class="token operator">=</span> <span class="token punctuation">{</span>
+      backgroundColor<span class="token punctuation">:</span> <span class="token string">'#111111'</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>
+      <span class="token operator">&lt;</span>div style<span class="token operator">=</span><span class="token punctuation">{</span>wrapperStyle<span class="token punctuation">}</span> className<span class="token operator">=</span><span class="token string">"header"</span><span class="token operator">></span>
+        <span class="token operator">&lt;</span>div className<span class="token operator">=</span><span class="token string">"menuIcon"</span><span class="token operator">></span>
+          <span class="token operator">&lt;</span>div className<span class="token operator">=</span><span class="token string">"dashTop"</span> style<span class="token operator">=</span><span class="token punctuation">{</span>menuColor<span class="token punctuation">}</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+          <span class="token operator">&lt;</span>div className<span class="token operator">=</span><span class="token string">"dashBottom"</span> style<span class="token operator">=</span><span class="token punctuation">{</span>menuColor<span class="token punctuation">}</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+          <span class="token operator">&lt;</span>div className<span class="token operator">=</span><span class="token string">"circle"</span> style<span class="token operator">=</span><span class="token punctuation">{</span>menuColor<span class="token punctuation">}</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+
+        <span class="token operator">&lt;</span>span style<span class="token operator">=</span><span class="token punctuation">{</span>titleStyle<span class="token punctuation">}</span> className<span class="token operator">=</span><span class="token string">"title"</span><span class="token operator">></span>
+          <span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span>title<span class="token punctuation">}</span>
+        <span class="token operator">&lt;</span><span class="token operator">/</span>span<span class="token operator">></span>
+
+        <span class="token operator">&lt;</span>input
+          type<span class="token operator">=</span><span class="token string">"text"</span>
+          className<span class="token operator">=</span><span class="token punctuation">{</span>searchInputClasses<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token string">' '</span><span class="token punctuation">)</span><span class="token punctuation">}</span>
+          placeholder<span class="token operator">=</span><span class="token string">"Search ..."</span> <span class="token operator">/</span><span class="token operator">></span>
+
+        <span class="token punctuation">{</span><span class="token comment" spellcheck="true">/* Adding an onClick handler to call the showSearch button */</span><span class="token punctuation">}</span>
+        <span class="token operator">&lt;</span>div
+          style<span class="token operator">=</span><span class="token punctuation">{</span>titleStyle<span class="token punctuation">}</span>
+          onClick<span class="token operator">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>showSearch<span class="token punctuation">.</span><span class="token function">bind</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">}</span>
+          className<span class="token operator">=</span><span class="token string">"fa fa-search searchIcon"</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+      <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+    <span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Our header will be orange again.</p>
+<div class="demo" id="demo3"></div>
+
+<h2 id="styling-libraries">Styling libraries</h2>
+<p>The React community is a pretty vibrant place (which is one of the reasons it is a fantastic library to work with). There are a lot of styling libraries we can use to help us build our styles, such as <a href="https://formidable.com/open-source/radium/">Radium</a> by Formidable labs. </p>
+<p>Most of these libraries are based upon workflows defined by React developers through working with React. </p>
+<p>Radium allows us to define common styles outside of the React component itself, it auto-vendor prefixes, supports media queries (like <code>:hover</code> and <code>:active</code>), simplifies inline styling, and kind of a lot more. </p>
+<p>We won&#39;t dive into Radium in this post as it&#39;s more outside the scope of this series, but knowing other libraries are good to be aware of, especially if you&#39;re looking to extend the definitions of your inline styles.</p>
+<p>Now that we know how to style our components, we can make some good looking ones without too much trouble. In the next section, we&#39;ll get right back to adding user interactivity to our components.</p>
+
+  </body>
+</html>

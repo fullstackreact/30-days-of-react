@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+    <title>React App</title>
+  </head>
+  <body>
+    <p>Phew! We made it to week two (relatively unscathed)! Through this point, we&#39;ve talked through most of the basic features of React (<code>props</code>, <code>state</code>, life-cycle hooks, JSX, etc.). In this section, we&#39;re going to look a bit at annotating our components.</p>
+<h2 id="proptypes">PropTypes</h2>
+<p>You may have noticed we use <code>props</code> quite a bit in our components. For the most part, we&#39;ll expect these to be a particular type or set of types (aka an <code>object</code> or a <code>string</code>). React provides a method for defining and validating these types that allow us to easily expose a component API. </p>
+<p>Not only is this a good practice for documentation purposes, it&#39;s great for building <a href="https://facebook.github.io/react/docs/reusable-components.html">reusable react components</a>.</p>
+<p>The <code>React.PropTypes</code> object exports a bunch of different types which we can use to define what type a component&#39;s prop should be. We can define these using the <code>propTypes</code> method in the ES6 class-style React prop:</p>
+<pre><code class="lang-javascript"><span class="token keyword">class</span> <span class="token class-name">Clock</span> <span class="token keyword">extends</span> <span class="token class-name">React<span class="token punctuation">.</span>Component</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// ...</span>
+<span class="token punctuation">}</span>
+
+Clock<span class="token punctuation">.</span>propTypes <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// key is the name of the prop and</span>
+  <span class="token comment" spellcheck="true">// value is the PropType</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>Using the <code>React.createClass()</code> form, we&#39;ll define a <code>key</code> called <code>propTypes</code>.
+For instance, we can rewrite the form of the <code>Clock</code> component as:</p>
+<pre><code class="lang-javascript"><span class="token keyword">const</span> Clock <span class="token operator">=</span> React<span class="token punctuation">.</span><span class="token function">createClass</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  proptypes<span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+</blockquote>
+<p>From within this <code>prop</code>, we can define an object which has the key of a prop as the name of the prop we are defining and a value defines the type (or types) it should be defined as. </p>
+<p>For instance, the <code>Header</code> component we built a few days ago accepts a a prop called <code>title</code> and we expect it to be a string. We can define it&#39;s type to be a string as such:</p>
+<pre><code class="lang-javascript"><span class="token keyword">class</span> <span class="token class-name">Header</span> <span class="token keyword">extends</span> <span class="token class-name">React<span class="token punctuation">.</span>Component</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// ...</span>
+<span class="token punctuation">}</span>
+
+Header<span class="token punctuation">.</span>propTypes <span class="token operator">=</span> <span class="token punctuation">{</span>
+  title<span class="token punctuation">:</span> React<span class="token punctuation">.</span>PropTypes<span class="token punctuation">.</span>string
+<span class="token punctuation">}</span>
+</code></pre>
+<p>React has a lot of types to choose from, exported on the <code>React.PropTypes</code> object and even allows for us to define a custom object type. Let&#39;s look at an overall list of available types:</p>
+<h3 id="basic-types">Basic types</h3>
+<p>React exposes a few basic types we can use out of the box.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"></th>
+<th style="text-align:center">type</th>
+<th style="text-align:right">example</th>
+<th>class</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:center">String</td>
+<td style="text-align:right">&#39;hello&#39;</td>
+<td><code>React.PropTypes.string</code></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:center">Number</td>
+<td style="text-align:right">10, 0.1</td>
+<td><code>React.PropTypes.number</code></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:center">Boolean</td>
+<td style="text-align:right">true / false</td>
+<td><code>React.PropTypes.bool</code></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:center">Function</td>
+<td style="text-align:right"><code>const say =&gt; (msg) =&gt; console.log(&quot;Hello world&quot;)</code></td>
+<td><code>React.PropTypes.func</code></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:center">Symbol</td>
+<td style="text-align:right">Symbol(&quot;msg&quot;)</td>
+<td><code>React.PropTypes.symbol</code></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:center">Object</td>
+<td style="text-align:right"><code>{name: &#39;Ari&#39;}</code></td>
+<td><code>React.PropTypes.object</code></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:center">Anything</td>
+<td style="text-align:right">&#39;whatever&#39;, 10, <code>{}</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>It&#39;s possible to tell React we want it to pass through <em>anything</em> that can be rendered by using <code>React.PropTypes.node</code>:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"></th>
+<th style="text-align:center">type</th>
+<th style="text-align:right">example</th>
+<th>class</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:center">A rendererable</td>
+<td style="text-align:right">10, &#39;hello&#39;</td>
+<td><code>React.PropTypes.node</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre><code class="lang-javascript">Clock<span class="token punctuation">.</span>propTypes <span class="token operator">=</span> <span class="token punctuation">{</span>
+  title<span class="token punctuation">:</span> React<span class="token punctuation">.</span>PropTypes<span class="token punctuation">.</span>string<span class="token punctuation">,</span>
+  count<span class="token punctuation">:</span> React<span class="token punctuation">.</span>PropTypes<span class="token punctuation">.</span>number<span class="token punctuation">,</span>
+  isOn<span class="token punctuation">:</span> React<span class="token punctuation">.</span>PropTypes<span class="token punctuation">.</span>bool<span class="token punctuation">,</span>
+  onDisplay<span class="token punctuation">:</span> React<span class="token punctuation">.</span>PropTypes<span class="token punctuation">.</span>func<span class="token punctuation">,</span>
+  symbol<span class="token punctuation">:</span> React<span class="token punctuation">.</span>PropTypes<span class="token punctuation">.</span>symbol<span class="token punctuation">,</span>
+  user<span class="token punctuation">:</span> React<span class="token punctuation">.</span>PropTypes<span class="token punctuation">.</span>object<span class="token punctuation">,</span>
+
+  name<span class="token punctuation">:</span> React<span class="token punctuation">.</span>PropTypes<span class="token punctuation">.</span>node
+<span class="token punctuation">}</span>
+</code></pre>
+<p>We&#39;ve already looked at how to communicate from a parent component to a child component using <code>props</code>. We can communicate from a child component to a parent component using a function. We&#39;ll use this pattern quite often when we want to manipulate a parent component from a child.</p>
+<h3 id="collection-types">Collection types</h3>
+<p>We can pass through iterable collections in our <code>props</code>. We&#39;ve already seen how we can do this when we passed through an array with our activities. To declare a component&#39;s proptype as an array, we can use the <code>React.PropTypes.array</code> annotation.</p>
+<p>We can also require that an array holds only objects of a certain type using <code>React.PropTypes.arrayOf([])</code>. </p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"></th>
+<th style="text-align:center">type</th>
+<th style="text-align:right">example</th>
+<th>class</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:center">Array</td>
+<td style="text-align:right">[]</td>
+<td><code>React.PropTypes.array</code></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:center">Array of numbers</td>
+<td style="text-align:right">[1, 2, 3]</td>
+<td><code>React.PropTypes.arrayOf([type])</code></td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:center">Enum</td>
+<td style="text-align:right">[&#39;Red&#39;, &#39;Blue&#39;]</td>
+<td><code>React.PropTypes.oneOf([arr])</code></td>
+</tr>
+</tbody>
+</table>
+<p>It&#39;s possible to describe an object that can be one of a few different types as well using <code>React.PropTypes.oneOfType([types])</code>.</p>
+<pre><code class="lang-javascript">Clock<span class="token punctuation">.</span>propTypes <span class="token operator">=</span> <span class="token punctuation">{</span>
+  counts<span class="token punctuation">:</span> React<span class="token punctuation">.</span>PropTypes<span class="token punctuation">.</span>array<span class="token punctuation">,</span>
+  users<span class="token punctuation">:</span> React<span class="token punctuation">.</span>PropTypes<span class="token punctuation">.</span><span class="token function">arrayOf</span><span class="token punctuation">(</span>React<span class="token punctuation">.</span>PropTypes<span class="token punctuation">.</span>object<span class="token punctuation">)</span><span class="token punctuation">,</span>
+  alarmColor<span class="token punctuation">:</span> React<span class="token punctuation">.</span>PropTypes<span class="token punctuation">.</span><span class="token function">oneOf</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'red'</span><span class="token punctuation">,</span> <span class="token string">'blue'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  description<span class="token punctuation">:</span> React<span class="token punctuation">.</span>PropTypes<span class="token punctuation">.</span><span class="token function">oneOfType</span><span class="token punctuation">(</span><span class="token punctuation">[</span>
+      React<span class="token punctuation">.</span>PropTypes<span class="token punctuation">.</span>string<span class="token punctuation">,</span>
+      React<span class="token punctuation">.</span>PropTypes<span class="token punctuation">.</span><span class="token function">instanceOf</span><span class="token punctuation">(</span>Title<span class="token punctuation">)</span>
+    <span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="object-types">Object types</h3>
+<p>It&#39;s possible to define types that need to be of a certain shape or instance of a certain class. </p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"></th>
+<th style="text-align:center">type</th>
+<th style="text-align:right">example</th>
+<th>class</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:center">Object</td>
+<td style="text-align:right"><code>{name: &#39;Ari&#39;}</code></td>
+<td><code>React.PropTypes.object</code></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:center">Number object</td>
+<td style="text-align:right"><code>{count: 42}</code></td>
+<td><code>React.PropTypes.objectOf()</code></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:center">Instance</td>
+<td style="text-align:right"><code>new Message()</code></td>
+<td><code>React.PropTypes.objectOf()</code></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:center">Object shape</td>
+<td style="text-align:right"><code>{name: &#39;Ari&#39;}</code></td>
+<td><code>React.PropTypes.shape()</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre><code class="lang-javascript">Clock<span class="token punctuation">.</span>propTypes <span class="token operator">=</span> <span class="token punctuation">{</span>
+  basicObject<span class="token punctuation">:</span> React<span class="token punctuation">.</span>PropTypes<span class="token punctuation">.</span>object<span class="token punctuation">,</span>
+
+  numbers<span class="token punctuation">:</span> React<span class="token punctuation">.</span>PropTypes
+    <span class="token punctuation">.</span><span class="token function">objectOf</span><span class="token punctuation">(</span>React<span class="token punctuation">.</span>PropTypes<span class="token punctuation">.</span>numbers<span class="token punctuation">)</span><span class="token punctuation">,</span>
+
+  messages<span class="token punctuation">:</span> React<span class="token punctuation">.</span>PropTypes
+    <span class="token punctuation">.</span><span class="token function">instanceOf</span><span class="token punctuation">(</span>Message<span class="token punctuation">)</span><span class="token punctuation">,</span>
+
+  contactList<span class="token punctuation">:</span> React<span class="token punctuation">.</span>PropTypes<span class="token punctuation">.</span><span class="token function">shape</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    name<span class="token punctuation">:</span> React<span class="token punctuation">.</span>PropTypes<span class="token punctuation">.</span>string<span class="token punctuation">,</span>
+    phone<span class="token punctuation">:</span> React<span class="token punctuation">.</span>PropTypes<span class="token punctuation">.</span>string<span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="react-types">React types</h3>
+<p>We can also pass through React elements from a parent to a child. This is incredibly useful for building templates and providing customization with the templates. </p>
+<table>
+<thead>
+<tr>
+<th>type</th>
+<th>example</th>
+<th>class</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Element</td>
+<td><code>&lt;Title /&gt;</code></td>
+<td><code>React.PropTypes.element</code></td>
+</tr>
+</tbody>
+</table>
+<pre><code class="lang-javascript">Clock<span class="token punctuation">.</span>propTypes <span class="token operator">=</span> <span class="token punctuation">{</span>
+  displayEle<span class="token punctuation">:</span> React<span class="token punctuation">.</span>PropTypes<span class="token punctuation">.</span>element
+<span class="token punctuation">}</span>
+</code></pre>
+<p>When we use <em>element</em>, React expects that we&#39;ll be able to accept a single child component. That is, we won&#39;t be able to pass multiple elements. </p>
+<pre><code class="lang-javascript"><span class="token comment" spellcheck="true">// Invalid for elements</span>
+<span class="token operator">&lt;</span>Clock displayElement<span class="token operator">=</span><span class="token punctuation">{</span>
+  <span class="token operator">&lt;</span>div<span class="token operator">></span>Name<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+  <span class="token operator">&lt;</span>div<span class="token operator">></span>Age<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+<span class="token punctuation">}</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>Clock<span class="token operator">></span>
+<span class="token comment" spellcheck="true">// Valid</span>
+<span class="token operator">&lt;</span>Clock displayElement<span class="token operator">=</span><span class="token punctuation">{</span>
+  <span class="token operator">&lt;</span>div<span class="token operator">></span>
+    <span class="token operator">&lt;</span>div<span class="token operator">></span>Name<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+    <span class="token operator">&lt;</span>div<span class="token operator">></span>Age<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+  <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+<span class="token punctuation">}</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>Clock<span class="token operator">></span>
+</code></pre>
+<h3 id="requiring-types">Requiring types</h3>
+<p>It&#39;s possible to require a prop to be passed to a component by appending <em>any</em> of the proptype descriptions with <code>.isRequired</code>:</p>
+<pre><code class="lang-javascript">Clock<span class="token punctuation">.</span>propTypes <span class="token operator">=</span> <span class="token punctuation">{</span>
+  title<span class="token punctuation">:</span> React<span class="token punctuation">.</span>PropTypes<span class="token punctuation">.</span>name<span class="token punctuation">.</span>isRequired<span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Setting a <code>prop</code> as required is very useful for times when the component is dependent upon a <code>prop</code> to be passed in by it&#39;s parent component and won&#39;t work without it. </p>
+<h3 id="custom-types">Custom types</h3>
+<p>Finally, it&#39;s also possible to pass a function to define custom types. We can do this for a single prop or to validate arrays. The one requirement for the custom function is that if the validation does <em>not</em> pass, it expects we&#39;ll return an <code>Error</code> object:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"></th>
+<th style="text-align:center">type</th>
+<th style="text-align:right">example</th>
+<th>class</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:center">Custom</td>
+<td style="text-align:right">&#39;something_crazy&#39;</td>
+<td><code>function(props, propName, componentName) {}</code></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:center">CustomArray</td>
+<td style="text-align:right">[&#39;something&#39;, &#39;crazy&#39;]</td>
+<td><code>React.PropTypes.arrayOf(function(props, propName, componentName) {})</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre><code class="lang-javascript">UserLink<span class="token punctuation">.</span>propTypes <span class="token operator">=</span> <span class="token punctuation">{</span>
+  userWithName<span class="token punctuation">:</span> <span class="token punctuation">(</span>props<span class="token punctuation">,</span> propName<span class="token punctuation">,</span> componentName<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>props<span class="token punctuation">[</span>propName<span class="token punctuation">]</span> <span class="token operator">||</span> <span class="token operator">!</span>props<span class="token punctuation">[</span>propName<span class="token punctuation">]</span><span class="token punctuation">.</span>name<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Error</span><span class="token punctuation">(</span>
+        <span class="token string">"Invalid "</span> <span class="token operator">+</span> propName <span class="token operator">+</span> <span class="token string">": No name property defined for component "</span> <span class="token operator">+</span> componentName
+      <span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="default-props">Default props</h2>
+<p>Sometimes we want to be able to set a default value for a prop. For instance, our <code>&lt;Header /&gt;</code> component, we built yesterday might not require a title to be passed. If it&#39;s not, we&#39;ll still want a title to be rendered, so we can define a common title instead by setting it&#39;s default prop value. </p>
+<p>To set a default prop value, we can use the <code>defaultProps</code> object key on the component.</p>
+<pre><code class="lang-javascript">Header<span class="token punctuation">.</span>defaultProps <span class="token operator">=</span> <span class="token punctuation">{</span>
+  title<span class="token punctuation">:</span> <span class="token string">'Github activity'</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>When using the <code>React.createClass()</code> form, we can define an object key called <code>getDefaultProps()</code> which is expected to return an object with the default values of props.</p>
+<pre><code class="lang-javascript">React<span class="token punctuation">.</span><span class="token function">createClass</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  getDefaultProps<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">(</span><span class="token punctuation">{</span>
+    name<span class="token punctuation">:</span> <span class="token string">'Github activity'</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+</blockquote>
+<p>Phew, today we went through a lot of documentation. It&#39;s <em>always</em> a good idea to build our resuable components using the <code>propTypes</code> and <code>defaultProps</code> attributes of components. Not only will it make it easier to communicate across developers, it&#39;ll be much easier when we return to our components after leaving them for a few days. Next, we&#39;ll get back to code and start integrating some style into our components.</p>
+
+  </body>
+</html>

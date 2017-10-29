@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+    <title>React App</title>
+  </head>
+  <body>
+    <p>With our app all tested up through this point, it&#39;s time to get it up and live for the world to see. The rest of this course will be dedicated to deploying our application into production.</p>
+<h2 id="production-deployment">Production deployment</h2>
+<p>When talking about deployment, we have a lot of different options: </p>
+<ul>
+<li>Hosting</li>
+<li>Deployment environment configuration</li>
+<li>Continuous Integration (CI, for short)</li>
+<li>Cost cycles, network bandwidth cost</li>
+<li>Bundle size</li>
+<li>and more</li>
+</ul>
+<p>We&#39;ll look at the different hosting options we have for deploying our react app tomorrow and look at a few different methods we have for deploying our application up. Today we&#39;re going to focus on getting our app ready for deployment. </p>
+<h2 id="ejection-from-create-react-app-">Ejection (from <code>create-react-app</code>)</h2>
+<p>First things first... we&#39;re going to need to handle some customization in our web application, so we&#39;ll need to run the <code>npm run eject</code> command in the root of our directory. This is a permanent action, which just means we&#39;ll be responsible for handling customizations to our app structure for now on (without the help of our handy <code>create-react-app</code>).</p>
+<blockquote>
+<p>This is where I <em>always</em> say make a backup copy of your application. We cannot go back from <code>ejecting</code>, but we can revert to old code. </p>
+</blockquote>
+<p>We can <em>eject</em> from the <code>create-react-app</code> structure by running the eject command provided by the generator:</p>
+<pre><code class="lang-bash">npm run eject
+</code></pre>
+<p>After <em>ejecting</em> from the <code>create-react-app</code> structure, we&#39;ll see we get a lot of new files in our application root in the <code>config/</code> and <code>scripts/</code> directories. The <code>npm run eject</code> command created all of the files it uses internally and wrote them all out for us in our application. </p>
+<p>The key method of the <code>create-react-app</code> generator is called <a href="https://webpack.github.io">webpack</a>, which is a module bundler/builder.</p>
+<h2 id="webpack-basics">Webpack basics</h2>
+<p>Webpack is a module bundler with a ginormous community of users, tons of plugins, is under active development, has a clever plugin system, is incredibly fast, supports hot-code reloading, and much much more.</p>
+<p>Although we didn&#39;t really call it out before, we&#39;ve been using webpack this entire time (under the guise of <code>npm start</code>). Without webpack, we wouldn&#39;t have have been able to just write <code>import</code> and expect our code to load. It works like that because webpack &quot;sees&quot; the <code>import</code> keyword and knows we need to have the code at the path accessible when the app is running.</p>
+<p>Webpack takes care of hot-reloading for us, nearly automatically, can load and pack many types of files into bundles, and it can split code in a logical manner so as to support lazy-loading and shrink the initial download size for the user. </p>
+<p>This is meaningful for us as our apps grow larger and more complex, it&#39;s important to know how to manipulate our build tools.</p>
+<p>For example, when we want to deploy to different environments... which we&#39;ll get to shortly. First, a tiny introduction to webpack, what it is and how it works.</p>
+<h3 id="what-it-does-with-bundle-js-">What it does with <code>bundle.js</code></h3>
+<p>Looking into the generated files when we ran <code>npm start</code> before we ejected the app, we can see that it serves the browser two or more files. The first is the <code>index.html</code> and the <code>bundle.js</code>. The webpack server takes care of injecting the <code>bundle.js</code> into the <code>index.html</code>, even if we don&#39;t load our app in the <code>index.html</code> file.</p>
+<p>The <code>bundle.js</code> file is a giant file that contains <em>all</em> the JavaScript code our app needs to run, including dependencies and our own files alike. Webpack has it&#39;s own method of packing files together, so it&#39;ll look kinda funny when looking at the raw source. </p>
+<p>Webpack has performed some transformation on all the included JavaScript. Notably, it used Babel to transpile our ES6 code to an ES5-compatible format.</p>
+<p>If you look at the comment header for <code>app.js</code>, it has a number, <code>254</code>:</p>
+<pre><code class="lang-js"><span class="hljs-comment">/* 254 */</span>
+<span class="hljs-comment">/*!********************!*\
+  !*** ./src/app.js ***!
+  \********************/</span>
+</code></pre>
+<p>The module itself is encapsulated inside of a function that looks like this:</p>
+<pre><code class="lang-js"><span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">module, exports, __webpack_require__</span>) </span>{
+  <span class="hljs-comment">// The chaotic `app.js` code here</span>
+}
+</code></pre>
+<p>Each module of our web app is encapsulated inside of a function with this signature. Webpack has given each of our app&#39;s modules this function container as well as a module ID (in the case of <code>app.js</code>, 254).</p>
+<p>But &quot;module&quot; here is not limited to ES6 modules.</p>
+<p>Remember how we &quot;imported&quot; the <code>makeRoutes()</code> function in <code>app.js</code>, like this:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">import</span> makeRoutes <span class="hljs-keyword">from</span> <span class="hljs-string">'./routes'</span>
+</code></pre>
+<p>Here&#39;s what the variable declaration of <code>makeRoutes</code> looks like inside the chaos of the <code>app.js</code> Webpack module:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> _logo = __webpack_require__(<span class="hljs-comment">/*! ./src/routes.js */</span> <span class="hljs-number">255</span>);
+</code></pre>
+<p>This looks quite strange, mostly due to the in-line comment that Webpack provides for debugging purposes. Removing that comment:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> _logo = __webpack_require__(<span class="hljs-number">255</span>);
+</code></pre>
+<p>Instead of an <code>import</code> statement, we have plain old ES5 code.</p>
+<p>Now, search for <code>./src/routes.js</code> in this file.</p>
+<pre><code class="lang-js"><span class="hljs-comment">/* 255 */</span>
+<span class="hljs-comment">/*!**********************!*\
+  !*** ./src/routes.js ***!
+  \**********************/</span>
+</code></pre>
+<p>Note that its module ID is <code>255</code>, the same integer passed to <code>__webpack_require__</code> above.</p>
+<p>Webpack treats <em>everything</em> as a module, including image assets like <code>logo.svg</code>. We can get an idea of what&#39;s going on by picking out a path in the mess of the <code>logo.svg</code> module. Your path might be different, but it will look like this:</p>
+<pre><code><span class="hljs-keyword">static</span><span class="hljs-regexp">/media/</span>logo.<span class="hljs-number">5</span>d5d9eef.svg
+</code></pre><p>If you open a new browser tab and plug in this address (your address will be different... matching the name of the file webpack generated for you):</p>
+<pre><code>http:<span class="hljs-regexp">//</span>localhost:<span class="hljs-number">3000</span><span class="hljs-regexp">/static/m</span>edia<span class="hljs-regexp">/logo.5d5d9eef.svg</span>
+</code></pre><p>You should get the React logo:</p>
+<p>So Webpack created a Webpack module for <code>logo.svg</code>, one that refers to the path to the SVG on the Webpack development server. Because of this modular paradigm, it was able to intelligently compile a statement like this:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">import</span> makeRoutes <span class="hljs-keyword">from</span> <span class="hljs-string">'./routes'</span>
+</code></pre>
+<p>Into this ES5 statement:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> _makeRoutes = __webpack_require__(<span class="hljs-number">255</span>);
+</code></pre>
+<p>What about our CSS assets? Yep, <em>everything</em> is a module in Webpack. Search for the string <code>./src/app.css</code>:</p>
+<p>Webpack&#39;s <code>index.html</code> didn&#39;t include any references to CSS. That&#39;s because Webpack is including our CSS here via <code>bundle.js</code>. When our app loads, this cryptic Webpack module function dumps the contents of <code>app.css</code> into <code>style</code> tags on the page.</p>
+<p>So we know <em>what</em> is happening: Webpack has rolled up every conceivable &quot;module&quot; for our app into <code>bundle.js</code>. You might be asking: Why?</p>
+<p>The first motivation is universal to JavaScript bundlers. Webpack has converted all our ES6 modules into its own bespoke ES5-compatible module syntax. As we briefly touched on, it&#39;s wrapped all of our JavaScript modules in special functions. It provides a module ID system to enable one module to reference another.</p>
+<p>Webpack, like other bundlers, consolidated all our JavaScript modules into a single file. It <em>could</em> keep JavaScript modules in separate files, but this requires some more configuration than <code>create-react-app</code> provides out of the box.</p>
+<p>Webpack takes this module paradigm further than other bundlers, however. As we saw, it applies the same modular treatment to image assets, CSS, and npm packages (like React and ReactDOM). This modular paradigm unleashes a lot of power. We touch on aspects of that power throughout the rest of this chapter.</p>
+<blockquote>
+<h2 id="complex-right-">Complex, right?</h2>
+<p>It&#39;s okay if you don&#39;t understand that out of the box. Building and maintaining webpack is a complex project with lots of moving parts and it often takes even the most experienced developers a while to &quot;get.&quot;</p>
+<p>We&#39;ll walk through the different parts of our webpack configuration that we&#39;ll be working with. If it feels overwhelming, just stick with us on the basics here and the rest will follow.</p>
+</blockquote>
+<p>With our newfound knowledge of the inner workings of Webpack, let&#39;s turn our attention back to our app. We&#39;ll make some modifications to our webpack build tool to support multiple environment configurations.</p>
+<h2 id="environment-configuration">Environment configuration</h2>
+<p>When we&#39;re ready to deploy a new application, we have to think about a few things that we wouldn&#39;t have to focus on when developing our application. </p>
+<p>For instance, let&#39;s say we are requesting data from an API server... when developing this application, it&#39;s likely that we are going to be running a development instance of the API server on our local machine (which would be accessible through <code>localhost</code>). </p>
+<p>When we deploy our application, we&#39;ll want to be requesting data from an off-site host, most likely not in the same location from where the code is being sent, so <code>localhost</code> just won&#39;t do. </p>
+<p>One way we can handle our configuration management is by using <code>.env</code> files. These <code>.env</code> files will contain different variables for our different environments, yet still provide a way for us to handle configuration in a sane way.</p>
+<p>Usually, we&#39;ll keep one <code>.env</code> file in the root to contain a <em>global</em> config that can be overridden by configuration files on a per-environment basis. </p>
+<p>Let&#39;s install an <code>npm</code> package to help us with this configuration setup called <code>dotenv</code>:</p>
+<pre><code class="lang-bash">npm install --save-dev dotenv
+</code></pre>
+<p>The <a href="https://github.com/motdotla/dotenv">dotenv</a> library helps us load environment variables into the <code>ENV</code> of our app in our environments. </p>
+<blockquote>
+<p>It&#39;s usually a good idea to add <code>.env</code> to our <code>.gitignore</code> file, so we don&#39;t check in these settings.</p>
+<p>Conventionally, it&#39;s a good idea to create an example version of the <code>.env</code> file and check that into the repository. For instance, for our application we can create a copy of the <code>.env</code> file called <code>.env.example</code> with the required variables. </p>
+<p>Later, another developer (or us, months from now) can use the <code>.env.example</code> file as a template for what the <code>.env</code> file should look like.</p>
+</blockquote>
+<p>These <code>.env</code> files can include variables as though they are unix-style variables. Let&#39;s create our global one with the <code>APP_NAME</code> set to 30days:</p>
+<pre><code class="lang-bash">touch .env
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"APP_NAME=30days"</span> &gt; .env
+</code></pre>
+<p>Let&#39;s navigate to the exploded <code>config/</code> directory where we&#39;ll see all of our build tool written out for us. We won&#39;t look at all of these files, but to get an understanding of <em>what</em> are doing, we&#39;ll start looking in <code>config/webpack.config.dev.js</code>.</p>
+<p>This file shows all of the webpack configuration used to build our app. It includes loaders, plugins, entry points, etc. For our current task, the line to look for is in the <code>plugins</code> list where we define the <code>DefinePlugin()</code>:</p>
+<pre><code class="lang-javascript"><span class="hljs-built_in">module</span>.exports = {
+  <span class="hljs-comment">// ...</span>
+  plugins: [
+    <span class="hljs-comment">// ...</span>
+    <span class="hljs-comment">// Makes some environment variables available to </span>
+    <span class="hljs-comment">// the JS code, for example:</span>
+    <span class="hljs-comment">// if (process.env.NODE_ENV === 'development') {</span>
+    <span class="hljs-comment">//  ... </span>
+    <span class="hljs-comment">// }. See `env.js` </span>
+    <span class="hljs-keyword">new</span> webpack.DefinePlugin(env),
+    <span class="hljs-comment">// ...</span>
+  ]
+}
+</code></pre>
+<p>The <code>webpack.DefinePlugin</code> plugin takes an object with <code>keys</code> and <code>values</code> and finds all the places in our code where we use the key and it replaces it with the value. </p>
+<p>For instance, if the <code>env</code> object there looks like:</p>
+<pre><code class="lang-javascript">{
+  <span class="hljs-string">'__NODE_ENV__'</span>: <span class="hljs-string">'development'</span>
+}
+</code></pre>
+<p>We can use the variable <code>__NODE_ENV__</code> in our source and it will be replaced with &#39;development&#39;, i.e.:</p>
+<pre><code class="lang-javascript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SomeComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  render() {
+    <span class="hljs-keyword">return</span> (
+      <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>Hello from {__NODE_ENV__}<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+    )
+  }
+}
+</code></pre>
+<p>The result of the <code>render()</code> function would say &quot;Hello from development&quot;.</p>
+<p>To add our own variables to our app, we&#39;re going to use this <code>env</code> object and add our own definitions to it. Scrolling back up to the top of the file, we&#39;ll see that it&#39;s currently created and exported from the <code>config/env.js</code> file. </p>
+<p>Looking at the <code>config/env.js</code> file, we can see that it takes all the variables in our environment and adds the <code>NODE_ENV</code> to the environment as well as any variables prefixed by <code>REACT_APP_</code>.</p>
+<pre><code class="lang-javascript"><span class="hljs-comment">// ...</span>
+<span class="hljs-built_in">module</span>.exports = <span class="hljs-built_in">Object</span>
+  .keys(process.env)
+  .filter(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> REACT_APP.test(key))
+  .reduce(<span class="hljs-function">(<span class="hljs-params">env, key</span>) =&gt;</span> {
+    env[<span class="hljs-string">'process.env.'</span> + key] = <span class="hljs-built_in">JSON</span>.stringify(process.env[key]);
+    <span class="hljs-keyword">return</span> env;
+  }, {
+    <span class="hljs-string">'process.env.NODE_ENV'</span>: NODE_ENV
+  });
+</code></pre>
+<p>We can skip all the complex part of that operation as we&#39;ll only need to modify the second argument to the reduce function, in other words, we&#39;ll update the object:</p>
+<pre><code class="lang-javascript">{
+  <span class="hljs-string">'process.env.NODE_ENV'</span>: NODE_ENV
+}
+</code></pre>
+<blockquote>
+<p>This object is the <em>initial</em> object of the reduce function. The <code>reduce</code> function merges all of the variables prefixed by <code>REACT_APP_</code> <em>into</em> this object, so we&#39;ll always have the <code>process.env.NODE_ENV</code> replaced in our source.</p>
+</blockquote>
+<p>Essentially what we&#39;ll do is:</p>
+<ol>
+<li>Load our default <code>.env</code> file</li>
+<li>Load any environment <code>.env</code> file</li>
+<li>Merge these two variables together as well as any default variables (such as the <code>NODE_ENV</code>)</li>
+<li>We&#39;ll create a new object with all of our environment variables and sanitize each value.</li>
+<li>Update the initial object for the existing environment creator.</li>
+</ol>
+<p>Let&#39;s get busy. In order to load the <code>.env</code> file, we&#39;ll need to import the <code>dotenv</code> package. We&#39;ll also import the <code>path</code> library from the standard node library and set up a few variables for paths.</p>
+<p>Let&#39;s update the <code>config/env.js</code> file</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> REACT_APP = <span class="hljs-regexp">/^REACT_APP_/i</span>;
+<span class="hljs-keyword">var</span> NODE_ENV = process.env.NODE_ENV || <span class="hljs-string">'development'</span>;
+
+<span class="hljs-keyword">const</span> path = <span class="hljs-built_in">require</span>(<span class="hljs-string">'path'</span>),
+      resolve = path.resolve,
+      join = path.join;
+
+<span class="hljs-keyword">const</span> currentDir = resolve(__dirname);
+<span class="hljs-keyword">const</span> rootDir = join(currentDir, <span class="hljs-string">'..'</span>);
+
+<span class="hljs-keyword">const</span> dotenv = <span class="hljs-built_in">require</span>(<span class="hljs-string">'dotenv'</span>);
+</code></pre>
+<p>To load the global environment, we&#39;ll use the <code>config()</code> function exposed by the <code>dotenv</code> library and pass it the path of the <code>.env</code> file loaded in the root directory. We&#39;ll also use the same function to look for a file in the <code>config/</code> directory with the name of <code>NODE_ENV.config.env</code>. Additionally, we don&#39;t want either one of these methods to error out, so we&#39;ll add the additional option of <code>silent: true</code> so that if the file is not found, no exception will be thrown. </p>
+<pre><code class="lang-javascript"><span class="hljs-comment">// 1. Step one (loading the default .env file)</span>
+<span class="hljs-keyword">const</span> globalDotEnv = dotenv.config({
+  <span class="hljs-attr">path</span>: join(rootDir, <span class="hljs-string">'.env'</span>),
+  <span class="hljs-attr">silent</span>: <span class="hljs-literal">true</span>
+});
+<span class="hljs-comment">// 2. Load the environment config</span>
+<span class="hljs-keyword">const</span> envDotEnv = dotenv.config({
+  <span class="hljs-attr">path</span>: join(currentDir, NODE_ENV + <span class="hljs-string">`.config.env`</span>),
+  <span class="hljs-attr">silent</span>: <span class="hljs-literal">true</span>
+});
+</code></pre>
+<p>Next, let&#39;s concatenate all these variables together as well as include our <code>NODE_ENV</code> option in this object. The <code>Object.assign()</code> method creates a <em>new</em> object and merges each object from right to left. This way, the environment config variable</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> allVars = <span class="hljs-built_in">Object</span>.assign({}, {
+  <span class="hljs-string">'NODE_ENV'</span>: NODE_ENV
+}, globalDotEnv, envDotEnv);
+</code></pre>
+<p>With our current setup, the <code>allVars</code> variable will look like:</p>
+<pre><code class="lang-javascript">{
+  <span class="hljs-string">'NODE_ENV'</span>: <span class="hljs-string">'development'</span>,
+  <span class="hljs-string">'APP_NAME'</span>: <span class="hljs-string">'30days'</span>
+}
+</code></pre>
+<p>Finally, let&#39;s create an object that puts these variables on <code>process.env</code> and ensures they are valid strings (using <code>JSON.stringify</code>).</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> initialVariableObject =
+  <span class="hljs-built_in">Object</span>.keys(allVars)
+  .reduce(<span class="hljs-function">(<span class="hljs-params">memo, key</span>) =&gt;</span> {
+    memo[<span class="hljs-string">'process.env.'</span> + key.toUpperCase()] = 
+      <span class="hljs-built_in">JSON</span>.stringify(allVars[key]);
+    <span class="hljs-keyword">return</span> memo;
+  }, {});
+</code></pre>
+<p>With our current setup (with the <code>.env</code> file in the root), this creates the <code>initialVariableObject</code> to be the following object:</p>
+<pre><code class="lang-javascript">{
+  <span class="hljs-string">'process.env.NODE_ENV'</span>: <span class="hljs-string">'"development"'</span>,
+  <span class="hljs-string">'process.env.APP_NAME'</span>: <span class="hljs-string">'"30days"'</span>
+}
+</code></pre>
+<p>Now we can use this <code>initialVariableObject</code> as the second argument for the original <code>module.exports</code> like. Let&#39;s update it to use this object:</p>
+<pre><code class="lang-javascript"><span class="hljs-built_in">module</span>.exports = <span class="hljs-built_in">Object</span>
+  .keys(process.env)
+  .filter(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> REACT_APP.test(key))
+  .reduce(<span class="hljs-function">(<span class="hljs-params">env, key</span>) =&gt;</span> {
+    env[<span class="hljs-string">'process.env.'</span> + key] = <span class="hljs-built_in">JSON</span>.stringify(process.env[key]);
+    <span class="hljs-keyword">return</span> env;
+  }, initialVariableObject);
+</code></pre>
+<p>Now, anywhere in our code we can use the variables we set in our <code>.env</code> files. </p>
+<p>Since we are making a request to an off-site server in our app, let&#39;s use our new configuration options to update this host.</p>
+<p>Let&#39;s say by default we want the TIME_SERVER to be set to <code>http://localhost:3001</code>, so that if we don&#39;t set the <code>TIME_SERVER</code> in an environment configuration, it will default to localhost. We can do this by adding the <code>TIME_SERVER</code> variable to the global <code>.env</code> file.</p>
+<p>Let&#39;s update the <code>.env</code> file so that it includes this time server:</p>
+<pre><code class="lang-bash">APP_NAME=30days
+TIME_SERVER=<span class="hljs-string">'http://localhost:3001'</span>
+</code></pre>
+<p>Now, we&#39;ve been developing in &quot;development&quot; with the server hosted on heroku. We can set our <code>config/development.config.env</code> file to set the <code>TIME_SERVER</code> variable, which will override the global one:</p>
+<pre><code class="lang-bash">TIME_SERVER=<span class="hljs-string">'https://fullstacktime.herokuapp.com'</span>
+</code></pre>
+<p>Now, when we run <code>npm start</code>, any occurrences of <code>process.env.TIME_SERVER</code> will be replaced by which ever value takes precedence. </p>
+<p>Let&#39;s update our <code>src/redux/modules/currentTime.js</code> module to use the new server, rather than the hardcoded one we used previously.</p>
+<pre><code class="lang-javascript"><span class="hljs-comment">// ...</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> reducer = <span class="hljs-function">(<span class="hljs-params">state = initialState, action</span>) =&gt;</span> {
+  <span class="hljs-comment">// ...</span>
+}
+
+<span class="hljs-keyword">const</span> host = process.env.TIME_SERVER;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> actions = {
+  <span class="hljs-attr">updateTime</span>: <span class="hljs-function">(<span class="hljs-params">{timezone = <span class="hljs-string">'pst'</span>, str=<span class="hljs-string">'now'</span>}</span>) =&gt;</span> ({
+    <span class="hljs-attr">type</span>: types.FETCH_NEW_TIME,
+    <span class="hljs-attr">meta</span>: {
+      <span class="hljs-attr">type</span>: <span class="hljs-string">'api'</span>,
+      <span class="hljs-attr">url</span>: host + <span class="hljs-string">'/'</span> + timezone + <span class="hljs-string">'/'</span> + str + <span class="hljs-string">'.json'</span>,
+      <span class="hljs-attr">method</span>: <span class="hljs-string">'GET'</span>
+    }
+  })
+}
+</code></pre>
+<p>Now, for our production deployment, we&#39;ll use the heroku app, so let&#39;s create a copy of the <code>development.config.env</code> file as <code>production.config.env</code> in the <code>config/</code> directory:</p>
+<pre><code class="lang-bash">cp config/development.config.env config/production.config.env
+</code></pre>
+<h2 id="custom-middleware-per-configuration-environment">Custom middleware per-configuration environment</h2>
+<p>We used our custom logging redux middleware in our application. This is fantastic for working on our site in development, but we don&#39;t really want it to be active while in a production environment. </p>
+<p>Let&#39;s update our middleware configuration to only use the logging middleware when we are in development, rather than in all environments. In our project&#39;s <code>src/redux/configureStore.js</code> file, we loaded our middleware by a simple array:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">let</span> middleware = [
+  loggingMiddleware,
+  apiMiddleware
+];
+<span class="hljs-keyword">const</span> store = createStore(reducer, applyMiddleware(...middleware));
+</code></pre>
+<p>Now that we have the <code>process.env.NODE_ENV</code> available to us in our files, we can update the <code>middleware</code> array depending upon the environment we&#39;re running in. Let&#39;s update it to only add the logging if we are in the development environment:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">let</span> middleware = [apiMiddleware];
+<span class="hljs-keyword">if</span> (<span class="hljs-string">"development"</span> === process.env.NODE_ENV) {
+  middleware.unshift(loggingMiddleware);
+}
+
+<span class="hljs-keyword">const</span> store = createStore(reducer, applyMiddleware(...middleware));
+</code></pre>
+<p>Now when we run our application in development, we&#39;ll have the <code>loggingMiddleware</code> set, while in any other environment we&#39;ve disabled it.</p>
+<p>Today was a long one, but tomorrow is an exciting day as we&#39;ll get the app up and running on a remote server.</p>
+<p>Great work today and see you tomorrow!</p>
+
+  </body>
+</html>

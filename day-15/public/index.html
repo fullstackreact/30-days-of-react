@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+    <title>React App</title>
+  </head>
+  <body>
+    <p><a href="/articles/30-days-of-react-day-14/">Yesterday</a> we installed the <code>fetch</code> library into our <code>create-react-app</code> project we started on <a href="/articles/30-days-of-react-day-12/">day 12</a>. Today we&#39;ll pick up from yesterday discussing the concept and the <em>art</em> of <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promises</a>.</p>
+<h2 id="what-is-a-promise">What is a promise</h2>
+<p>As defined by the Mozilla, a <code>Promise</code> object is used for handling asynchronous computations which has some important guarantees that are difficult to handle with the callback method (the more old-school method of handling asynchronous code). </p>
+<p>A <code>Promise</code> object is simply a wrapper around a value that may or may not be known when the object is instantiated and provides a method for handling the value <em>after</em> it is known (also known as <code>resolved</code>) or is unavailable for a failure reason (we&#39;ll refer to this as <code>rejected</code>). </p>
+<p>Using a <code>Promise</code> object gives us the opportunity to associate functionality for an asynchronous operation&#39;s eventual success or failure (for whatever reason). It also allows us to treat these complex scenarios by using synchronous-like code.</p>
+<p>For instance, consider the following synchronous code where we print out the current time in the JavaScript console:</p>
+<pre><code class="lang-javascript"><span class="token keyword">var</span> currentTime <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'The current time is: '</span> <span class="token operator">+</span> currentTime<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>This is pretty straight-forward and works as the <code>new Date()</code> object represents the time the browser knows about. Now consider that we&#39;re using a different clock on some other remote machine. For instance, if we&#39;re making a Happy New Years clock, it would be great to be able to synchronize the user&#39;s browser with everyone elses using a single time value for everyone so no-one misses the ball dropping ceremony.</p>
+<p>Suppose we have a method that handles getting the current time for the clock called <code>getCurrentTime()</code> that fetches the current time from a remote server. We&#39;ll represent this now with a <code>setTimeout()</code> that returns the time (like it&#39;s making a request to a slow API):</p>
+<pre><code class="lang-javascript"><span class="token keyword">function</span> <span class="token function">getCurrentTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// Get the current 'global' time from an API</span>
+  <span class="token keyword">return</span> <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">2000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">var</span> currentTime <span class="token operator">=</span> <span class="token function">getCurrentTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'The current time is: '</span> <span class="token operator">+</span> currentTime<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Our <code>console.log()</code> log value will return the timeout handler id, which is definitely <em>not</em> the current time. Traditionally, we can update the code using a callback to get called when the time is available:</p>
+<pre><code class="lang-javascript"><span class="token keyword">function</span> <span class="token function">getCurrentTime</span><span class="token punctuation">(</span>callback<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// Get the current 'global' time from an API</span>
+  <span class="token keyword">return</span> <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> currentTime <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">callback</span><span class="token punctuation">(</span>currentTime<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">2000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token function">getCurrentTime</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>currentTime<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'The current time is: '</span> <span class="token operator">+</span> currentTime<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>What if there is an error with the rest? How do we catch the error and define a retry or error state?</p>
+<pre><code class="lang-javascript"><span class="token keyword">function</span> <span class="token function">getCurrentTime</span><span class="token punctuation">(</span>onSuccess<span class="token punctuation">,</span> onFail<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// Get the current 'global' time from an API</span>
+  <span class="token keyword">return</span> <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// randomly decide if the date is retrieved or not</span>
+    <span class="token keyword">var</span> didSucceed <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">random</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">>=</span> <span class="token number">0.5</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>didSucceed<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">var</span> currentTime <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token function">onSuccess</span><span class="token punctuation">(</span>currentTime<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      <span class="token function">onFail</span><span class="token punctuation">(</span><span class="token string">'Unknown error'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">2000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token function">getCurrentTime</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>currentTime<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'The current time is: '</span> <span class="token operator">+</span> currentTime<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'There was an error fetching the time'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Now, what if we want to make a request based upon the first request&#39;s value? As a short example, let&#39;s reuse the <code>getCurrentTime()</code> function inside again (as though it were a second method, but allows us to avoid adding another complex-looking function):</p>
+<pre><code class="lang-javascript"><span class="token keyword">function</span> <span class="token function">getCurrentTime</span><span class="token punctuation">(</span>onSuccess<span class="token punctuation">,</span> onFail<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// Get the current 'global' time from an API</span>
+  <span class="token keyword">return</span> <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// randomly decide if the date is retrieved or not</span>
+    <span class="token keyword">var</span> didSucceed <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">random</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">>=</span> <span class="token number">0.5</span><span class="token punctuation">;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>didSucceed<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>didSucceed<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">var</span> currentTime <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token function">onSuccess</span><span class="token punctuation">(</span>currentTime<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      <span class="token function">onFail</span><span class="token punctuation">(</span><span class="token string">'Unknown error'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">2000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token function">getCurrentTime</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>currentTime<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token function">getCurrentTime</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>newCurrentTime<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'The real current time is: '</span> <span class="token operator">+</span> currentTime<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span>nestedError<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'There was an error fetching the second time'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'There was an error fetching the time'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Dealing with asynchronousity in this way can get complex quickly. In addition, we could be fetching values from a previous function call, what if we only want to get one... there are a lot of tricky cases to deal with when dealing with values that are not yet available when our app starts.</p>
+<h3 id="enter-promises">Enter Promises</h3>
+<p>Using promises, on the other hand helps us avoid a lot of this complexity (although is not a silver bullet solution). The previous code, which could be called spaghetti code can be turned into a neater, more synchronous-looking version:</p>
+<pre><code class="lang-javascript"><span class="token keyword">function</span> <span class="token function">getCurrentTime</span><span class="token punctuation">(</span>onSuccess<span class="token punctuation">,</span> onFail<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// Get the current 'global' time from an API using Promise</span>
+  <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token punctuation">(</span>resolve<span class="token punctuation">,</span> reject<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">var</span> didSucceed <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">random</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">>=</span> <span class="token number">0.5</span><span class="token punctuation">;</span>
+      didSucceed <span class="token operator">?</span> <span class="token function">resolve</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">:</span> <span class="token function">reject</span><span class="token punctuation">(</span><span class="token string">'Error'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">2000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+<span class="token function">getCurrentTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>currentTime <span class="token operator">=</span><span class="token operator">></span> <span class="token function">getCurrentTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>currentTime <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'The current time is: '</span> <span class="token operator">+</span> currentTime<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token keyword">catch</span><span class="token punctuation">(</span>err <span class="token operator">=</span><span class="token operator">></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'There was an error:'</span> <span class="token operator">+</span> err<span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+<div class="demo" id="demo2"></div>
+
+<p>This previous source example is a bit cleaner and clear as to what&#39;s going on and avoids a lot of tricky error handling/catching.</p>
+<p>To catch the value on success, we&#39;ll use the <code>then()</code> function available on the <code>Promise</code> instance object. The <code>then()</code> function is called with whatever the return value is of the promise itself. For instance, in the example above, the <code>getCurrentTime()</code> function resolves with the <code>currentTime()</code> value (on successful completion) and calls the <code>then()</code> function on the return value (which is another promise) and so on and so forth. </p>
+<p>To catch an error that occurs anywhere in the promise chain, we can use the <code>catch()</code> method.</p>
+<blockquote>
+<p>We&#39;re using a promise chain in the above example to create a <em>chain</em> of actions to be called one after another. 
+A promise chain sounds complex, but it&#39;s fundamentally simple. Essentially, we can &quot;synchronize&quot; a call to multiple asynchronous operations in succession. Each call to <code>then()</code> is called with the previous <code>then()</code> function&#39;s return value. </p>
+<p>For instance, if we wanted to manipulate the value of the <code>getCurrentTime()</code> call, we can add a link in the chain, like so:</p>
+<pre><code class="lang-javascript"><span class="token function">getCurrentTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>currentTime <span class="token operator">=</span><span class="token operator">></span> <span class="token function">getCurrentTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>currentTime <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token string">'It is now: '</span> <span class="token operator">+</span> currentTime<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token comment" spellcheck="true">// this logs: "It is now: [current time]"</span>
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>currentTimeMessage <span class="token operator">=</span><span class="token operator">></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>currentTimeMessage<span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token keyword">catch</span><span class="token punctuation">(</span>err <span class="token operator">=</span><span class="token operator">></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'There was an error:'</span> <span class="token operator">+</span> err<span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+</blockquote>
+<h2 id="single-use-guarantee">Single-use guarantee</h2>
+<p>A promise only ever has one of three states at any given time:</p>
+<ul>
+<li>pending</li>
+<li>fulfilled (resolved)</li>
+<li>rejected (error)</li>
+</ul>
+<p>A <em>pending</em> promise can only ever lead to either a fulfilled state or a rejected state <em>once and only once</em>, which can avoid some pretty complex error scenarios. This means that we can only ever return a promise once. If we want to rerun a function that uses promises, we need to create a <em>new</em> one.</p>
+<h2 id="creating-a-promise">Creating a promise</h2>
+<p>We can create new promises (as the example shows above) using the <code>Promise</code> constructor. It accepts a function that will get run with two parameters:</p>
+<ul>
+<li>The <code>onSuccess</code> (or <code>resolve</code>) function to be called on success resolution</li>
+<li>The <code>onFail</code> (or <code>reject</code>) function to be called on failure rejection</li>
+</ul>
+<p>Recalling our function from above, we can see that we call the <code>resolve()</code> function if the request succeeded and call the <code>reject()</code> function if the method returns an error condition. </p>
+<pre><code class="lang-javascript"><span class="token keyword">var</span> promise <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>resolve<span class="token punctuation">,</span> reject<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// call resolve if the method succeeds</span>
+  <span class="token function">resolve</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+promise<span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>bool <span class="token operator">=</span><span class="token operator">></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Bool is true'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+<p>Now that we know what promises are, how to use, and how to create them, we can actually get down to using the <code>fetch()</code> library we installed yesterday.
+dd</p>
+
+  </body>
+</html>
