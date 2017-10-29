@@ -39,7 +39,7 @@ Yesterday, we discussed what actions are, but not really why we are using this t
 As a refresher, an action is a simple object that _must_ include a `type` value. We created a `types.js` file that holds on to action type constants, so we can use these values as the `type` property.
 
 ```javascript
-xport const FETCH_NEW_TIME = 'FETCH_NEW_TIME';
+export const FETCH_NEW_TIME = 'FETCH_NEW_TIME';
 ```
 
 As a quick review, our actions can be any object value that has the `type` key. We can send data along with our action (conventionally, we'll pass extra data along as the `payload` of an action). 
