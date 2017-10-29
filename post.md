@@ -20,7 +20,7 @@ Through this point, we haven't touched the styling of our components beyond atta
 
 Let's look at a few of the different ways we can style a component.
 
-1. CasCasding Stylesheets (CSS)
+1. Cascading Style Sheets (CSS)
 2. Inline styles
 3. Styling libraries
 
