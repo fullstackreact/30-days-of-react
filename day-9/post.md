@@ -22,7 +22,7 @@ Today, we'll spend time working through a few ways how to style our React compon
 
 Let's look at a few of the different ways we can style a component.
 
-1. CasCasding Stylesheets (CSS)
+1. Cascasding StyleSheets (CSS)
 2. Inline styles
 3. Styling libraries
 
