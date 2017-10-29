@@ -564,7 +564,7 @@ class Panel extends React.Component {
   componentDidMount() {this.updateData();}
   componentWillReceiveProps(nextProps) {
     // Check to see if the requestRefresh prop has changed
-    if (nextProps.requestRefresh !== this.props.requestRefresh) {
+    if (nextProps.requestRefresh === true) {
       this.setState({loading: true}, this.updateData);
     }
   }

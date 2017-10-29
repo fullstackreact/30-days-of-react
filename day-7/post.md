@@ -178,7 +178,7 @@ class Content extends React.Component {
   // ...
   componentWillReceiveProps(nextProps) {
     // Check to see if the requestRefresh prop has changed
-    if (nextProps.requestRefresh !== this.props.requestRefresh) {
+    if (nextProps.requestRefresh === true) {
       this.setState({loading: true}, this.updateData);
     }
   }
