@@ -66,6 +66,6 @@ Although it might look a little scary, the JavaScript code is a single line that
 
 Unlike many of its predecessors, React operates not directly on the browser's Document Object Model (DOM) immediately, but on a **virtual DOM**. That is, rather than manipulating the `document` in a browser after changes to our data (which can be quite slow) it resolves changes in its virtual DOM. After the virtual DOM has been updated, React intelligently determines what changes to make to the actual DOM.
 
-The [React Virtual DOM](https://facebook.github.io/react/docs/dom-differences.html) exists entirely in-memory and is a representation of the web browser's DOM. Because of this, we when we write a React component, we're not writing directly to the DOM, but we're writing a virtual component that React will turn into the DOM.
+The [React Virtual DOM](https://facebook.github.io/react/docs/dom-differences.html) exists entirely in-memory and is a representation of the web browser's DOM. Because of this, when we write a React component, we're not writing directly to the DOM, but we're writing a virtual component that React will turn into the DOM.
 
 In the next article, we'll look at what this means for us as we build our React components and jump into JSX and writing our first real components. 
