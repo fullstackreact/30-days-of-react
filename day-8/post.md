@@ -4,8 +4,7 @@ series: 30-days-of-react
 permalink: day-8
 title: Packaging and PropTypes
 description: >-
-  We're looking at how to make reusable React components today so that not only
-  can we share our components across apps and teams.
+  We're looking at how to make reusable React components today so we can share our components across apps and teams.
 dayDir: 08
 day: 8
 hero_image: /assets/images/series/30-days-of-react/headings/8.jpg

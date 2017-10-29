@@ -34,15 +34,15 @@ What we _want_ is the ability for our users to update the time by clicking on a 
 
 We already implemented the third step, so we only have two things to do to get this functionality working as we expect.
 
-Yesterday, we discussed what actions are, but not really why we are using this thing called actionCreators or what they are. 
+Yesterday, we discussed what actions are, but not really why we are using this thing called actionCreators or what they are.
 
 As a refresher, an action is a simple object that _must_ include a `type` value. We created a `types.js` file that holds on to action type constants, so we can use these values as the `type` property.
 
 ```javascript
-xport const FETCH_NEW_TIME = 'FETCH_NEW_TIME';
+export const FETCH_NEW_TIME = 'FETCH_NEW_TIME';
 ```
 
-As a quick review, our actions can be any object value that has the `type` key. We can send data along with our action (conventionally, we'll pass extra data along as the `payload` of an action). 
+As a quick review, our actions can be any object value that has the `type` key. We can send data along with our action (conventionally, we'll pass extra data along as the `payload` of an action).
 
 ```javascript
 {
@@ -51,7 +51,7 @@ As a quick review, our actions can be any object value that has the `type` key. 
 }
 ```
 
-Now we need to _dispatch_ this along our `store`. One way we could do that is by calling the `store.dispatch()` function. 
+Now we need to _dispatch_ this along our `store`. One way we could do that is by calling the `store.dispatch()` function.
 
 ```javascript
 store.dispatch({
@@ -60,7 +60,7 @@ store.dispatch({
 })
 ```
 
-However, this is pretty poor practice. Rather than dispatch the action directly, we'll use a function to return an action... the function will _create_ the action (hence the name: actionCreator). This provides us with a better testing story (easy to test), reusability, documentation, and encapsulation of logic. 
+However, this is pretty poor practice. Rather than dispatch the action directly, we'll use a function to return an action... the function will _create_ the action (hence the name: actionCreator). This provides us with a better testing story (easy to test), reusability, documentation, and encapsulation of logic.
 
 Let's create our first `actionCreator` in a file called `redux/actionCreators.js`. We'll export a function who's entire responsibility is to return an appropriate action to dispatch on our store.
 
@@ -166,7 +166,7 @@ export const reducer = (state = initialState, action) => {
 Let's update our `configureStore()` function to take these branches into account, using the `combineReducers` to separate out the two branches
 
 ```javascript
- 
+
 import { createStore, combineReducers } from 'redux';
 
 import { rootReducer, initialState } from './reducers'
@@ -179,7 +179,7 @@ export const configureStore = () => {
       user: reducer
     }), // root reducer
     {
-      time: initialState, 
+      time: initialState,
       user: userInitialState
     }, // our initialState
   );
@@ -203,7 +203,7 @@ export const logout = () => ({
 })
 ```
 
-Now we can use the actionCreators to call `login` and `logout` just like the `updateTime()` action creator. 
+Now we can use the actionCreators to call `login` and `logout` just like the `updateTime()` action creator.
 
 Phew! This was another hefty day of Redux code. Today, we completed the circle between data updating and storing data in the global Redux state. In addition, we learned how to extend Redux to use multiple reducers and actions as well as multiple connected components.
 
