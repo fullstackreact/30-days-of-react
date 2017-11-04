@@ -1,81 +1,15 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-    <title>React App</title>
-  </head>
-  <body>
-    <p>In our previous article, we looked at what <a href="https://facebook.github.io/react/">React</a> is and discussed at a high-level how it works. In this article, we&#39;re going to look at one part of the React ecosystem: ES6 and JSX.</p>
-<h2 id="jsx-es5-es6-wtf-">JSX/ES5/ES6 WTF??!</h2>
-<p>In any cursory search on the Internet looking for React material, no doubt you have already run into the terms <code>JSX</code>, ES5, and ES6. These opaque acronyms can get confusing quickly.</p>
-<p>ES5 (the <code>ES</code> stands for ECMAScript) is basically &quot;regular JavaScript.&quot; The 5th update to JavaScript, ES5 was finalized in 2009. It has been supported by all major browsers for several years. Therefore, if you&#39;ve written or seen any JavaScript in the recent past, chances are it was ES5.</p>
-<p>ES6 is a new version of JavaScript that adds some nice syntactical and functional additions. It was finalized in 2015. ES6 is <a href="http://kangax.github.io/compat-table/es6/">almost fully supported</a> by all major browsers. But it will be some time until older versions of web browsers are phased out of use. For instance, Internet Explorer 11 does not support ES6 but has about 12% of the browser market share.</p>
-<p>In order to reap the benefits of ES6 today, we have to do a few things to get it to work in as many browsers as we can:</p>
-<ol>
-<li>We have to <em>transpile</em> our code so that a wider range of browsers understand our JavaScript. This means converting ES6 JavaScript into ES5 JavaScript.</li>
-<li>We have to include a <em>shim</em> or <em>polyfill</em> that provides additional functionality added in ES6 that a browser may or may not have.</li>
-</ol>
-<p>We&#39;ll see how we do this a bit later in the series.</p>
-<blockquote>
-<p>Most of the code we&#39;ll write in this series will be easily translatable to ES5. In cases where we use ES6, we&#39;ll introduce the feature at first and then walk through it.</p>
-</blockquote>
-<p>As we&#39;ll see, all of our React components have a <code>render</code> function that specifies what the HTML output of our React component will be. <strong>JavaScript eXtension</strong>, or more commonly <strong>JSX</strong>, is a React extension that allows us to write JavaScript that <em>looks like</em> HTML.</p>
-<blockquote>
-<p>Although in previous paradigms it was viewed as a bad habit to include JavaScript and markup in the same place, it turns out that combining the view with the functionality makes reasoning about the view straight-forward.</p>
-</blockquote>
-<p>To see what this means, imagine we had a React component that renders an <code>h1</code> HTML tag. JSX allows us to declare this element in a manner that closely resembles HTML:</p>
-<pre><code class="lang-javascript"><span class="token keyword">class</span> <span class="token class-name">Header</span> <span class="token keyword">extends</span> <span class="token class-name">React<span class="token punctuation">.</span>Component</span> <span class="token punctuation">{</span>
-  <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">return</span> <span class="token punctuation">(</span>
-      <span class="token operator">&lt;</span>h1 className<span class="token operator">=</span><span class="token string">'large'</span><span class="token operator">></span>Hello World<span class="token operator">&lt;</span><span class="token operator">/</span>h1<span class="token operator">></span>
-    <span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span>
-<span class="token punctuation">}</span>
-</code></pre>
-<div id="demo1"></div>
 
-<p>The <code>render()</code> function in the <code>HelloWorld</code> component looks like it&#39;s returning HTML, but this is actually JSX. The JSX is <em>translated</em> to regular JavaScript at runtime. That component, after translation, looks like this:</p>
-<pre><code class="lang-javascript"><span class="token keyword">class</span> <span class="token class-name">HelloWorld</span> <span class="token keyword">extends</span> <span class="token class-name">React<span class="token punctuation">.</span>Component</span> <span class="token punctuation">{</span>
-  <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">return</span> <span class="token punctuation">(</span>
-      React<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span>
-        <span class="token string">'h1'</span><span class="token punctuation">,</span>
-        <span class="token punctuation">{</span>className<span class="token punctuation">:</span> <span class="token string">'large'</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
-        <span class="token string">'Hello World'</span>
-      <span class="token punctuation">)</span>
-    <span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span>
-<span class="token punctuation">}</span>
-</code></pre>
-<p>While JSX looks like HTML, it is actually just a terser way to write a <code>React.createElement()</code> declaration. When a component renders, it outputs a tree of React elements or a <strong>virtual representation</strong> of the HTML elements this component outputs. React will then determine what changes to make to the actual DOM based on this React element representation. In the case of the <code>HelloWorld</code> component, the HTML that React writes to the DOM will look like this:</p>
-<pre><code class="lang-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>large<span class="token punctuation">'</span></span><span class="token punctuation">></span></span>Hello World<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">></span></span>
-</code></pre>
-<blockquote>
-<p>The <code>class extends</code> syntax we used in our first React component is ES6 syntax. It allows us to write objects using a familiar Object-Oriented style.
-In ES6, the <code>class</code> syntax might be translated as:</p>
-<pre><code class="lang-javascript"><span class="token keyword">var</span> HelloWorld <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
-Object<span class="token punctuation">.</span><span class="token keyword">extends</span><span class="token punctuation">(</span>HelloWorld<span class="token punctuation">,</span> React<span class="token punctuation">.</span>Component<span class="token punctuation">)</span>
-HelloWorld<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>render <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
-</code></pre>
-</blockquote>
-<p>Because JSX is JavaScript, we can&#39;t use JavaScript reserved words. This includes words like <code>class</code> and <code>for</code>.</p>
-<p>React gives us the attribute <code>className</code>. We use it in <code>HelloWorld</code> to set the <code>large</code> class on our <code>h1</code> tag. There are a few other attributes, such as the <code>for</code> attribute on a label that React translates into <code>htmlFor</code> as <code>for</code> is also a reserved word. We&#39;ll look at these when we start using them.</p>
-<p>If we want to write pure JavaScript instead of rely on a JSX compiler, we can just write the <code>React.createElement()</code> function and not worry about the layer of abstraction. But we like JSX. It&#39;s especially more readable with complex components. Consider the following JSX:</p>
-<pre><code class="lang-javascript"><span class="token operator">&lt;</span>div<span class="token operator">></span>
-  <span class="token operator">&lt;</span>img src<span class="token operator">=</span><span class="token string">"profile.jpg"</span> alt<span class="token operator">=</span><span class="token string">"Profile photo"</span> <span class="token operator">/</span><span class="token operator">></span>
-  <span class="token operator">&lt;</span>h1<span class="token operator">></span>Welcome back Ari<span class="token operator">&lt;</span><span class="token operator">/</span>h1<span class="token operator">></span>
-<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
-</code></pre>
-<p>The JavaScript delivered to the browser will look like this:</p>
-<pre><code class="lang-javascript">React<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">"div"</span><span class="token punctuation">,</span> <span class="token keyword">null</span><span class="token punctuation">,</span> 
-  React<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">"img"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>src<span class="token punctuation">:</span> <span class="token string">"profile.jpg"</span><span class="token punctuation">,</span> alt<span class="token punctuation">:</span> <span class="token string">"Profile photo"</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-  React<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">"h1"</span><span class="token punctuation">,</span> <span class="token keyword">null</span><span class="token punctuation">,</span> <span class="token string">"Welcome back Ari"</span><span class="token punctuation">)</span>
-<span class="token punctuation">)</span><span class="token punctuation">;</span>
-</code></pre>
-<p>Again, while you can skip JSX and write the latter directly, the JSX syntax is well-suited for representing nested HTML elements.</p>
-<p>Now that we understand JSX, we can start writing our first React components. Join us tomorrow when we jump into our first React app.</p>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+  <title>React App</title>
+</head>
 
-  </body>
+<body>
+  <h3>No demo today</h3>
+</body>
+
 </html>
