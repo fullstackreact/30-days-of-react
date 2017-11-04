@@ -13,6 +13,11 @@
   margin-bottom: 40px;
 }
 
+.demo .notificationsFrame.show-menu {
+  -webkit-transform: translate3d(150px, 0, 0);
+          transform: translate3d(150px, 0, 0);
+}
+
 .demo .notificationsFrame .searchInput {
   border: 10px solid red;
   box-sizing: border-box;
@@ -27,10 +32,10 @@
   padding: 0 17px;
   font-size: 13px;
   color: #666;
-  -webkit-transition: all .3s ease-in-out;
-  transition: all .3s ease-in-out;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
   -webkit-transform: translateX(15px);
-  transform: translateX(15px);
+          transform: translateX(15px);
   opacity: 0;
   pointer-events: none;
 }
@@ -49,7 +54,7 @@
 .demo .notificationsFrame .header {
   position: relative;
   height: 60px;
-  // background: #5f98cd;
+  background: #5f98cd;
   padding-top: 0;
 }
 
@@ -62,6 +67,10 @@
   cursor: pointer;
 }
 
+.demo .notificationsFrame .header .menuIcon:hover .dashTop, .demo .notificationsFrame .header .menuIcon:hover .dashBottom, .demo .notificationsFrame .header .menuIcon:hover .circle {
+  background: #fff;
+}
+
 .demo .notificationsFrame .header .menuIcon .dashTop {
   position: absolute;
   width: 20px;
@@ -70,8 +79,8 @@
   left: 0;
   background: #b2daff;
   border-radius: 3px;
-  -webkit-transition: all .2s ease-in-out;
-  transition: all .2s ease-in-out;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
 }
 
 .demo .notificationsFrame .header .menuIcon .dashBottom {
@@ -82,8 +91,8 @@
   left: 0;
   background: #b2daff;
   border-radius: 3px;
-  -webkit-transition: all .2s ease-in-out;
-  transition: all .2s ease-in-out;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
   width: 29px;
   top: auto;
   bottom: 0;
@@ -97,14 +106,8 @@
   top: -2px;
   right: 0;
   background: #b2daff;
-  -webkit-transition: all .2s ease-in-out;
-  transition: all .2s ease-in-out;
-}
-
-.demo .notificationsFrame .header .menuIcon:hover .dashTop,
-.demo .notificationsFrame .header .menuIcon:hover .dashBottom,
-.demo .notificationsFrame .header .menuIcon:hover .circle {
-  background: #fff;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
 }
 
 .demo .notificationsFrame .header .title {
@@ -120,11 +123,11 @@
   position: absolute;
   z-index: 3;
   font-size: 21px;
-  color: #ffffff;
+  color: #fff;
   top: 18px;
   right: 20px;
-  -webkit-transition: all .3s ease;
-  transition: all .3s ease;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
   cursor: pointer;
 }
 
@@ -152,6 +155,20 @@
   z-index: 2;
   margin: 20px 30px 30px 70px;
   display: block;
+  /*border-radius: 50%;
+   border: 5px solid #ecf0f1;
+   box-sizing: border-box;
+   position: absolute;
+   height: 20px;
+   width: 20px;
+   background: #fff;
+   border: 2px solid #5F98CD;
+   box-shadow: 0 0 0 3px #fff;*/
+}
+
+.demo .notificationsFrame .content .item:hover {
+  color: #5f98cd;
+  cursor: pointer;
 }
 
 .demo .notificationsFrame .content .item .circle {
@@ -215,16 +232,6 @@
   right: 15px;
   font-size: 12px;
   top: 11px;
-  /*border-radius: 50%;
-          border: 5px solid #ecf0f1;
-
-          box-sizing: border-box;
-          position: absolute;
-          height: 20px;
-          width: 20px;
-          background: #fff;
-          border: 2px solid #5F98CD;
-          box-shadow: 0 0 0 3px #fff;*/
 }
 
 .demo .notificationsFrame .content .item .commentCount:after {
@@ -243,14 +250,9 @@
   color: lightblue;
 }
 
-.demo .notificationsFrame .content .item:hover {
-  color: #5f98cd;
-  cursor: pointer;
-}
-
 .demo .notificationsFrame .footer {
   position: relative;
-  background: #ffffff;
+  background: #fff;
   margin: auto;
   height: 30px;
   border-top: 1px solid #eee;
@@ -273,11 +275,7 @@
   margin: 0 10px;
 }
 
-.demo .notificationsFrame.show-menu {
-  -webkit-transform: translate3d(150px, 0, 0);
-  transform: translate3d(150px, 0, 0);
-}
-
 .demo {
   margin: 20px 0;
+  border: 1px solid red;
 }

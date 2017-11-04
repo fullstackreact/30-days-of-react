@@ -1,41 +1,19 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-    <title>React App</title>
-  </head>
-  <body>
-    <p>Okay, close your eyes for a second... wait, don&#39;t... it&#39;s hard to read with your eyes closed, but imagine for a moment your application is getting close to your first deployment.</p>
-<p>It&#39;s getting close and it gets tiring to constantly run through the features in your browser... and so inefficient.</p>
-<p>There must be a better way...</p>
-<h2 id="testing">Testing</h2>
-<p>When we talk about testing, we&#39;re talking about the process of automating the process of setting up and measuring our assumptions against assertions of functionality about our application.</p>
-<p>When we talk about front-end testing in React, we&#39;re referring to the process of making assertions about what our React app renders and how it responds to user interaction.</p>
-<p>We&#39;ll discuss three different software testing paradigms: unit testing, functional testing, and integration testing.</p>
-<h4 id="unit-tests">Unit tests</h4>
-<p>Unit testing refers to testing individual pieces (or units, hence the name) of our our code so we can be confident these specific pieces of code work as we expect.</p>
-<p>For example, we have a few reducers already in our application. These reducers comprise a single function that we can make assertions on under different scenarios.</p>
-<p>In React, Unit tests typically do not require a browser, can run incredibly quickly (no writing to the DOM required), and the assertions themselves are usually simple and terse.</p>
-<p>We&#39;ll mostly concentrate on answering the question: with a given set of inputs (state and props), does the output match our expectations of what <em>should</em> be in the virtual dom. In this case, we&#39;re testing the rendering output.</p>
-<h4 id="functional-testing">Functional testing</h4>
-<p>With functional testing, we&#39;re focused on testing the behavior of our component. For instance, if we have a navigation bar with a user login/logout button, we can test our expectations that:</p>
-<ul>
-<li>Given a logged in user, the navbar renders a button with the text <em>Logout</em></li>
-<li>Given no logged in user, the navbar renders a button with the text <em>Login</em></li>
-</ul>
-<p>Functional tests usually run in isolation (i.e. testing the component functionality without the rest of the application).</p>
-<h4 id="integration-testing">Integration testing</h4>
-<p>Finally, the last type of testing we&#39;ll look at is integration testing. This type of testing tests the entire service of our application and attempts to replicate the experience an end-user would experience when using our application.</p>
-<p>On the order of speed and efficiency, integration testing is incredibly slow as it needs to run expectations against a live, running browser, where as unit and functional tests can run quite a bit faster (especially in React where the functional test is testing against the in-memory virtual dom rather than an actual browser render).</p>
-<p>When testing React components, we will test both our expectations of what is contained in the virtual dom as well as what is reflected in the actual dom.</p>
-<h2 id="the-tools">The tools</h2>
-<p>We&#39;re going to use a testing library called called <a href="http://jasmine.github.io">jasmine</a> to provide a readable testing language and assertions.</p>
-<p>As far as test running, there is a general debate around which test runner is the easiest/most efficient to work with, largely between <a href="https://mochajs.org">mocha</a> and <a href="https://facebook.github.io/jest">jest</a>.</p>
-<p>We&#39;re going to use Jest in our adventure in testing with React as it&#39;s the <em>official</em> (take this with a grain of salt) test runner. Most of the code we&#39;ll be writing will be in Jasmine, so feel free to use mocha, if it&#39;s your test library of choice.</p>
-<p>Finally, we&#39;ll use a library we cannot live without called <a href="https://github.com/airbnb/enzyme">Enzyme</a> which puts the fun back in FUNctional testing. Enzyme provides some pretty nice React testing utility functions that make writing our assertions a cinch.</p>
-<p>Tomorrow, we&#39;ll get our application set up with the testing tooling in place so that we can start testing our application and be confident it works as we expect. See you tomorrow!</p>
 
-  </body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+  <title>React App</title>
+</head>
+
+<body>
+  <div class="demo">
+    <div id="demo1"></div>
+    <div id="demo2"></div>
+  </div>
+
+</body>
+
 </html>

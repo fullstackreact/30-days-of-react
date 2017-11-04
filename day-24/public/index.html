@@ -1,89 +1,17 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-    <title>React App</title>
-  </head>
-  <body>
-    <p>Let&#39;s start with the <code>Timeline</code> component as it&#39;s the most complex in our current app.</p>
-<p>The <code>Timeline</code> component dispays a list of statuses with a header with a dynamic title. We&#39;ll want to test any dynamic logic we have in our components. The simplest bit of logic we have to start out with our tests are around the dynamic title presented on the timeline.</p>
-<div class="demo" id="demo1"></div>
 
-<p>We like to start out testing by listing our assumptions about a component and under what circumstances these assumptions are true. For instance, a list of assumptions we can make about our Timeline component might include the following:</p>
-<ul>
-<li>Under all circumstances, the Timeline will be contained within a <code>&lt;div /&gt;</code> with the class of <code>.notificationsFrame</code></li>
-<li>Under all circumstances, we can assume there will be a title</li>
-<li>Under all circumstances, we assume the search button will start out as hidden</li>
-<li>There is a list of at least four status updates</li>
-</ul>
-<p>These <em>assumptions</em> will translate into our tests.</p>
-<h2 id="testing">Testing</h2>
-<p>Let&#39;s open the file <code>src/components/Timeline/__tests__/Timeline-test.js</code>. We left off with some dummy tests in this file, so let&#39;s clear those off and start with a fresh describe block:</p>
-<pre><code class="lang-javascript">describe(<span class="hljs-string">'Timeline'</span>, () =&gt; {
-  <span class="hljs-comment">// Tests go here</span>
-})
-</code></pre>
-<p>For every test that we write against React, we&#39;ll want to import react into our test file. We&#39;ll also want to bring in the react test utilities:</p>
-<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
-<span class="hljs-keyword">import</span> TestUtils <span class="hljs-keyword">from</span> <span class="hljs-string">'react-addons-test-utils'</span>;
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+  <title>React App</title>
+</head>
 
-describe(<span class="hljs-string">'Timeline'</span>, () =&gt; {
-  <span class="hljs-comment">// Tests go here</span>
-})
-</code></pre>
-<p>Since we&#39;re testing the <code>Timeline</code> component here, we&#39;ll also want to bring that into our workspace:</p>
-<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
-<span class="hljs-keyword">import</span> TestUtils <span class="hljs-keyword">from</span> <span class="hljs-string">'react-addons-test-utils'</span>;
+<body>
+  <div class="demo">
+    <div id="demo1"></div>
+  </div>
+</body>
 
-<span class="hljs-keyword">import</span> Timeline <span class="hljs-keyword">from</span> <span class="hljs-string">'../Timeline'</span>;
-
-describe(<span class="hljs-string">'Timeline'</span>, () =&gt; {
-  <span class="hljs-comment">// Tests go here</span>
-})
-</code></pre>
-<p>Let&#39;s write our first test. Our first assumption is pretty simple to test. We&#39;re testing to make sure the element is wrapped in a <code>.notificationsFrame</code> class. With every test we&#39;ll write, we&#39;ll need to render our application into the working test document. The <code>react-addons-test-utils</code> library provides a function to do just this called <code>renderIntoDocument()</code>:</p>
-<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
-<span class="hljs-keyword">import</span> TestUtils <span class="hljs-keyword">from</span> <span class="hljs-string">'react-addons-test-utils'</span>;
-
-<span class="hljs-keyword">import</span> Timeline <span class="hljs-keyword">from</span> <span class="hljs-string">'../Timeline'</span>;
-
-describe(<span class="hljs-string">'Timeline'</span>, () =&gt; {
-
-  it(<span class="hljs-string">'wraps content in a div with .notificationsFrame class'</span>, () =&gt; {
-    <span class="hljs-keyword">const</span> wrapper = TestUtils.renderIntoDocument(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Timeline</span> /&gt;</span>);
-  });
-
-})</span>
-</code></pre>
-<p>If we run this test (even though we&#39;re not setting any expectations yet), we&#39;ll see that we have a problem with the testing code. React thinks we&#39;re trying to render an undefined component:</p>
-<p>Let&#39;s find the element we expect to be in the DOM using another <code>TestUtils</code> function called <code>findRenderedDOMComponentWithClass()</code>.</p>
-<p>The <code>findRenderedDOMComponentWithClass()</code> function accepts <em>two</em> arguments. The first is the render tree (our <code>wrapper</code> object) and the second is the CSS class name we want it to look for:</p>
-<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
-<span class="hljs-keyword">import</span> TestUtils <span class="hljs-keyword">from</span> <span class="hljs-string">'react-addons-test-utils'</span>;
-
-<span class="hljs-keyword">import</span> Timeline <span class="hljs-keyword">from</span> <span class="hljs-string">'../Timeline'</span>;
-
-describe(<span class="hljs-string">'Timeline'</span>, () =&gt; {
-
-  it(<span class="hljs-string">'wraps content in a div with .notificationsFrame class'</span>, () =&gt; {
-    <span class="hljs-keyword">const</span> wrapper = TestUtils.renderIntoDocument(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Timeline</span> /&gt;</span>);
-    const node =
-    TestUtils
-      .findRenderedDOMComponentWithClass(wrapper, 'notificationsFrame');
-  });
-
-})</span>
-</code></pre>
-<p>With that, our tests will pass (believe it or not). The TestUtils sets up an expectation that it can find the component with the <code>.notificationsFrame</code> class. If it doesn&#39;t find one, it will throw an error and our tests will fail. </p>
-<p>As a reminder, we can run our tests using either the <code>npm test</code> command or the <code>yarn test</code> command. We&#39;ll use the <code>yarn test</code> command for now since we&#39;re testing one component:</p>
-<pre><code class="lang-bash">yarn <span class="hljs-built_in">test</span>
-</code></pre>
-<p><img class="wide" src="/assets/images/series/30-days-of-react/day-24/passing-test.png" /></p>
-<p>With our one passing test, we&#39;ve confirmed our test setup is working.</p>
-<p>Unfortunately, the interface for <code>TestUtils</code> is a little complex and low-level. The <code>enzyme</code> library wraps <code>TestUtils</code>, providing an easier and higher-level interface for asserting against a React component under test. We&#39;ll discuss enzyme in detail tomorrow.</p>
-<p>Great job today and see you tomorrow!</p>
-
-  </body>
 </html>

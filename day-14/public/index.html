@@ -1,35 +1,16 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-    <title>React App</title>
-  </head>
-  <body>
-    <p>Our apps, until this point have largely been static. Even the data we displayed from Github was static data included in our project. Our apps are really only as interesting as the data we use, so let&#39;s make our apps more interesting.</p>
-<h2 id="querying-for-remote-data">Querying for remote data</h2>
-<p>The normal browser workflow is actually a synchronous one. When the browser receives html, it parses the string of html content and converts it into a tree object (this is what we often refer to as the DOM object/DOM tree). </p>
-<p>When the browser parses the DOM tree, as it encounters remote files (such as <code>&lt;link /&gt;</code> and <code>&lt;script /&gt;</code> tags), the browser will request these files (in parallel), but will execute them synchronously (so as to maintain their order they are listed in the source). </p>
-<p>What if we want to get some data from off-site? We&#39;ll make requests for data that&#39;s not available at launch time to populate data in our app. However, it&#39;s not necessarily <em>that</em> easy to do because of the asynchronous nature of external API requests. </p>
-<p>Essentially, what this means is that we&#39;ll have to handle with JavaScript code after an unknown period of time as well actually make an HTTP request. Luckily for us, other people have dealt with this problem for a long time and we now have some pretty nice ways of handling it.</p>
-<p>Starting with handling how we&#39;ll be making an HTTP request, we&#39;ll use a library (called <code>fetch</code>, which is also a <a href="https://fetch.spec.whatwg.org/">web standard</a>, hopefully) to make the http requesting easier to deal with. </p>
-<h2 id="fetch">Fetch</h2>
-<p>In order to use fetch, we&#39;ll need to install the library in our app we previously created. Let&#39;s open up a terminal window again and use <code>npm</code> to install the <code>whatwg-fetch</code> library (an implementation of <code>fetch</code>). In the same directory where we created our application, let&#39;s call:</p>
-<pre><code class="lang-bash">npm install --save whatwg-fetch
-</code></pre>
-<p><img class="wide" src="/assets/images/series/30-days-of-react/day-14/install-fetch.jpg" /></p>
-<p>With the library installed, we can make a request to an off-site server. In order to get access to the <code>fetch</code> library, we&#39;ll need to <code>import</code> the package in our script. Let&#39;s update the top few lines of our <code>src/App.js</code> file adding the second line:</p>
-<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> React, { Component } <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
-<span class="hljs-keyword">import</span> <span class="hljs-string">'whatwg-fetch'</span>;
-<span class="hljs-comment">// ...</span>
-</code></pre>
-<blockquote>
-<p>The <code>whatwg-fetch</code> object is unique in that it is one of the few libraries that we&#39;ll use which attaches it&#39;s export on the <code>global</code> object (in the case of the browser, this object is <code>window</code>). 
-Unlike the <code>react</code> library, we don&#39;t need to get a handle on it&#39;s export as the library makes it available on the global object.</p>
-</blockquote>
-<p>With the <code>whatwg-fetch</code> library included in our project, we can make a request using the <code>fetch()</code> api. However, before we can actually start using the <code>fetch()</code> api, we&#39;ll need to understand what Promises are and how they work to deal with the asynchronous we discussed in the introduction. </p>
-<p>We&#39;ll pick up with <code>promises</code> tomorrow. Good job getting through week two and see you tomorrow!</p>
 
-  </body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+  <title>React App</title>
+</head>
+
+<body>
+  <h3>No demos today</h3>
+
+</body>
+
 </html>

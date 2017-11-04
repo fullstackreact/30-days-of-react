@@ -4,17 +4,14 @@ import ReactDOM from 'react-dom';
 import Frame from 'react-frame-component';
 
 import App from './SimpleRouter';
-import TwoRoutes from './TwoRoutes'
-import TwoLinkedRoutes from './TwoLinkedRoutes'
-import TwoLinkedSingleRoutes from './TwoLinkedSingleRoutes'
-import TwoLinkedSingleRenderedRoutes from './TwoLinkedSingleRenderedRoutes'
+import TwoRoutes from './TwoRoutes';
+import TwoLinkedRoutes from './TwoLinkedRoutes';
+import TwoLinkedSingleRoutes from './TwoLinkedSingleRoutes';
+import TwoLinkedSingleRenderedRoutes from './TwoLinkedSingleRenderedRoutes';
 import './index.css';
 
 export const load = () => {
-  ReactDOM.render(
-    <App />,
-    document.getElementById('demo1')
-  );
+  ReactDOM.render(<App />, document.getElementById('demo1'));
 
   ReactDOM.render(
     <Frame>
@@ -35,18 +32,18 @@ export const load = () => {
       <TwoLinkedSingleRoutes />
     </Frame>,
     document.getElementById('demo4')
-  )
+  );
 
   ReactDOM.render(
     <Frame>
       <TwoLinkedSingleRenderedRoutes />
     </Frame>,
     document.getElementById('demo5')
-  )
-}
+  );
+};
 
 try {
-  // load()
-} catch(e) {
-  console.log(e)
+  load();
+} catch (e) {
+  console.log(e);
 }

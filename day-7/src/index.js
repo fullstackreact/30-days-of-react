@@ -6,29 +6,23 @@ import './index.css';
 
 import Timeline from './components/Timeline/Timeline';
 import Clock from './components/Timer/Clock';
-import FetchedTimeline from './FetchedTimeline'
+import FetchedTimeline from './FetchedTimeline';
 
 import Container from './Container1';
 
 export const load = () => {
-  ReactDOM.render(
-    <Timeline />,
-    document.getElementById('demo1'));
+  ReactDOM.render(<Timeline />, document.getElementById('demo1'));
 
   ReactDOM.render(
     <FetchedTimeline />,
-    document.getElementById('fetchedTimeline'));
+    document.getElementById('fetchedTimeline')
+  );
 
-  ReactDOM.render(
-    <Container />,
-    document.getElementById('requestRefresh'));
+  ReactDOM.render(<Container />, document.getElementById('requestRefresh'));
 
-  ReactDOM.render(
-    <Clock />,
-    document.getElementById('clock'));
-
-}
+  ReactDOM.render(<Clock />, document.getElementById('clock'));
+};
 
 try {
-  //load()
-} catch(e) {}
+  load();
+} catch (e) {}

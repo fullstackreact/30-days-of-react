@@ -15,4 +15,4 @@ export const load = () => {
   ReactDOM.render(<Header />, document.getElementById('headerDemo'));
 };
 
-console.log('Loading day 4');
+load();

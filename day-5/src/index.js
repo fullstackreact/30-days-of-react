@@ -12,41 +12,38 @@ import ContentFinal from './Content3';
 
 const moment1 = {
   timestamp: new Date().getTime(),
-  text: "Ate lunch",
+  text: 'Ate lunch',
   user: {
     id: 1,
     name: 'Nate',
-    avatar: "http://www.croop.cl/UI/twitter/images/doug.jpg"
+    avatar: 'http://www.croop.cl/UI/twitter/images/doug.jpg'
   },
-  comments: [
-    { from: 'Ari', text: 'Me too!' }
-  ]
-}
+  comments: [{from: 'Ari', text: 'Me too!'}]
+};
 const activities = [
   {
     timestamp: new Date().getTime(),
-    text: "Ate lunch",
+    text: 'Ate lunch',
     user: {
-      id: 1, name: 'Nate',
-      avatar: "http://www.croop.cl/UI/twitter/images/doug.jpg"
+      id: 1,
+      name: 'Nate',
+      avatar: 'http://www.croop.cl/UI/twitter/images/doug.jpg'
     },
-    comments: [{ from: 'Ari', text: 'Me too!' }]
+    comments: [{from: 'Ari', text: 'Me too!'}]
   },
   {
     timestamp: new Date().getTime(),
-    text: "Woke up early for a beautiful run",
+    text: 'Woke up early for a beautiful run',
     user: {
-      id: 2, name: 'Ari',
-      avatar: "http://www.croop.cl/UI/twitter/images/doug.jpg"
+      id: 2,
+      name: 'Ari',
+      avatar: 'http://www.croop.cl/UI/twitter/images/doug.jpg'
     },
-    comments: [{ from: 'Nate', text: 'I am so jealous' }]
-  },
-]
+    comments: [{from: 'Nate', text: 'I am so jealous'}]
+  }
+];
 export const load = () => {
-  ReactDOM.render(
-    <Timeline />,
-    document.getElementById('demo1')
-  );
+  ReactDOM.render(<Timeline />, document.getElementById('demo1'));
 
   /*ReactDOM.render(
     <Header />,
@@ -82,10 +79,10 @@ export const load = () => {
       <ContentFinal activities={activities} />
     </div>,
     document.getElementById('demo5'));*/
-}
+};
 
 try {
-  setTimeout(load, 100)
-} catch(e) {
-  console.log('e ->', e)
+  setTimeout(load, 100);
+} catch (e) {
+  console.log('e ->', e);
 }

@@ -1,158 +1,19 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-    <title>React App</title>
-  </head>
-  <body>
-    <p>We&#39;ve looked at a few different ways to build react components. One method we left out up through this point is the stateless component/functional method of building React components. </p>
-<p>As we&#39;ve seen up through this point, we&#39;ve only worked through building components using the <code>React.Component</code> and <code>React.createClass()</code> methods. For more performance and simplicity, React <em>also</em> allows us to create pure, stateless components using a normal JavaScript function.</p>
-<p>A <em>Pure</em> component can replace a component that only has a <code>render</code> function. Instead of making a full-blown component just to render some content to the screen, we can create a <em>pure</em> one instead.</p>
-<p><em>Pure</em> components are the simplest, fastest components we can write. They are easy to write, simple to reason about, and the quickest component we can write. Before we dive into <em>why</em> these are better, let&#39;s write one, or heck a couple!</p>
-<pre><code class="lang-javascript"><span class="token comment" spellcheck="true">// The simplest one</span>
-<span class="token keyword">const</span> HelloWorld <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">(</span><span class="token operator">&lt;</span>div<span class="token operator">></span>Hello world<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-<span class="token comment" spellcheck="true">// A Notification component</span>
-<span class="token keyword">const</span> Notification <span class="token operator">=</span> <span class="token punctuation">(</span>props<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-  <span class="token keyword">const</span> <span class="token punctuation">{</span>level<span class="token punctuation">,</span> message<span class="token punctuation">}</span> <span class="token operator">=</span> props<span class="token punctuation">;</span>
-  <span class="token keyword">const</span> classNames <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'alert'</span><span class="token punctuation">,</span> <span class="token string">'alert-'</span> <span class="token operator">+</span> level<span class="token punctuation">]</span>
-  <span class="token keyword">return</span> <span class="token punctuation">(</span>
-    <span class="token operator">&lt;</span>div className<span class="token operator">=</span><span class="token punctuation">{</span>classNames<span class="token punctuation">}</span><span class="token operator">></span>
-      <span class="token punctuation">{</span>message<span class="token punctuation">}</span>
-    <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
-  <span class="token punctuation">)</span>
-<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+  <title>React App</title>
+</head>
 
-<span class="token comment" spellcheck="true">// In ES5</span>
-<span class="token keyword">var</span> ListItem <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span>props<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token keyword">var</span> handleClick <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span>event<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    props<span class="token punctuation">.</span><span class="token function">onClick</span><span class="token punctuation">(</span>event<span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<body>
+  <div class="demo">
+    <div id="demo1"></div>
+    <div id="demo2"></div>
+  </div>
 
-  <span class="token keyword">return</span> <span class="token punctuation">(</span>
-    <span class="token operator">&lt;</span>div className<span class="token operator">=</span><span class="token string">"list"</span><span class="token operator">></span>
-      <span class="token operator">&lt;</span>a
-        href<span class="token operator">=</span><span class="token string">"#"</span>
-        onClick<span class="token operator">=</span><span class="token punctuation">{</span>handleClick<span class="token punctuation">}</span><span class="token operator">></span>
-          <span class="token punctuation">{</span>props<span class="token punctuation">.</span>children<span class="token punctuation">}</span>
-      <span class="token operator">&lt;</span><span class="token operator">/</span>a<span class="token operator">></span>
-    <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
-  <span class="token punctuation">)</span>
-<span class="token punctuation">}</span>
-</code></pre>
-<p>So they are just functions, right? Yep! Since they are just functions, it&#39;s really easy to test using pure JavaScript. The idea is that if React knows the <code>props</code> that are sent into a component, it can be deterministic in knowing if it has to rerender or not. The same props in equal the same output virtual DOM.</p>
-<p>In React, functional components are called with an argument of <code>props</code> (similar to the <code>React.Component</code> constructor class), which are the <code>props</code> it&#39;s called with as well as with the current <code>context</code> of the component tree.</p>
-<p>For instance, let&#39;s say we want to rewrite our original <code>Timer</code> component using functional components as we want to give our users a dynamic way to set their own clock styles (24 hour clock vs. 12, different separators, maybe they don&#39;t want to display the seconds, etc).</p>
-<p>We can break up our clock into multiple components where we can use each block of time as an individual component. We might break them up like so:</p>
-<pre><code class="lang-javascript"><span class="token keyword">const</span> Hour    <span class="token operator">=</span> <span class="token punctuation">(</span>props<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-  <span class="token keyword">let</span> <span class="token punctuation">{</span>hours<span class="token punctuation">}</span> <span class="token operator">=</span> props<span class="token punctuation">;</span>
-  <span class="token keyword">if</span> <span class="token punctuation">(</span>hours <span class="token operator">===</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> hours <span class="token operator">=</span> <span class="token number">12</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
-  <span class="token keyword">if</span> <span class="token punctuation">(</span>props<span class="token punctuation">.</span>twelveHours<span class="token punctuation">)</span> <span class="token punctuation">{</span> hours <span class="token operator">-</span><span class="token operator">=</span> <span class="token number">12</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
-  <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token operator">&lt;</span>span<span class="token operator">></span><span class="token punctuation">{</span>hours<span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>span<span class="token operator">></span><span class="token punctuation">)</span>
-<span class="token punctuation">}</span>
-</code></pre>
-<pre><code class="lang-javascript"><span class="token keyword">const</span> Minute  <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">{</span>minutes<span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">(</span><span class="token operator">&lt;</span>span<span class="token operator">></span><span class="token punctuation">{</span>minutes<span class="token operator">&lt;</span><span class="token number">10</span> <span class="token operator">&amp;&amp;</span> <span class="token string">'0'</span><span class="token punctuation">}</span><span class="token punctuation">{</span>minutes<span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>span<span class="token operator">></span><span class="token punctuation">)</span>
-</code></pre>
-<pre><code class="lang-javascript"><span class="token keyword">const</span> Second  <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">{</span>seconds<span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">(</span><span class="token operator">&lt;</span>span<span class="token operator">></span><span class="token punctuation">{</span>seconds<span class="token operator">&lt;</span><span class="token number">10</span> <span class="token operator">&amp;&amp;</span> <span class="token string">'0'</span><span class="token punctuation">}</span><span class="token punctuation">{</span>seconds<span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>span<span class="token operator">></span><span class="token punctuation">)</span>
-</code></pre>
-<pre><code class="lang-javascript"><span class="token keyword">const</span> Separator <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">{</span>separator<span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">(</span><span class="token operator">&lt;</span>span<span class="token operator">></span><span class="token punctuation">{</span>separator <span class="token operator">||</span> <span class="token string">':'</span><span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>span<span class="token operator">></span><span class="token punctuation">)</span>
-</code></pre>
-<pre><code class="lang-javascript"><span class="token keyword">const</span> Ampm <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">{</span>hours<span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">(</span><span class="token operator">&lt;</span>span<span class="token operator">></span><span class="token punctuation">{</span>hours <span class="token operator">>=</span> <span class="token number">12</span> <span class="token operator">?</span> <span class="token string">'pm'</span> <span class="token punctuation">:</span> <span class="token string">'am'</span><span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>span<span class="token operator">></span><span class="token punctuation">)</span>
-</code></pre>
-<p>With these, we can place individual components as through they are full-blown React components (they are):</p>
-<pre><code class="lang-javascript"><span class="token operator">&lt;</span>div<span class="token operator">></span>Minute<span class="token punctuation">:</span> <span class="token operator">&lt;</span>Minute minutes<span class="token operator">=</span><span class="token punctuation">{</span><span class="token number">12</span><span class="token punctuation">}</span> <span class="token operator">/</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
-<span class="token operator">&lt;</span>div<span class="token operator">></span>Second<span class="token punctuation">:</span> <span class="token operator">&lt;</span>Second seconds<span class="token operator">=</span><span class="token punctuation">{</span><span class="token number">51</span><span class="token punctuation">}</span> <span class="token operator">/</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
-</code></pre>
-<div id="demo1"></div>
+</body>
 
-<p>We can refactor our clock component to accept a <code>format</code> string and break up this string selecting only the components our user is interested in showing. There are multiple ways we can handle this, like forcing the logic into the <code>Clock</code> component <em>or</em> we can create another stateless component that accepts a format string. Let&#39;s do that (easier to test):</p>
-<pre><code class="lang-javascript"><span class="token keyword">const</span> Formatter <span class="token operator">=</span> <span class="token punctuation">(</span>props<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-  <span class="token keyword">let</span> children <span class="token operator">=</span> props<span class="token punctuation">.</span>format<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">''</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span>e<span class="token punctuation">,</span> idx<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-    <span class="token keyword">if</span> <span class="token punctuation">(</span>e <span class="token operator">===</span> <span class="token string">'h'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      <span class="token keyword">return</span> <span class="token operator">&lt;</span>Hour key<span class="token operator">=</span><span class="token punctuation">{</span>idx<span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token operator">...</span>props<span class="token punctuation">}</span> <span class="token operator">/</span><span class="token operator">></span>
-    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>e <span class="token operator">===</span> <span class="token string">'m'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      <span class="token keyword">return</span> <span class="token operator">&lt;</span>Minute key<span class="token operator">=</span><span class="token punctuation">{</span>idx<span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token operator">...</span>props<span class="token punctuation">}</span> <span class="token operator">/</span><span class="token operator">></span>
-    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>e <span class="token operator">===</span> <span class="token string">'s'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      <span class="token keyword">return</span> <span class="token operator">&lt;</span>Second key<span class="token operator">=</span><span class="token punctuation">{</span>idx<span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token operator">...</span>props<span class="token punctuation">}</span> <span class="token operator">/</span><span class="token operator">></span>
-    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>e <span class="token operator">===</span> <span class="token string">'p'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      <span class="token keyword">return</span> <span class="token operator">&lt;</span>Ampm key<span class="token operator">=</span><span class="token punctuation">{</span>idx<span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token operator">...</span>props<span class="token punctuation">}</span> <span class="token operator">/</span><span class="token operator">></span>
-    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>e <span class="token operator">===</span> <span class="token string">' '</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      <span class="token keyword">return</span> <span class="token operator">&lt;</span>span key<span class="token operator">=</span><span class="token punctuation">{</span>idx<span class="token punctuation">}</span><span class="token operator">></span> <span class="token operator">&lt;</span><span class="token operator">/</span>span<span class="token operator">></span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
-      <span class="token keyword">return</span> <span class="token operator">&lt;</span>Separator key<span class="token operator">=</span><span class="token punctuation">{</span>idx<span class="token punctuation">}</span> <span class="token punctuation">{</span><span class="token operator">...</span>props<span class="token punctuation">}</span> <span class="token operator">/</span><span class="token operator">></span>
-    <span class="token punctuation">}</span>
-  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-  <span class="token keyword">return</span> <span class="token operator">&lt;</span>span<span class="token operator">></span><span class="token punctuation">{</span>children<span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>span<span class="token operator">></span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-</code></pre>
-<p>This is a little ugly with the <code>key</code> and <code>{...props}</code> thingie in there. React gives us some helpers for mapping over children and taking care of handling the unique <code>key</code> for each child through the <code>React.Children</code> object.</p>
-<p>The <code>render()</code> function of our <code>Clock</code> component can be greatly simplified thanks to the <code>Formatter</code> component into this:</p>
-<pre><code class="lang-javascript"><span class="token keyword">class</span> <span class="token class-name">Clock</span> <span class="token keyword">extends</span> <span class="token class-name">React<span class="token punctuation">.</span>Component</span> <span class="token punctuation">{</span>
-  state <span class="token operator">=</span> <span class="token punctuation">{</span> currentTime<span class="token punctuation">:</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">}</span>
-  <span class="token function">componentDidMount</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setState</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-      currentTime<span class="token punctuation">:</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-    <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>updateTime<span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span>
-  <span class="token function">componentWillUnmount</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>timerId<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      <span class="token function">clearTimeout</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>timerId<span class="token punctuation">)</span>
-    <span class="token punctuation">}</span>
-  <span class="token punctuation">}</span>
-
-  updateTime <span class="token operator">=</span> e <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-    <span class="token keyword">this</span><span class="token punctuation">.</span>timerId <span class="token operator">=</span> <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-      <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setState</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-        currentTime<span class="token punctuation">:</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-      <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>updateTime<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span><span class="token punctuation">)</span>
-  <span class="token punctuation">}</span>
-
-  <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">const</span> <span class="token punctuation">{</span> currentTime <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>state
-    <span class="token keyword">const</span> hour <span class="token operator">=</span> currentTime<span class="token punctuation">.</span><span class="token function">getHours</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">const</span> minute <span class="token operator">=</span> currentTime<span class="token punctuation">.</span><span class="token function">getMinutes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">const</span> second <span class="token operator">=</span> currentTime<span class="token punctuation">.</span><span class="token function">getSeconds</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-    <span class="token keyword">return</span> <span class="token punctuation">(</span>
-      <span class="token operator">&lt;</span>div className<span class="token operator">=</span><span class="token string">'clock'</span><span class="token operator">></span>
-        <span class="token operator">&lt;</span>Formatter
-          <span class="token punctuation">{</span><span class="token operator">...</span><span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">}</span>
-          state<span class="token operator">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">}</span>
-          hours<span class="token operator">=</span><span class="token punctuation">{</span>hour<span class="token punctuation">}</span>
-          minutes<span class="token operator">=</span><span class="token punctuation">{</span>minute<span class="token punctuation">}</span>
-          seconds<span class="token operator">=</span><span class="token punctuation">{</span>second<span class="token punctuation">}</span>
-        <span class="token operator">/</span><span class="token operator">></span>
-      <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
-    <span class="token punctuation">)</span>
-  <span class="token punctuation">}</span>
-<span class="token punctuation">}</span>
-</code></pre>
-<p>Not only is our <code>Clock</code> component <em>much</em> simpler, but it&#39;s <em>so</em> much easier to test. It <em>also</em> will help us transition to using a data state tree, like Flux/Redux frameworks, but more on those later.</p>
-<div class="demo" id="demo2"></div>
-
-<h2 id="uhh-so-why-care-">Uhh... so why care?</h2>
-<p>Advantages to using functional components in React are:</p>
-<ul>
-<li>We can do away with the heavy lifting of components, no constructor, state, life-cycle madness, etc.</li>
-<li>There is no <code>this</code> keyword (i.e. no need to bind)</li>
-<li>Presentational components (also called dumb components) emphasize UI over business logic (i.e. no state manipulation in the component)</li>
-<li>Encourages building smaller, self-contained components</li>
-<li>Highlights badly written code (for better refactoring)</li>
-<li>FAST FAST FAST FAST FAST</li>
-<li>They are <em>easy</em> to reuse</li>
-</ul>
-<p>You might say why not use a functional component? Well, some of the disadvantage of using a functional component are some of the advantages:</p>
-<ul>
-<li>No life-cycle callback hooks</li>
-<li>Limited functionality</li>
-<li>There is no <code>this</code> keyword</li>
-</ul>
-<p>Overall, it&#39;s a really good idea to try to prefer using functional components over their heavier <code>React.Component</code> cousins. When we get to talking about data management in React, we&#39;ll see how we can use these presentational components with data as pure <code>props</code>.</p>
-<p>Nice work today. We&#39;ve successfully achieved React rank after today. We now know the <em>three</em> ways to make a React Component. Tomorrow, we&#39;ll get set up using/building React apps with the package management tool shipped by the React team: <code>create-react-app</code>.</p>
-
-  </body>
 </html>

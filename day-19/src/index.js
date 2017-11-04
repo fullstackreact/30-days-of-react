@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import Frame from 'react-frame-component';
 
 import './index.css';
-import Root from './Root'
+import Root from './Root';
 
 export const load = () => {
   ReactDOM.render(
@@ -11,9 +11,9 @@ export const load = () => {
       <Root />
     </Frame>,
     document.getElementById('demo1')
-  )
-}
+  );
+};
 
 try {
-  //load()
-} catch(e) {}
+  load();
+} catch (e) {}
