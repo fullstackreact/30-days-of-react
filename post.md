@@ -71,13 +71,13 @@ import * as currentUser from './currentUser';
 import * as currentTime from './currentTime';
 
 export const rootReducer = combineReducers({
-  currentTime: currentTime.reducer,
-  currentUser: currentUser.reducer,
+  time: currentTime.reducer,
+  user: currentUser.reducer,
 })
 
 export const initialState = {
-  currentTime: currentTime.initialState,
-  currentUser: currentUser.initialState,
+  time: currentTime.initialState,
+  user: currentUser.initialState,
 }
 
 export default rootReducer
