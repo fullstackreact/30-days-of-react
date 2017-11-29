@@ -77,9 +77,9 @@ React exposes a few basic types we can use out of the box.
 
 It's possible to tell React we want it to pass through _anything_ that can be rendered by using `React.PropTypes.node`:
 
-| type | example | class
+|  type  |  example  |  class 
 :-- | :--: | --:
-| A rendererable | 10, 'hello' | `React.PropTypes.node` |
+|  A rendererable  |  10, 'hello'  |  `React.PropTypes.node`  |
 
 ```javascript
 Clock.propTypes = {
