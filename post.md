@@ -160,7 +160,7 @@ We can also pass through React elements from a parent to a child. This is incred
 
 ```javascript
 Clock.propTypes = {
-  displayEle: React.PropTypes.element
+  displayElement: React.PropTypes.element
 }
 ```
 
