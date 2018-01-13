@@ -130,7 +130,7 @@ It's possible to define types that need to be of a certain shape or instance of 
 :-- | :--: | --:
 | Object | `{name: 'Ari'}` | `React.PropTypes.object` |
 | Number object | `{count: 42}` | `React.PropTypes.objectOf()` |
-| Instance | `new Message()` | `React.PropTypes.objectOf()` |
+| Instance | `new Message()` | `React.PropTypes.instanceOf()` |
 | Object shape | `{name: 'Ari'}` | `React.PropTypes.shape()` |
 
 ```javascript
