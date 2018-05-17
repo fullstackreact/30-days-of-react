@@ -135,7 +135,7 @@ In the `updateClock()` function we'll want to update the state with the new time
 class Clock extends React.Component {
   // ...
   updateClock() {
-    this.setState(this.getTime, this.setTimer);
+    this.setState(this.getTime);
   }
   // ...
 }
@@ -147,10 +147,7 @@ The component will be mounted on the page and in (approximately) one second (100
 class Clock extends React.Component {
   // ...
   updateClock() {
-    const currentTime = new Date();
-    this.setState({
-      currentTime: currentTime
-    })
+    this.setState(this.getTime);
     this.setTimer();
   }
   // ...
@@ -163,10 +160,7 @@ Now the component itself might rerender slower than the timeout function gets ca
 class Clock extends React.Component {
   // ...
   updateClock() {
-    const currentTime = new Date();
-    this.setState({
-      currentTime: currentTime
-    }, this.setTimer);
+    this.setState(this.getTime, this.setTimer);
   }
   // ...
 }
