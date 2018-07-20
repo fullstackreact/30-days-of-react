@@ -60,7 +60,7 @@ When testing React components, we will test both our expectations of what is con
 
 ## The tools
 
-We're going to use a testing library called called [jasmine](http://jasmine.github.io) to provide a readable testing language and assertions.
+We're going to use a testing library called [jasmine](http://jasmine.github.io) to provide a readable testing language and assertions.
 
 As far as test running, there is a general debate around which test runner is the easiest/most efficient to work with, largely between [mocha](https://mochajs.org) and [jest](https://facebook.github.io/jest).
 
