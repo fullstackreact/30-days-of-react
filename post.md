@@ -17,7 +17,7 @@ includeFile: ./../_params.yaml
 ---
 
 
-Over the next 30 days, you'll get a good feel for the various parts of the [React](https://facebook.github.io/react/) web framework and its ecosystem.
+Over the next 30 days, you'll get a good feel for the various parts of the [React](https://reactjs.org/) web framework and its ecosystem.
 
 Each day in our 30 day adventure will build upon the previous day's materials, so by the end of the series, you'll not only know the terms, concepts, and underpinnings of how the framework works, but be able to use React in your next web application.
 
@@ -25,7 +25,7 @@ Let's get started. We'll start [at the very beginning](https://www.youtube.com/w
 
 ## What is React?
 
-[React](https://facebook.github.io/react/) is a JavaScript library for building user interfaces. It is the view layer for web applications.
+[React](https://reactjs.org/) is a JavaScript library for building user interfaces. It is the view layer for web applications.
 
 At the heart of all React applications are **components**. A component is a self-contained module that renders some output. We can write interface elements like a button or an input field as a React component. Components are _composable_. A component might include one or more other components in its output.
 
@@ -71,7 +71,7 @@ Although it might look a little scary, the JavaScript code is a single line that
 
 Unlike many of its predecessors, React operates not directly on the browser's Document Object Model (DOM) immediately, but on a **virtual DOM**. That is, rather than manipulating the `document` in a browser after changes to our data (which can be quite slow) it resolves changes in its virtual DOM. After the virtual DOM has been updated, React intelligently determines what changes to make to the actual DOM.
 
-The [React Virtual DOM](https://facebook.github.io/react/docs/dom-differences.html) exists entirely in-memory and is a representation of the web browser's DOM. Because of this, when we write a React component, we're not writing directly to the DOM, but we're writing a virtual component that React will turn into the DOM.
+The [React Virtual DOM](https://reactjs.org/docs/dom-elements.html) exists entirely in-memory and is a representation of the web browser's DOM. Because of this, when we write a React component, we're not writing directly to the DOM, but we're writing a virtual component that React will turn into the DOM.
 
 In the next article, we'll look at what this means for us as we build our React components and jump into JSX and writing our first real components. 
 
