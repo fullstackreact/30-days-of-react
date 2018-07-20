@@ -25,7 +25,7 @@ Let's get started. We'll start [at the very beginning](https://www.youtube.com/w
 
 ## What is React?
 
-[React](https://facebook.github.io/react/) is a JavaScript library for building user interfaces. It is the view layer for web applications.
+[React](https://reactjs.org/) is a JavaScript library for building user interfaces. It is the view layer for web applications.
 
 At the heart of all React applications are **components**. A component is a self-contained module that renders some output. We can write interface elements like a button or an input field as a React component. Components are _composable_. A component might include one or more other components in its output.
 
