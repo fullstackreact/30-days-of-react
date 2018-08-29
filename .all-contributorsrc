@@ -1,0 +1,22 @@
+{
+  "projectName": "30-days-of-react",
+  "projectOwner": "fullstackreact",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 140,
+  "commit": true,
+  "contributors": [
+    {
+      "login": "auser",
+      "name": "Ari",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/529?v=4",
+      "profile": "http://willcodeforfoo.com",
+      "contributions": [
+        "blog"
+      ]
+    }
+  ]
+}
