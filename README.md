@@ -37,6 +37,13 @@ yarn start
 
 Since all of the days are built using the fantastic [create-react-app](https://github.com/facebookincubator/create-react-app) tool, all of the commands are available from that project in every day.
 
+## Contributors
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore -->
+| <a href='http://willcodeforfoo.com'><img src='https://avatars1.githubusercontent.com/u/529?v=4' width='140px;'/><h4 align='center'><a href='http://willcodeforfoo.com'>Ari</a></h4> | <a href='https://newline.co'><img src='https://avatars2.githubusercontent.com/u/4318?v=4' width='140px;'/><h4 align='center'><a href='https://newline.co'>Nate Murray</a></h4> | <a href='https://codepen.io/PeterHYChan/'><img src='https://avatars3.githubusercontent.com/u/32804449?v=4' width='140px;'/><h4 align='center'><a href='https://codepen.io/PeterHYChan/'>Peter Ho Yeung Chan</a></h4> |
+| :---: | :---: | :---: |
+<!-- ALL-CONTRIBUTORS-LIST:END -->
 
 ___
 
@@ -51,15 +58,3 @@ This repo was written and is maintained by the [Fullstack React](https://fullsta
 _30 Days of React_ covers only the early basics of React. If you're looking to learn how to build real-world React apps, including libraries from the React ecosystem, there's no faster way than by spending a few hours with the Fullstack React book.
 
 <div style="clear:both"></div>
-
-## Contributors
-
-Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds/all-contributors#emoji-key)):
-
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore -->
-| [<img src="https://avatars1.githubusercontent.com/u/529?v=4" width="140px;"/><br /><sub><b>Ari</b></sub>](http://willcodeforfoo.com)<br />[📝](#blog-auser "Blogposts") | [<img src="https://avatars2.githubusercontent.com/u/4318?v=4" width="140px;"/><br /><sub><b>Nate Murray</b></sub>](https://newline.co)<br />[📝](#blog-jashmenn "Blogposts") | [<img src="https://avatars3.githubusercontent.com/u/32804449?v=4" width="140px;"/><br /><sub><b>Peter Ho Yeung Chan</b></sub>](https://codepen.io/PeterHYChan/)<br />[📝](#blog-peterhychan "Blogposts") |
-| :---: | :---: | :---: |
-<!-- ALL-CONTRIBUTORS-LIST:END -->
-
-This project follows the [all-contributors](https://github.com/kentcdodds/all-contributors) specification. Contributions of any kind welcome!
