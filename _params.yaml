@@ -1,0 +1,21 @@
+note: 'This file is for fullstackreact.com internal use'
+series: 30-days-of-react
+isPrinting: false
+published: false
+draft: false
+author: ari
+autotoc: true
+fileMetaKeyHeadingsAllowed: true
+containerintro: 'partials/series/30-days-of-react/what-is-this.html'
+containerfooter: 'partials/series/30-days-of-react/postcontents.html'
+bodyClasses: thirty-days landingpage
+editOnGithubUrl: __GITHUB_REPO__/blob/__PERMALINK__/post.md
+githubRepo: https://github.com/fullstackreact/30-days-of-react
+articleEntry: '30-days-of-react/__PERMALINK__-code/index'
+codeRoot: '__FILE_PATH__/code/__DAY_DIR__'
+imagesDir: '../../../assets/images/series/30-days-of-react/__DAY_DIR__'
+githubRepo: 'https://github.com/fullstackreact/30-days-of-react'
+variables:
+  __DAY_DIR__: dayDir
+  __GITHUB_REPO__: githubRepo
+  __PERMALINK__: permalink
