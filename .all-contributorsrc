@@ -8,6 +8,8 @@
   ],
   "imageSize": 140,
   "commit": true,
+  "contributorTemplate": "<a href='<%= contributor.profile %>'><img src='<%= contributor.avatar_url %>' width='<%= options.imageSize %>px;'/><h4 align='center'><a href='<%= contributor.profile %>'><%= contributor.name %></a></h4>",
+  "contributorsPerLine": 5,
   "contributors": [
     {
       "login": "auser",
