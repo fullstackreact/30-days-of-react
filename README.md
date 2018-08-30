@@ -15,7 +15,7 @@ Written by <a href="https://fullstack.io">Fullstack.io</a> and <a href="#contrib
 </p>
 <p align="center">
 <a href="https://app.monstercampaigns.com/c/opsh28ygz42xhvtlq4vd/">
-<img src="./images/readme/download-the-pdf-button.png"/>
+<img src="./images/readme/download-the-pdf-button.png" width="484" height="83" />
 </a>
 </p>
 <hr />
