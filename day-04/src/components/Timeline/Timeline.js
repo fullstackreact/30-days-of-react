@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './timeline.css';
+import './Timeline.css';
 
 // Don't do it like this. This is for example only
 class Timeline extends React.Component {
