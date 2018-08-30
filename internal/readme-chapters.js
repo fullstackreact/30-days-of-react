@@ -53,23 +53,23 @@ async function run(argv) {
 
   await createImages(postData);
 
-  const rows = chunk(postData, 5).map(
-    chunk =>
-      "| " +
-      chunk
-        .map(
-          postData =>
-            `<a href='${postData.folder}'><img src='${
-              postData.folder
-            }/cover.jpg' width='140px;' /></a><h4 align='center'><a href='${
-              postData.folder
-            }'>${postData.title}</a><h4>`
-        )
-        .join(" | ") +
-      " |"
+  const items = postData.map(
+    postData =>
+      `<a href='${postData.folder}'><img src='${
+        postData.folder
+      }/cover.jpg' width='140px;' /></a><h4 align='center'><a href='${
+        postData.folder
+      }'>${postData.title}</a><h4>`
   );
+
+  const rows = chunk(items, 5).map(chunk => `| ` + chunk.join(" | ") + ` |`);
+
   let output =
-    rows.join("\n") + "\n" + "| :---: | :---: | :---: | :---: | :---: |";
+    rows[0] +
+    "\n" +
+    "| :---: | :---: | :---: | :---: | :---: |\n" +
+    rows.slice(1).join("\n");
+
   console.log(output);
 }
 
