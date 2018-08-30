@@ -59,9 +59,8 @@ Since all of the days are built using the fantastic [create-react-app](https://g
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore -->
-| <a href='http://willcodeforfoo.com'><img src='https://avatars1.githubusercontent.com/u/529?v=4' width='140px;'/><h4 align='center'><a href='http://willcodeforfoo.com'>Ari</a></h4> | <a href='https://newline.co'><img src='https://avatars2.githubusercontent.com/u/4318?v=4' width='140px;'/><h4 align='center'><a href='https://newline.co'>Nate Murray</a></h4> | <a href='https://codepen.io/PeterHYChan/'><img src='https://avatars3.githubusercontent.com/u/32804449?v=4' width='140px;'/><h4 align='center'><a href='https://codepen.io/PeterHYChan/'>Peter Ho Yeung Chan</a></h4> |
-| :---: | :---: | :---: |
-
+| <a href='http://willcodeforfoo.com'><img src='https://avatars1.githubusercontent.com/u/529?v=4' width='140px;'/><h4 align='center'><a href='http://willcodeforfoo.com'>Ari</a></h4> | <a href='https://newline.co'><img src='https://avatars2.githubusercontent.com/u/4318?v=4' width='140px;'/><h4 align='center'><a href='https://newline.co'>Nate Murray</a></h4> | <a href='https://codepen.io/PeterHYChan/'><img src='https://avatars3.githubusercontent.com/u/32804449?v=4' width='140px;'/><h4 align='center'><a href='https://codepen.io/PeterHYChan/'>Peter Ho Yeung Chan</a></h4> | <a href='https://github.com/harms280'><img src='https://avatars2.githubusercontent.com/u/10542951?v=4' width='140px;'/><h4 align='center'><a href='https://github.com/harms280'>Aaron</a></h4> |
+| :---: | :---: | :---: | :---: |
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 ---

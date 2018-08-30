@@ -37,6 +37,15 @@
       "contributions": [
         "blog"
       ]
+    },
+    {
+      "login": "harms280",
+      "name": "Aaron",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/10542951?v=4",
+      "profile": "https://github.com/harms280",
+      "contributions": [
+        "bug"
+      ]
     }
   ]
 }
