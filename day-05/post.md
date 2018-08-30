@@ -125,8 +125,7 @@ Pretty nifty, ey? Now we can reuse the `<Header />` component with a dynamic `ti
 
 We can pass in more than just strings in a component. We can pass in numbers, strings, all sorts of objects, and even functions! We'll talk more about how to define these different properties so we can build a component api later.
 
-Instead of statically setting the content and date
-Let's take the `Content` component and set the timeline content by a data variable instead of by text. Just like we can do with HTML components, we can pass multiple `props` into a component.
+Instead of statically setting the content and date let's take the `Content` component and set the timeline content by a data variable instead of by text. Just like we can do with HTML components, we can pass multiple `props` into a component.
 
 Recall, yesterday we defined our `Content` container like this:
 
