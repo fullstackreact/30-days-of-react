@@ -4,15 +4,25 @@
 <h1 align="center">
   30 Days of React
 </h1>
+<p align="center">
+<img src="./images/readme/30-days-of-react-book-cover-2-as-book-220.png"/>
+</p>
 <h2 align="center">
   ✨ An Introduction to React - <b>in 30 Bite-Size Morsels</b> ✨
 </h2>
 <p align="center">
 Written by <a href="https://fullstack.io">Fullstack.io</a> and <a href="#contributors">friends</a>
 </p>
+<p align="center">
+<a href="https://app.monstercampaigns.com/c/opsh28ygz42xhvtlq4vd/">
+<img src="./images/readme/download-the-pdf-button.png"/>
+</a>
+</p>
 <hr />
 
 # 🚀 Introduction
+
+Over the next 30 days, we'll walk through everything you need to know to work with React. From the very beginning through testing and deployment of our first app.
 
 This repository contains the entire source and content for the article series of [30 Days of React](https://www.fullstackreact.com/30-days-of-react) hosted by the [Fullstack React](https://www.fullstackreact.com/) team.
 
