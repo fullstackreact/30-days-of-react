@@ -32,7 +32,13 @@ A common web element we might see is a user timeline. For instance, we might hav
 >
 > The entire compiled CSS can be found on the gist at [https://gist.github.com/auser/2bc34b9abf07f34f602dccd6ca855df1](https://gist.github.com/auser/2bc34b9abf07f34f602dccd6ca855df1).
 >
-> Additionally, _all_ the code for the examples on the page is available at the [github repo (at https://github.com/fullstackreact/30-days-of-react)](https://github.com/fullstackreact/30-days-of-react).
+> In addition, in order to make the timeline look _exactly_ like the way ours does on the site, you'll need to include [font-awesome](http://fontawesome.io/) in your web application. There are multiple ways to handle this. The simplest way is to include the link styles:
+>
+> ```html
+> <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+> ```
+>
+> _All_ the code for the examples on the page is available at the [github repo (at https://github.com/fullstackreact/30-days-of-react)](https://github.com/fullstackreact/30-days-of-react).
 
 We _could_ build this entire UI in a single component. However, building an entire application in a single component is not a great idea as it can grow huge, complex, and difficult to test.
 
