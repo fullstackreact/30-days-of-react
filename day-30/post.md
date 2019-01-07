@@ -9,7 +9,7 @@ description: >-
   very complex applications, integrated with data, styled to perfection, tested
   and deployed.
 published: false
-author: ari
+author: auser
 hero_image: /assets/images/series/30-days-of-react/headings/30.jpg
 imageUrl: /assets/images/series/30-days-of-react/headings/30.jpg
 dayDir: '30'
