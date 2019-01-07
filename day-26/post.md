@@ -16,7 +16,7 @@ imagesDir: /assets/images/series/30-days-of-react/day-26
 includeFile: ./../_params.yaml
 ---
 
-We've reached the final part of our introduction to testing. We're going to wrap up our testing section with integration testing. As a reminder of what Integration testing is, it's the process of automating the experience that our actual users experience as they use our application. 
+We've reached the final part of our introduction to testing. We're going to wrap up our testing section with integration testing. As a reminder of what Integration testing is, it's the process of automating the experience that our actual users experience as they use our application.
 
 <div class="demo" id="demo1"></div>
 
@@ -26,7 +26,7 @@ As we're integration testing, we'll need to have our app actually running as we'
 
 ## Install
 
-The easiest way to install [selenium](http://docs.seleniumhq.org/download/) is to download it through the the selenium website at: [http://docs.seleniumhq.org/download/](http://docs.seleniumhq.org/download/). 
+The easiest way to install [selenium](http://docs.seleniumhq.org/download/) is to download it through the the selenium website at: [http://docs.seleniumhq.org/download/](http://docs.seleniumhq.org/download/).
 
 > If you're on a mac, you can use [Homebrew](http://brew.sh) with the `brew` command:
 >
@@ -106,7 +106,7 @@ mkdir tests
 touch tests/auth-flow.js
 ```
 
-The nightwatch tests can be set as an object of exports, where the key is the description of the test and the value is a function with a reference to the client browser. For instance, we'll set up four tests for our `tests/auth-flow.js` test. 
+The nightwatch tests can be set as an object of exports, where the key is the description of the test and the value is a function with a reference to the client browser. For instance, we'll set up four tests for our `tests/auth-flow.js` test.
 
 Updating our `tests/auth-flow.js` file with these four test functions look like the following:
 
@@ -119,7 +119,7 @@ module.exports = {
 }
 ```
 
-Each of the functions in our object exports will receive a `browser` instance which serves as the interface between our test and the selenium webdriver. We have all sorts of available options we can run on this `browser` variable. 
+Each of the functions in our object exports will receive a `browser` instance which serves as the interface between our test and the selenium webdriver. We have all sorts of available options we can run on this `browser` variable.
 
 Let's write our first test to demonstrate this function. We're going to set up nightwatch so that it launches the page, and clicks on the Login link in the navbar. We'll take the following steps to do this:
 
@@ -150,7 +150,7 @@ module.exports = {
 
 Thats it. Before we get too far ahead, let's run this test to make sure our test setup works. We'll need to open 3 terminal windows here.
 
-In the first terminal window, let's launch selenium. If you downloaded the `.jar` file, you can start this with the command: 
+In the first terminal window, let's launch selenium. If you downloaded the `.jar` file, you can start this with the command:
 
 ```bash
 java -jar selenium-server-standalone-{VERSION}.jar
@@ -182,7 +182,7 @@ nightwatch
 
 When we run the `nightwatch` command, we'll see a chrome window open up, visit the site, and click on the login link automatically... (pretty cool, right?).
 
-All of our tests pass at this point. Let's actually tell the browser to log a user in. 
+All of our tests pass at this point. Let's actually tell the browser to log a user in.
 
 Since the first step will run, the browser will already be on the login page. In the second key of our tests, we'll want to take the following steps:
 
@@ -302,6 +302,8 @@ nightwatch
 ```
 
 <img class="wide" src="/assets/images/series/30-days-of-react/day-26/nightwatch-3.jpg" />
+
+One final note, if you're interested in a deeper set of selenium tutorials, check out the free tutorials from guru99.com at [https://www.guru99.com/selenium-tutorial.html](https://www.guru99.com/selenium-tutorial.html). They are pretty in-depth and well done (in our opinion).
 
 That's it! We've made it and have covered 3 types of testing entirely, from low-level up through faking a real browser instance. Now we have the tools to ensure our applications are ready for full deployment.
 
