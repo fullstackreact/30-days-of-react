@@ -3,7 +3,7 @@ series: 30-days-of-react
 isPrinting: false
 published: false
 draft: false
-author: ari
+author: auser
 autotoc: true
 fileMetaKeyHeadingsAllowed: true
 containerintro: 'partials/series/30-days-of-react/what-is-this.html'
