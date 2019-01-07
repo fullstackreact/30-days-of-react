@@ -4,13 +4,14 @@ series: 30-days-of-react
 permalink: day-7
 title: Lifecycle Hooks
 description: >-
-  Today, we'll look through a few of the most common lifecycle hooks we can use with React components and we'll discuss why they are useful and when we should use each one.
-dayDir: '07'
+  <blockquote class="warning"> <b>NOTE</b>: This post is about <em>classic</em> React Lifecycle hooks.<br/> If you're looking to learn about the <a href="https://www.fullstackreact.com/articles/an-introduction-to-hooks-in-react/"><b>new Hooks API</b> then click here</a> </blockquote> Today, we'll look through a few of the most common lifecycle hooks we can use
+  with React components and we'll discuss why they are useful and when we should each one.
+dayDir: "07"
 day: 7
 hero_image: /assets/images/series/30-days-of-react/headings/7.jpg
 imageUrl: /assets/images/series/30-days-of-react/headings/7.jpg
 introBannerUrl: /assets/images/series/30-days-of-react/headings/7_wide.jpg
-date: 'Wed Oct 10 2016 21:29:42 GMT-0700 (PDT)'
+date: "Wed Oct 10 2016 21:29:42 GMT-0700 (PDT)"
 imagesDir: /assets/images/series/30-days-of-react/day-7
 includeFile: ./../_params.yaml
 ---
@@ -34,20 +35,18 @@ Recall we defined our `Content` component in our activity list:
 ```javascript
 class Content extends React.Component {
   render() {
-    const {activities} = this.props; // ES6 destructuring
+    const { activities } = this.props; // ES6 destructuring
 
     return (
       <div className="content">
-        <div className="line"></div>
+        <div className="line" />
 
         {/* Timeline item */}
-        {activities.map((activity) => (
-          <ActivityItem
-            activity={activity} />
+        {activities.map(activity => (
+          <ActivityItem activity={activity} />
         ))}
-
       </div>
-    )
+    );
   }
 }
 ```
@@ -65,7 +64,7 @@ class Content extends React.Component {
 
     this.state = {
       activities: []
-    }
+    };
   }
 
   // ...
@@ -82,7 +81,7 @@ Let's update the `Content` component with the request to the github api. Since w
 class Content extends React.Component {
   // ...
   componentWillMount() {
-    this.setState({activities: data});
+    this.setState({ activities: data });
   }
   // ...
 }
@@ -117,30 +116,31 @@ class Container extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {refreshing: false}
+    this.state = { refreshing: false };
   }
 
   // Bound to the refresh button
   refresh() {
-    this.setState({refreshing: true})
+    this.setState({ refreshing: true });
   }
 
   // Callback from the `Content` component
   onComponentRefresh() {
-    this.setState({refreshing: false});
+    this.setState({ refreshing: false });
   }
 
   render() {
-    const {refreshing} = this.state;
+    const { refreshing } = this.state;
     return (
-      <div className='notificationsFrame'>
-        <div className='panel'>
+      <div className="notificationsFrame">
+        <div className="panel">
           <Header title="Github activity" />
           {/* refreshing is the component's state */}
           <Content
             onComponentRefresh={this.onComponentRefresh.bind(this)}
             requestRefresh={refreshing}
-            fetchData={fetchEvents} />
+            fetchData={fetchEvents}
+          />
           {/* A container for styling */}
           <Footer>
             <button onClick={this.refresh.bind(this)}>
@@ -150,7 +150,7 @@ class Container extends React.Component {
           </Footer>
         </div>
       </div>
-    )
+    );
   }
 }
 ```
@@ -158,15 +158,11 @@ class Container extends React.Component {
 > ## `<Footer />`
 >
 > Notice that we have a new element here that displays the children of the element. This is a pattern which allows us to add a CSS class around some content.
->
+
 ```javascript
 class Footer extends React.Component {
   render() {
-    return (
-      <div className='footer'>
-        {this.props.children}
-      </div>
-    )
+    return <div className="footer">{this.props.children}</div>;
   }
 }
 ```
@@ -179,7 +175,7 @@ class Content extends React.Component {
   componentWillReceiveProps(nextProps) {
     // Check to see if the requestRefresh prop has changed
     if (nextProps.requestRefresh === true) {
-      this.setState({loading: true}, this.updateData);
+      this.setState({ loading: true }, this.updateData);
     }
   }
   // ...
@@ -223,14 +219,12 @@ class Clock extends React.Component {
       hours: currentTime.getHours(),
       minutes: currentTime.getMinutes(),
       seconds: currentTime.getSeconds(),
-      ampm: currentTime.getHours() >= 12 ? 'pm' : 'am'
-    }
+      ampm: currentTime.getHours() >= 12 ? "pm" : "am"
+    };
   }
 
   // ...
-  render() {
-
-  }
+  render() {}
 }
 ```
 
@@ -253,4 +247,3 @@ class Clock extends React.Component {
 These are a few of the lifecycle hooks we can interact with in the React framework. We'll be using these a lot as we build our react apps, so it's a good idea to be familiar with them, that they exist, and how to hook into the life of a component.
 
 We did introduce one new concept in this post which we glossed over: we added a callback on a component to be called from the child to it's parent component. In the next section, we're going to look at how to define and document the `prop` API of a component for usage when sharing a component across teams and an application in general.
-
