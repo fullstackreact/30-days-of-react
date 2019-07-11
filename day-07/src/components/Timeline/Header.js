@@ -1,14 +1,11 @@
 import React from 'react';
+import MenuButton from './MenuButton'
 
 class Header extends React.Component {
   render() {
     return (
       <div className="header">
-        <div className="menuIcon">
-          <div className="dashTop"></div>
-          <div className="dashBottom"></div>
-          <div className="circle"></div>
-        </div>
+        <MenuButton/>
 
         <span className="title">Timeline</span>
 
