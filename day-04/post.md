@@ -27,12 +27,12 @@ A common web element we might see is a user timeline. For instance, we might hav
 > However, we want to make sure the timeline you build looks similar to ours. If you include the following CSS as a `<link />` tag in your code, you're timeline will look similar and will be using the same styling ours is using:
 >
 > ```html
-> <link href="https://gist.githubusercontent.com/auser/2bc34b9abf07f34f602dccd6ca855df1/raw/40c5e7c8cad4c6920fed940fc31cbb63abd94c29/timeline.css" rel="stylesheet" type="text/css" />
+> <link href="https://cdn.jsdelivr.net/gh/fullstackreact/30-days-of-react@master/day-04/src/components/Timeline/Timeline.css" rel="stylesheet" type="text/css" />
 > ```
 >
 > And make sure to surround your code in a component with the class of `demo` (we left it this way purposefully as it's the _exact_ same code we use in all the demos here). Check out the [https://jsfiddle.net/auser/zwomnfwk/](https://jsfiddle.net/auser/zwomnfwk/) for a working example.
 >
-> The entire compiled CSS can be found on the gist at [https://gist.github.com/auser/2bc34b9abf07f34f602dccd6ca855df1](https://gist.github.com/auser/2bc34b9abf07f34f602dccd6ca855df1).
+> The entire compiled CSS can be found on the github repository at [https://github.com/fullstackreact/30-days-of-react/blob/master/day-04/src/components/Timeline/Timeline.css](https://github.com/fullstackreact/30-days-of-react/blob/master/day-04/src/components/Timeline/Timeline.css).
 >
 > In addition, in order to make the timeline look _exactly_ like the way ours does on the site, you'll need to include [font-awesome](http://fontawesome.io/) in your web application. There are multiple ways to handle this. The simplest way is to include the link styles:
 >
