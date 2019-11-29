@@ -1,14 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
-    <title>React App</title>
-  </head>
+<html>
 
-  <body>
-    <div id="root"></div>
-    <div id="root-jsx"></div>
-  </body>
+<head>
+  <meta charset="utf-8" />
+  <title>Hello world</title>
+  <!-- Script tags including React -->
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react.min.js"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react-dom.min.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+
+<body>
+  <div id="app"></div>
+  <div id="app-jsx"></div>
+  <script type="text/babel">
+    class HelloWorld extends React.Component {
+      render() {
+        return (
+          React.createElement(
+            'h1',
+            {className: 'large'},
+            'Hello World'
+          )
+        );
+      }
+    }
+
+    class HelloWorldJSX extends React.Component {
+      render() {
+        return <h1 className="large">Hello World</h1>;
+      }
+    }
+
+    ReactDOM.render(<HelloWorld />, document.getElementById('app'));
+    ReactDOM.render(<HelloWorldJSX />, document.getElementById('app-jsx'));
+  </script>
+</body>
+
 </html>
