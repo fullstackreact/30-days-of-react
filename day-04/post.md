@@ -183,8 +183,11 @@ class Header extends React.Component {
   render() {
     return (
       <div className="header">
-        <div className="fa fa-more"></div>
-
+        <div className="menuIcon">
+          <div className="dashTop"></div>
+          <div className="dashBottom"></div>
+          <div className="circle"></div>
+        </div>
         <span className="title">Timeline</span>
 
         <input
@@ -269,6 +272,16 @@ class App extends React.Component {
 ```
 
 <div class="demo" id="demo2"></div>
+
+> Note!
+>
+> Don't forget to call `ReactDOM.render` to place your app on the page
+> ```javascript
+> var mountComponent = document.querySelector('#app');
+> ReactDOM.render(<App />, mountComponent);
+> ```
+>
+>
 
 With this knowledge, we now have the ability to write multiple components and we can start to build more complex applications.
 
