@@ -17,22 +17,11 @@
 
 <body>
   <div class="demo">
-    <div id="app"></div>
+    <div class="notificationsFrame">
+      <div id="app"></div>
+    </div>
   </div>
   <script type="text/babel">
-    class App extends React.Component {
-      render() {
-        return (
-          <div className="notificationsFrame">
-            <div className="panel">
-              <Header />
-              <Content />
-            </div>
-          </div>
-        )
-      }
-    }
-
     class Header extends React.Component {
       render() {
         return (
@@ -42,7 +31,10 @@
               <div className="dashBottom"></div>
               <div className="circle"></div>
             </div>
-            <span className="title">Timeline</span>
+
+            <span className="title">
+              {this.props.title}
+            </span>
 
             <input
               type="text"
@@ -54,39 +46,7 @@
         )
       }
     }
-
-    class Content extends React.Component {
-      render() {
-        return (
-          <div className="content">
-            <div className="line"></div>
-
-            {/* Timeline item */}
-            <div className="item">
-              <div className="avatar">
-                <img
-                alt='Doug'
-                src="http://www.croop.cl/UI/twitter/images/doug.jpg" />
-                Doug
-              </div>
-
-              <span className="time">
-                An hour ago
-              </span>
-              <p>Ate lunch</p>
-              <div className="commentCount">
-                2
-              </div>
-            </div>
-
-            {/* ... */}
-
-          </div>
-        )
-      }
-    }
-
-    ReactDOM.render(<App />, document.querySelector("#app"));
+    ReactDOM.render(<Header />, document.querySelector("#app"));
   </script>
 </body>
 
