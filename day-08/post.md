@@ -23,7 +23,7 @@ In this section, we're going to look a bit at annotating and packaging our compo
 
 You may have noticed we use `props` quite a bit in our components. For the most part, we'll expect these to be a particular type or set of types (aka an `object` or a `string`). React provides a method for defining and validating these types that allow us to easily expose a component API.
 
-Not only is this a good practice for documentation purposes, it's great for building [reusable react components](https://facebook.github.io/react/docs/reusable-components.html).
+Not only is this a good practice for documentation purposes, it's great for building [reusable react components](https://reactjs.org/docs/components-and-props.html).
 
 The `prop-types` object exports a bunch of different types which we can use to define what type a component's prop should be. We can define these using the `propTypes` method in the ES6 class-style React prop:
 
@@ -42,11 +42,16 @@ From within this `prop`, we can define an object which has the key of a prop as 
 
 For instance, the `Header` component we built a few days ago accepts a a prop called `title` and we expect it to be a string. We can define it's type to be a string as such:
 
-> First, we'll need to `import` the `PropTypes` package from the `prop-types` package using the `import` keyword again:
+> First, we'll need to `import` the `PropTypes` object from the `prop-types` package using the `import` keyword again:
 >
 > ```javascript
 > import PropTypes from 'prop-types'
 > ```
+>
+> You can also use the `PropTypes` object directly in your browser by adding the following `script` tag in your page
+>```html
+><script src="https://unpkg.com/prop-types@15.6/prop-types.min.js"></script>
+>```
 
 ```javascript
 import PropTypes from 'prop-types'
