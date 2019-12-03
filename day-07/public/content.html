@@ -1,0 +1,85 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Hello world</title>
+    <!-- Script tags including React -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react-dom.min.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script src="https://unpkg.com/moment@2.24.0/min/moment.min.js"></script>
+    <!-- this file will declare our `data` variable -->
+    <script src="./data.js"></script>
+    <link
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="../../day-04/public/Timeline.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+  </head>
+
+  <body>
+    <div class="demo">
+      <div class="notificationsFrame">
+        <div id="app"></div>
+      </div>
+    </div>
+    <script type="text/babel">
+      class Content extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = {
+            activities: []
+          };
+        }
+
+        componentWillMount() {
+          this.setState({ activities: data });
+        }
+
+        render() {
+          const { activities } = this.state; // ES6 destructuring
+
+          return (
+            <div className="content">
+              <div className="line"></div>
+
+              {/* Timeline item */}
+              {activities.map(activity => (
+                <ActivityItem activity={activity} />
+              ))}
+            </div>
+          );
+        }
+      }
+
+      class ActivityItem extends React.Component {
+        render() {
+          const { activity } = this.props; // ES6 destructuring
+
+          return (
+            <div className="item">
+              <div className={"avatar"}>
+                <img alt="avatar" src={activity.actor.avatar_url} />
+              </div>
+
+              <span className={"time"}>
+                {moment(activity.created_at).fromNow()}
+              </span>
+
+              <p>
+                {activity.actor.display_login} {activity.payload.action}
+              </p>
+              <div className={"right"}>{activity.repo.name}</div>
+            </div>
+          );
+        }
+      }
+
+      ReactDOM.render(<Content />, document.querySelector("#app"));
+    </script>
+  </body>
+</html>
