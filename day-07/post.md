@@ -87,6 +87,40 @@ class Content extends React.Component {
 }
 ```
 
+> Let's also update our `ActivityItem` component  slightly to reflext our new `activity` object structure.
+> We're also using [Moment.js](https://momentjs.com/) library to format the dates into a human friendly string e.g `30 min ago`
+> To include it in your file, add the following `script` tag to your document
+> ```html
+> <script src="https://unpkg.com/moment@2.24.0/min/moment.min.js"></script>
+>```
+
+```javascript
+class ActivityItem extends React.Component {
+  render() {
+    const { activity } = this.props;
+
+    return (
+      <div className='item'>
+        <div className={'avatar'}>
+          <img
+            alt='avatar'
+            src={activity.actor.avatar_url} />
+        </div>
+
+        <span className={'time'}>
+          {moment(activity.created_at).fromNow()}
+        </span>
+        
+        <p>{activity.actor.display_login} {activity.payload.action}</p>
+        <div className={'right'}>
+          {activity.repo.name}
+        </div>
+      </div>
+    )
+  }
+}
+```
+
 Notice that we didn't change anything else from our `Content` component and it just works.
 
 <div class="demo" id="fetchedTimeline"></div>
@@ -171,7 +205,23 @@ Using this new `prop` (the `requestRefresh` prop), we can update the `activities
 
 ```javascript
 class Content extends React.Component {
-  // ...
+  constructor {
+    this.state = {
+      activities: [],
+      loading: false // <~ set loading to false
+    };
+  }
+  // ...  
+  updateData() {
+    this.setState(
+      {
+        loading: false,
+        activities: data.sort(() => 0.5 - Math.random()).slice(0, 4)
+      },
+      this.props.onComponentRefresh
+    );
+  }
+  
   componentWillReceiveProps(nextProps) {
     // Check to see if the requestRefresh prop has changed
     if (nextProps.requestRefresh === true) {
@@ -180,6 +230,18 @@ class Content extends React.Component {
   }
   // ...
 }
+```
+
+Let's also update our `componentWillMount` method to call `this.updateData()` instead of `this.setState`
+
+```javascript
+  class Content extends React.Component {
+    // ...
+    componentDidMount() {
+      this.updateData();
+    }
+    // ...
+  }
 ```
 
 <div class="demo" id="requestRefresh"></div>
