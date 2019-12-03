@@ -44,17 +44,13 @@ Recall, the render function of our `Header` component currently looks like this:
 ```javascript
 class Header extends React.Component {
   render() {
-    // Classes to add to the <input /> element
-    let searchInputClasses = ["searchInput"];
-
-    // Update the class array if the state is visible
-    if (this.state.searchVisible) {
-      searchInputClasses.push("active");
-    }
-
     return (
       <div className="header">
-        <div className="fa fa-more"></div>
+        <div className="menuIcon">
+          <div className="dashTop"></div>
+          <div className="dashBottom"></div>
+          <div className="circle"></div>
+        </div>
 
         <span className="title">
           {this.props.title}
@@ -62,7 +58,7 @@ class Header extends React.Component {
 
         <input
           type="text"
-          className={searchInputClasses.join(' ')}
+          className="searchInput"
           placeholder="Search ..." />
 
         <div className="fa fa-search searchIcon"></div>
@@ -82,12 +78,20 @@ We can target the `header` by defining the styles for a `.header` class in a reg
 Let's fill in the styles for the `Header` class names:
 
 ```html
-.header {
+.demo .notificationsFrame .header {
   background: rgba(251, 202, 43, 1);
 }
-.header, .fa, .title, .searchIcon {
+.demo .notificationsFrame .header .searchIcon,
+.demo .notificationsFrame .header .title {
   color: #333333;
 }
+
+.demo .notificationsFrame .header .menuIcon .dashTop,
+.demo .notificationsFrame .header .menuIcon .dashBottom,
+.demo .notificationsFrame .header .menuIcon .circle {
+  background-color: #333333;
+}
+
 ```
 
 <div class="demo" id="demo2"></div>
@@ -113,8 +117,7 @@ Defining styles inside a component is easy using the `style` prop. All DOM eleme
 For example, to add a `color` style to a `<div />` element in JSX, this might look like:
 
 ```javascript
-const style = { color: 'blue' }
-<div style={style}>
+<div style={{ color: 'blue' }}>
   This text will have the color blue
 </div>
 ```
@@ -142,27 +145,18 @@ To update our header component to use these styles instead of depending on a CSS
 
 ```javascript
 class Header extends React.Component {
-  // ...
   render() {
-    // Classes to add to the <input /> element
-    let searchInputClasses = ["searchInput"];
-
-    // Update the class array if the state is visible
-    if (this.state.searchVisible) {
-      searchInputClasses.push("active");
-    }
-
     const wrapperStyle = {
-      backgroundColor: 'rgba(251, 202, 43, 1)'
-    }
+      backgroundColor: "rgba(251, 202, 43, 1)"
+    };
 
     const titleStyle = {
-      color: '#111111'
-    }
+      color: "#111111"
+    };
 
     const menuColor = {
-      backgroundColor: '#111111'
-    }
+      backgroundColor: "#111111"
+    };
 
     return (
       <div style={wrapperStyle} className="header">
@@ -178,16 +172,13 @@ class Header extends React.Component {
 
         <input
           type="text"
-          className={searchInputClasses.join(' ')}
-          placeholder="Search ..." />
+          className="searchInput"
+          placeholder="Search ..."
+        />
 
-        {/* Adding an onClick handler to call the showSearch button */}
-        <div
-          style={titleStyle}
-          onClick={this.showSearch.bind(this)}
-          className="fa fa-search searchIcon"></div>
+        <div style={titleStyle} className="fa fa-search searchIcon"></div>
       </div>
-    )
+    );
   }
 }
 ```
