@@ -25,16 +25,14 @@ The browser is an event-driven application. Everything that a user does in the b
 For instance, we can attach a function to the `mousemove` browser event with the JS:
 
 ```javascript
-export const go = () => {
-  const ele = document.getElementById('mousemove');
-  ele.innerHTML = 'Move your mouse to see the demo';
-  ele.addEventListener('mousemove', function(evt) {
-    const { screenX, screenY } = evt;
-    ele.innerHTML = '<div>Mouse is at: X: ' +
-          screenX + ', Y: ' + screenY +
-                    '</div>';
-  })
-}
+const ele = document.getElementById('mousemove');
+ele.innerHTML = 'Move your mouse over this text';
+ele.addEventListener('mousemove', function(evt) {
+  const { screenX, screenY } = evt;
+  ele.innerHTML = '<div>Mouse is at: X: ' +
+        screenX + ', Y: ' + screenY +
+                  '</div>';
+})
 ```
 
 This results in the following functionality:
@@ -48,9 +46,29 @@ In React, however we don't have to interact with the browser's event loop in raw
 For instance, to listen for the `mousemove` event from the (rather unimpressive) demo above in React, we'll set the prop `onMouseMove` (notice the camelcasing of the event name).
 
 ```javascript
-<div onMouseMove={(evt) => console.log(evt)}>
-  Move the mouse over this text
-</div>
+class MouseMover extends React.Component {
+  state = {
+    x: 0,
+    y: 0
+  };
+
+  handleMouseMove = e => {
+    this.setState({
+      x: e.clientX,
+      y: e.clientY
+    });
+  };
+
+  render() {
+    return (
+      <div onMouseMove={this.handleMouseMove}>
+        {this.state.x || this.state.y
+          ? "The mouse is at x: " + this.state.x + ", y: " + this.state.y
+          : "Move the mouse over this box"}
+      </div>
+    );
+  }
+}
 ```
 
 React provides a lot of `props` we can set to listen for different browser events, such as click, touch, drag, scroll, selection events, and many more (see the [events](https://facebook.github.io/react/docs/events.html) documentation for a list of all of them).
@@ -67,30 +85,37 @@ The interaction we _want_ is to show a search `<input />` when our users click o
 
 ```javascript
 class Header extends React.Component {
-  constructor(props) {
-    super(props);
+  render() {
+    return (
+      <div className="header">
+        <div className="menuIcon">
+          <div className="dashTop"></div>
+          <div className="dashBottom"></div>
+          <div className="circle"></div>
+        </div>
 
-    this.state = {
-      searchVisible: false
-    }
+        <span className="title">
+          {this.props.title}
+        </span>
+
+        <input
+          type="text"
+          className="searchInput"
+          placeholder="Search ..." />
+
+        <div className="fa fa-search searchIcon"></div>
+      </div>
+    )
   }
+}
+```
 
-  // toggle visibility when run on the state
-  showSearch() {
-    this.setState({
-      searchVisible: !this.state.searchVisible
-    })
-  }
-
+Let's update it a bit so that we can pass dynamic `className` prop to the `<input />` element
+```javascript
+class Header extends React.Component {
   render() {
     // Classes to add to the <input /> element
     let searchInputClasses = ["searchInput"];
-
-    // Update the class array if the state is visible
-    if (this.state.searchVisible) {
-      searchInputClasses.push("active");
-    }
-
     return (
       <div className="header">
         <div className="menuIcon">
@@ -108,10 +133,7 @@ class Header extends React.Component {
           className={searchInputClasses.join(' ')}
           placeholder="Search ..." />
 
-        {/* Adding an onClick handler to call the showSearch button */}
-        <div
-          onClick={this.showSearch.bind(this)}
-          className="fa fa-search searchIcon"></div>
+        <div className="fa fa-search searchIcon"></div>
       </div>
     )
   }
@@ -156,6 +178,23 @@ class Header extends React.Component {
     })
   }
   // ...
+}
+```
+
+Let's add an if statement to update `searchInputClasses` if `this.state.searchVisible` is `true`
+
+```javascript
+class Header extends React.Component {
+  // ...
+  render() {
+    
+    // ...
+    // Update the class array if the state is visible
+    if (this.state.searchVisible) {
+      searchInputClasses.push("active");
+    }
+    // ...
+  }
 }
 ```
 
@@ -246,24 +285,49 @@ Now, we already have the HTML for the form written in the `<Header />` component
 class SearchForm extends React.Component {
   // ...
   render() {
-    const { searchVisible } = this.state;
-    let searchClasses = ['searchInput']
+    const { searchVisible } = this.props;
+    let searchClasses = ["searchInput"];
     if (searchVisible) {
-      searchClasses.push('active')
+      searchClasses.push("active");
     }
 
     return (
-      <form className='header'>
+      <form>
         <input
           type="search"
-          className={searchClasses.join(' ')}
-          onChange={this.updateSearchInput.bind(this)}
-          placeholder="Search ..." />
+          className={searchClasses.join(" ")}
+          placeholder="Search ..."
+        />
+      </form>
+    );
+  }
+}
+```
 
+Now that we've moved some code from the `Header` component to the `SearchForm`, let's update its `render` method to incorporate the `SearchForm`
+
+```javascript
+class Header extends React.Component {
+  // ...
+  render() {
+    return (
+      <div className="header">
+        <div className="menuIcon">
+          <div className="dashTop"></div>
+          <div className="dashBottom"></div>
+          <div className="circle"></div>
+        </div>
+
+        <span className="title">{this.props.title}</span>
+
+        <SearchForm />
+
+        {/* Adding an onClick handler to call the showSearch button */}
         <div
           onClick={this.showSearch.bind(this)}
-          className="fa fa-search searchIcon"></div>
-      </form>
+          className="fa fa-search searchIcon"
+        ></div>
+      </div>
     );
   }
 }
@@ -275,11 +339,48 @@ Let's define the `searchVisible` prop (using `PropTypes`, of course) and update 
 
 ```javascript
 class SearchForm extends React.Component {
-  static propTypes = {
-    onSubmit: PropTypes.func.isRequired,
-    searchVisible: PropTypes.bool
-  }
   // ...
+}
+
+SearchForm.propTypes = {
+  searchVisible: PropTypes.bool
+}
+  
+SearchForm.defaultProps = {
+  searchVisible: false
+};
+```
+
+> In case you forgot to include `PropTypes` package in your page just add the following `script` tag in your page
+>```html
+><script src="https://unpkg.com/prop-types@15.6/prop-types.min.js"></script>
+>```
+
+Finally, let's pass the `searchVisible` state value from `Header` as a prop to `SearchForm`
+
+```javascript
+class Header extends React.Component {
+  render() {
+    return (
+      <div className="header">
+        <div className="menuIcon">
+          <div className="dashTop"></div>
+          <div className="dashBottom"></div>
+          <div className="circle"></div>
+        </div>
+
+        <span className="title">{this.props.title}</span>
+
+        <SearchForm searchVisible={this.state.searchVisible} />
+
+        {/* Adding an onClick handler to call the showSearch button */}
+        <div
+          onClick={this.showSearch.bind(this)}
+          className="fa fa-search searchIcon"
+        ></div>
+      </div>
+    );
+  }
 }
 ```
 
@@ -305,16 +406,13 @@ class SearchForm extends React.Component {
     }
 
     return (
-      <form className='header'>
+      <form>
         <input
           type="search"
-          className={searchClasses.join(' ')}
+          className={searchClasses.join(" ")}
           onChange={this.updateSearchInput.bind(this)}
-          placeholder="Search ..." />
-
-        <div
-          onClick={this.showSearch.bind(this)}
-          className="fa fa-search searchIcon"></div>
+          placeholder="Search ..."
+        />
       </form>
     );
   }
@@ -359,18 +457,15 @@ class SearchForm extends React.Component {
 > }
 > ```
 
-As of now, we have no way to actually submit the form, so our user's can't really search. Let's change this. We'll want to wrap the `<input />` component in a `<form />` DOM element so our users can press the enter key to submit the form. We can capture the form submission by using the `onSubmit` prop on the `<form />` element.
+As of now, we have no way to actually submit the form, so our user's can't really search. Let's change this. We can capture the form submission by using the `onSubmit` prop on the `<form />` element.
 
 Let's update the `render()` function to reflect this change.
 
 ```javascript
 class SearchForm extends React.Component {
   // ...
-  submitForm(e) {
-    e.preventDefault();
-
-    const {searchText} = this.state;
-    this.props.onSubmit(searchText);
+  submitForm(event) {
+    event.preventDefault();
   }
   // ...
   render() {
@@ -405,16 +500,17 @@ In order to pass the search functionality up the chain, our `SearchForm` will ne
 
 ```javascript
 class SearchForm extends React.Component {
-  static propTypes = {
-    onSubmit: PropTypes.func.isRequired,
-    searchVisible: PropTypes.bool
-  }
   // ...
-  static defaultProps = {
-    onSubmit: () => {},
-    searchVisible: false
-  }
-  // ...
+}
+
+SearchForm.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+  searchVisible: PropTypes.bool
+}
+
+SearchForm.defaultProps = {
+  onSubmit: () => {},
+  searchVisible: false
 }
 ```
 
@@ -434,39 +530,12 @@ class SearchForm extends React.Component {
 
 Now, when the user presses enter we can call this `onSubmit()` function passed in the `props` by our `Header` component.
 
-<div class="demo" id="searchForm"></div>
-
-We can use this `SearchForm` component in our `Header` component and pass it the two props we've defined (`searchVisible` and `onSubmit`):
+Let's add the `onSubmit` prop to the `SearchForm` in the `Header` component:
 
 ```javascript
-import React from 'react';
-import SearchForm from './SearchFormWithSubmit'
-
 class Header extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      searchVisible: false
-    }
-  }
-
-  // toggle visibility when run on the state
-  showSearch() {
-    this.setState({
-      searchVisible: !this.state.searchVisible
-    })
-  }
-
+  // ...
   render() {
-    // Classes to add to the <input /> element
-    let searchInputClasses = ["searchInput"];
-
-    // Update the class array if the state is visible
-    if (this.state.searchVisible) {
-      searchInputClasses.push("active");
-    }
-
     return (
       <div className="header">
         <div className="menuIcon">
@@ -475,27 +544,20 @@ class Header extends React.Component {
           <div className="circle"></div>
         </div>
 
-        <span className="title">
-          {this.props.title}
-        </span>
+        <span className="title">{this.props.title}</span>
 
-        <SearchForm
-          searchVisible={this.state.searchVisible}
-          onSubmit={this.props.onSubmit} />
+        <SearchForm searchVisible={this.state.searchVisible} onSubmit={this.props.onSearch}/>
 
         {/* Adding an onClick handler to call the showSearch button */}
         <div
           onClick={this.showSearch.bind(this)}
-          className="fa fa-search searchIcon"></div>
+          className="fa fa-search searchIcon"
+        ></div>
       </div>
-    )
+    );
   }
 }
-
-export default Header
 ```
-
-<div class="demo" id="headerSearch"></div>
 
 Now we have a search form component we can use and reuse across our app. Of course, we're not actually searching anything yet. Let's fix that and implement search.
 
@@ -503,7 +565,7 @@ Now we have a search form component we can use and reuse across our app. Of cour
 
 To implement search in our component, we'll want to pass up the search responsibility one more level from our `Header` component to a container component we'll call `Panel`.
 
-First things first, let's implement the same pattern of passing a callback to a parent component from within a child component from the `Panel` container to the `Header` component.
+First things first, let's implement the same pattern of passing a callback to a parent component from within a child component from the `Panel` to the `Header` component.
 
 On the `Header` component, let's update the `propTypes` for a prop we'll define as a prop called `onSearch`:
 
@@ -516,20 +578,43 @@ Header.propTypes = {
 }
 ```
 
-Inside the `Header` component's 'submitForm()' function, call this `onSearch()` prop we will pass into it:
+Here's our `Panel` component:
 
 ```javascript
-class Header extends React.Component {
-  // ...
-  submitForm(val) {
-    this.props.onSearch(val);
+class Content extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      activities: data,
+    };
   }
-  // ...
-}
-Header.propTypes = {
-  onSearch: PropTypes.func
+
+  render() {
+    const { activities } = this.state; // ES6 destructuring
+
+    return (
+      <div>
+        <Header
+          title="Github activity" />
+        <div className="content">
+          <div className="line" />
+          {/* Timeline item */}
+          {activities.map(activity => (
+            <ActivityItem key={activity.id} activity={activity} />
+          ))}
+        </div>
+      </div>
+    );
+  }
 }
 ```
+
+> In any case, our `Panel` component is essentially a copy of our `Content` component we previously built on day 7.
+> Make sure to include the `ActivityItem` component in your page.
+> Also don't forget to include `Moment.js` in your file as it's used by `ActivityItem` to format dates. Add the following `script` tag in your page
+> ```html
+> <script src="https://unpkg.com/moment@2.24.0/min/moment.min.js"></script>
+>```
 
 > Notice that our virtual tree looks like this:
 >
@@ -543,160 +628,76 @@ Header.propTypes = {
 >
 > When the `<SearchForm />` is updated, it will pass along it's awareness of the search input's change to it's parent, the `<Header />`, when it will pass along upwards to the `<Panel />` component. This method is _very common_ in React apps and provides a good set of functional isolation for our components.
 
-Back in our `Panel` component we built on day 7, we'll pass a function to the `Header` as the `onSearch()` prop on the `Header`. What we're saying here is that when the search form has been submitted, we want the search form to call back to the header component which will then call to the `Panel` component to handle the search.
+Back in our `Panel` component, we'll pass a function to the `Header` as the `onSearch()` prop on the `Header`. What we're saying here is that when the search form has been submitted, we want the search form to call back to the header component which will then call to the `Panel` component to handle the search.
 
 Since the `Header` component doesn't control the content listing, the `Panel` component does, we _have_ to pass the responsibility one more level up, as we're defining here.
 
-In any case, our `Panel` component is essentially a copy of our `Content` component we previously worked on:
+In order to actually handle the searching, we'll need to pass an `onSearch()` function to our `Header` component. Let's define an `onSearch()` function in our `Panel` component and pass it off to the `Header` props in the `render()` function:
 
 ```javascript
 class Panel extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      loading: false, // <~ set loading to false
       activities: data,
-      filtered: data,
-    }
+    };
   }
-
-  componentDidMount() {this.updateData();}
-  componentWillReceiveProps(nextProps) {
-    // Check to see if the requestRefresh prop has changed
-    if (nextProps.requestRefresh === true) {
-      this.setState({loading: true}, this.updateData);
-    }
-  }
-
-  handleSearch = txt => {
-    if (txt === '') {
-      this.setState({
-        filtered: this.state.activities
-      })
-    } else {
-      const { activities } = this.state
-      const filtered = activities.filter(a => a.actor && a.actor.login.match(txt))
-      this.setState({
-        filtered
-      })
-    }
-  }
-
-  // Call out to github and refresh directory
-  updateData() {
-    this.setState({
-      loading: false,
-      activities: data
-    }, this.props.onComponentRefresh);
-  }
-
-  render() {
-    const {loading, filtered} = this.state;
-
-    return (
-      <div>
-        <Header
-          onSubmit={this.handleSearch}
-          title="Github activity" />
-        <div className="content">
-          <div className="line"></div>
-          {/* Show loading message if loading */}
-          {loading && <div>Loading</div>}
-          {/* Timeline item */}
-          {filtered.map((activity) => (
-            <ActivityItem
-              key={activity.id}
-              activity={activity} />
-          ))}
-
-        </div>
-      </div>
-    )
-  }
-}
-```
-
-Let's update our state to include a `searchFilter` string, which will just be the searching value:
-
-```javascript
-class Panel extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      loading: false,
-      searchFilter: '',
-      activities: []
-    }
-  }
-}
-```
-
-In order to actually handle the searching, we'll need to pass a `onSearch()` function to our `Header` component. Let's define an `onSearch()` function in our `Panel` component and pass it off to the `Header` props in the `render()` function:
-
-```javascript
-class Panel extends React.Component {
-  // ...
-  // after the content has refreshed, we want to
-  // reset the loading variable
-  onComponentRefresh() {this.setState({loading: false});}
 
   handleSearch(val) {
     // handle search here
   }
 
   render() {
-    const {loading} = this.state;
-
+    const { activities } = this.state; // ES6 destructuring
     return (
       <div>
         <Header
+          title="Github activity"
           onSearch={this.handleSearch.bind(this)}
-          title="Github activity" />
-        <Content
-          requestRefresh={loading}
-          onComponentRefresh={this.onComponentRefresh.bind(this)}
-          fetchData={this.updateData.bind(this)} />
+        />
+        <div className="content">
+          <div className="line" />
+          {/* Timeline item */}
+          {activities.map(activity => (
+            <ActivityItem key={activity.id} activity={activity} />
+          ))}
+        </div>
       </div>
-    )
+    );
   }
 }
 ```
 
 All we did here was add a `handleSearch()` function and pass it to the header. Now when the user types in the search box, the `handleSearch()` function on our `Panel` component will be called.
 
-To actually _implement_ search, we'll need to keep track of this string and update our `updateData()` function to take into account search filtering. First, let's set the `searchFilter` on the state. We can also force the `Content` to reload the data by setting `loading` to true, so we can do this in one step:
+Let's update our `handleSearch` method to actually do the searching:
 
 ```javascript
 class Panel extends React.Component {
   // ...
   handleSearch(val) {
-    this.setState({
-      searchFilter: val,
-      loading: true
-    });
+    // resets the data if the search value is empty
+    if (val === "") {
+      this.setState({
+        activities: data
+      });
+    } else {
+      const { activities } = this.state;
+      const filtered = activities.filter(
+        a => a.actor && a.actor.login.match(val)
+      );
+      this.setState({
+        activities: filtered
+      });
+    }
   }
   // ...
 }
 ```
 
-Lastly, let's update our `updateData()` function to take _search_ into account.
+All the `activities.filter()` function does is run the function passed in for every element and it filters _out_ the values that return falsy values, keeping the ones that return truthy ones. Our search function simply looks for a match on the Github activity's `actor.login` (the Github user) to see if it regexp-matches the `val` value.
 
-```javascript
-class SearchableContent extends React.Component {
-  // ...
-      this.setState({loading: true}, this.updateData);
-  // ...
-}
-```
-
-
-Although this might look complex, it's actually nearly identical to our existing `updateData()` function with the exception of the fact that we updated our `fetch()` result to call the `filter()` method on the json collection.
-
-All the `collection.filter()` function does is run the function passed in for every element and it filters _out_ the values that return falsy values, keeping the ones that return truthy ones. Our search function simply looks for a match on the Github activity's `actor.login` (the Github user) to see if it regexp-matches the `searchFilter` value.
-
-With the `updateData()` function updated, our search is complete.
+With the `handleSearch()` function updated, our search is complete.
 
 Try searching for `auser`.
 
