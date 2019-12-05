@@ -9,7 +9,7 @@
   background: #fff;
   border-radius: 3px;
   overflow: hidden;
-  font-family: 'Open Sans', Helvetica, sans-serif;
+  font-family: "Open Sans", Helvetica, sans-serif;
   margin-bottom: 40px;
 }
 
@@ -136,7 +136,6 @@
 
 .demo .notificationsFrame .content {
   position: relative;
-  height: 100%;
   overflow: hidden;
 }
 
@@ -216,7 +215,7 @@
   font-size: 15px;
   line-height: 20px;
   margin: 0px 40px 0px 0px;
-  font-family: 'Open Sans', Lora, Times, no-serif;
+  font-family: "Open Sans", Lora, Times, no-serif;
 }
 
 .demo .notificationsFrame .content .item p b {
