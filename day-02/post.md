@@ -75,7 +75,7 @@ While JSX looks like HTML, it is actually just a terser way to write a `React.cr
 ```
 
 > The `class extends` syntax we used in our first React component is ES6 syntax. It allows us to write objects using a familiar Object-Oriented style.
-> In ES6, the `class` syntax might be translated as:
+> In ES5, the `class` syntax might be translated as:
 >
 > ```javascript
 > var HelloWorld = function() {}

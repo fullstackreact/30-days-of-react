@@ -1,0 +1,37 @@
+:root {
+  --firstColor: rgba(0, 169, 158, 1);
+  --secondColor: rgba(0, 191, 150, 1);
+  --textColor: #fff;
+}
+
+.clock {
+  position: relative;
+  border-radius: 0.5em;
+  margin: 10px auto;
+  font-family: "Open Sans", sans-serif;
+  text-align: center;
+  font-size: 60px;
+  color: var(--textColor);
+  line-height: 2em;
+  background: #eee;
+  /* Old browsers */
+  background: var(--firstColor);
+}
+
+@media only screen and (min-width: 700px) and (max-width: 1000px) {
+  .clock {
+    font-size: 50px;
+  }
+}
+
+@media only screen and (min-width: 500px) and (max-width: 699px) {
+  .clock {
+    font-size: 45px;
+  }
+}
+
+@media only screen and (min-width: 200px) and (max-width: 499px) {
+  .clock {
+    font-size: 40px;
+  }
+}
