@@ -167,6 +167,12 @@ class Clock extends React.Component {
 }
 ```
 
+We can now render the clock in a custom format:
+
+```javascript
+ReactDOM.render(<Clock format="h:m:s p" />, document.querySelector("#app"));
+```
+
 Not only is our `Clock` component _much_ simpler, but it's _so_ much easier to test. It _also_ will help us transition to using a data state tree, like Flux/Redux frameworks, but more on those later.
 
 <div class="demo" id="demo2"></div>
