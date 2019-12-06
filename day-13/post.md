@@ -25,13 +25,16 @@ We've already seen this before where we've iterated over a list of objects and r
 Since JSX is seen as plain JavaScript by the browser, we can use any ole' JavaScript inside the template tags in JSX. We've already seen this in action. As a quick demo:
 
 ```javascript
+const a = 10;
+const ShowA = () => <div>{a}</div>;
+const MultipleA = () => <div>{a * a}</div>;
+
 const App = (props) => {
   return (
-    <ul>
-      {a.map(i => {
-        return <li>{i}</li>
-      })}
-    </ul>
+    <div className="app">
+      <ShowA />
+      <MultipleA />
+    </div>
   )
 }
 ```
@@ -49,15 +52,16 @@ const a = [1, 10, 100, 1000, 10000];
 We can map over the `a` variable here inside our components and return a list of React components that will build the virtual DOM for us.
 
 ```javascript
-const App = (props) => {
+const a = [1, 10, 100, 1000, 10000];
+const Repeater = () => {
   return (
     <ul>
       {a.map(i => {
-        return <li>{i}</li>
+        return <li>{i}</li>;
       })}
     </ul>
-  )
-}
+  );
+};
 ```
 
 > What is the `map()` function?
@@ -143,8 +147,8 @@ const Formatter = (props) => {
 We can use the `React.Children` object to map over a list of React objects and let React do this heavy-lifting. The result of this is a much cleaner `Formatter` component (not perfect, but functional):
 
 ```javascript
-const Formatter = ({format, state}) => {
-  let children = format.split('').map(e => {
+const Formatter = (props) => {
+  let children = props.format.split('').map(e => {
     if (e == 'h') {
       return <Hour />
     } else if (e == 'm') {
@@ -161,7 +165,7 @@ const Formatter = ({format, state}) => {
   });
   return (<span>
       {React.Children
-        .map(children, c => React.cloneElement(c, state))}
+        .map(children, c => React.cloneElement(c, props))}
       </span>)
 }
 ```
@@ -186,7 +190,7 @@ const Formatter = ({format, state}) => {
 > 2. Any `props` we want to add to the instance
 > 3. Any `children` we want it to have.
 >
-> In our `Formatter` example, we're creating a copy of all the children in the list (the `<Hour />`, `<Minute />`, etc. components) and passing them the `state` object as their props.
+> In our `Formatter` example, we're creating a copy of all the children in the list (the `<Hour />`, `<Minute />`, etc. components) and passing them the `props` object as their props.
 
 The `React.Children` object provides some nice utility functions for dealing with children. Our `Formatter` example above uses the `map` function to iterate through the children and clone each one in the list. It creates a `key` (if necessary) for each one, freeing us from having to manage the uniqueness ourselves.
 
