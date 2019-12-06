@@ -1,0 +1,40 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Hello world</title>
+    <!-- Script tags including React -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react-dom.min.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  </head>
+
+  <body>
+    <div id="app"></div>
+    <script type="text/babel">
+      class MouseMover extends React.Component {
+        state = {
+          x: 0,
+          y: 0
+        };
+
+        handleMouseMove = e => {
+          this.setState({
+            x: e.clientX,
+            y: e.clientY
+          });
+        };
+
+        render() {
+          return (
+            <div onMouseMove={this.handleMouseMove}>
+              {this.state.x || this.state.y
+                ? "The mouse is at x: " + this.state.x + ", y: " + this.state.y
+                : "Move the mouse over this box"}
+            </div>
+          );
+        }
+      }
+      ReactDOM.render(<MouseMover />, document.querySelector("#app"));
+    </script>
+  </body>
+</html>

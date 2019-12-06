@@ -1,0 +1,69 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Hello world</title>
+    <!-- Script tags including React -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react-dom.min.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <link
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="../../day-04/public/Timeline.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+  </head>
+
+  <body>
+    <div class="demo">
+      <div class="notificationsFrame">
+        <div id="app"></div>
+      </div>
+    </div>
+    <script type="text/babel">
+      class Content extends React.Component {
+        render() {
+          const { activity } = this.props; // ES6 destructuring
+
+          return (
+            <div className="content">
+              <div className="line"></div>
+
+              {/* Timeline item */}
+              <div className="item">
+                <div className="avatar">
+                  <img alt={activity.text} src={activity.user.avatar} />
+                  {activity.user.name}
+                </div>
+
+                <span className="time">{activity.timestamp}</span>
+                <p>{activity.text}</p>
+                <div className="commentCount">{activity.comments.length}</div>
+              </div>
+            </div>
+          );
+        }
+      }
+
+      const moment1 = {
+        timestamp: new Date().getTime(),
+        text: "Ate lunch",
+        user: {
+          id: 1,
+          name: "Nate",
+          avatar: "http://www.croop.cl/UI/twitter/images/doug.jpg"
+        },
+        comments: [{ from: "Ari", text: "Me too!" }]
+      };
+
+      ReactDOM.render(
+        <Content activity={moment1} />,
+        document.querySelector("#app")
+      );
+    </script>
+  </body>
+</html>

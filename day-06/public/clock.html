@@ -1,0 +1,36 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Clock</title>
+    <!-- Script tags including React -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react-dom.min.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <link href="./Clock.css" rel="stylesheet" type="text/css" />
+  </head>
+
+  <body>
+    <div id="app"></div>
+    </div>
+    <script type="text/babel">
+      class Clock extends React.Component {
+        render() {
+          const currentTime = new Date(),
+            hours = currentTime.getHours(),
+            minutes = currentTime.getMinutes(),
+            seconds = currentTime.getSeconds(),
+            ampm = hours >= 12 ? "pm" : "am";
+
+          return (
+            <div className="clock">
+              {hours == 0 ? 12 : hours > 12 ? hours - 12 : hours}:
+              {minutes > 9 ? minutes : `0${minutes}`}:
+              {seconds > 9 ? seconds : `0${seconds}`} {ampm}
+            </div>
+          );
+        }
+      }
+      ReactDOM.render(<Clock />, document.querySelector("#app"));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,82 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Hello world</title>
+    <!-- Script tags including React -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react-dom.min.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <link
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="../../day-04/public/Timeline.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+  </head>
+
+  <body>
+    <div class="demo">
+      <div class="notificationsFrame">
+        <div id="app"></div>
+      </div>
+    </div>
+    <script type="text/babel">
+      class Header extends React.Component {
+        constructor(props) {
+          super(props);
+
+          this.state = {
+            searchVisible: false
+          };
+        }
+
+        // toggle visibility when run on the state
+        showSearch() {
+          this.setState({
+            searchVisible: !this.state.searchVisible
+          });
+        }
+
+        render() {
+          // Classes to add to the <input /> element
+          let searchInputClasses = ["searchInput"];
+
+          // Update the class array if the state is visible
+          if (this.state.searchVisible) {
+            searchInputClasses.push("active");
+          }
+
+          return (
+            <div className="header">
+              <div className="menuIcon">
+                <div className="dashTop"></div>
+                <div className="dashBottom"></div>
+                <div className="circle"></div>
+              </div>
+
+              <span className="title">{this.props.title}</span>
+
+              <input
+                type="text"
+                className={searchInputClasses.join(" ")}
+                placeholder="Search ..."
+              />
+
+              {/* Adding an onClick handler to call the showSearch button */}
+              <div
+                onClick={this.showSearch.bind(this)}
+                className="fa fa-search searchIcon"
+              ></div>
+            </div>
+          );
+        }
+      }
+
+      ReactDOM.render(<Header />, document.querySelector("#app"));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,13 @@
+.demo .notificationsFrame .header {
+  background: rgba(251, 202, 43, 1);
+}
+.demo .notificationsFrame .header .searchIcon,
+.demo .notificationsFrame .header .title {
+  color: #333333;
+}
+
+.demo .notificationsFrame .header .menuIcon .dashTop,
+.demo .notificationsFrame .header .menuIcon .dashBottom,
+.demo .notificationsFrame .header .menuIcon .circle {
+  background-color: #333333;
+}
