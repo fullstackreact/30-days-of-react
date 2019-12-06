@@ -87,7 +87,7 @@ class Content extends React.Component {
 }
 ```
 
-> Let's also update our `ActivityItem` component  slightly to reflext our new `activity` object structure.
+> Let's also update our `ActivityItem` component  slightly to reflect our new `activity` object structure.
 > We're also using [Moment.js](https://momentjs.com/) library to format the dates into a human friendly string e.g `30 min ago`
 > To include it in your file, add the following `script` tag to your document
 > ```html
