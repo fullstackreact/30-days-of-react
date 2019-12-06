@@ -80,13 +80,41 @@ If we render our new `Clock` component, we will only get a time rendered everyti
 
 In order to do that, we'll need to track the _current_ time in the state of the component. To do this, we'll need to set an initial state value.
 
-In the ES6 class style, we can set the initial state of the component in the `constructor()` by setting `this.state` to a value.
+To do so, we'll first create a `getTime()` function that returns a javascript object containing `hours`, `minutes`, `seconds` and `ampm` values. We will call this function to set our state.
+
+```javascript
+class Clock extends React.Component {
+  //...
+  getTime() {
+    const currentTime = new Date();
+    return {
+      hours: currentTime.getHours(),
+      minutes: currentTime.getMinutes(),
+      seconds: currentTime.getSeconds(),
+      ampm: currentTime.getHours() >= 12 ? 'pm' : 'am'
+    }
+  }
+  // ...
+}
+```
+
+In the ES6 class style, we can set the initial state of the component in the `constructor()` by setting `this.state` to a value (the return value of our `getTime()` function).
 
 ```javascript
   constructor(props) {
     super(props);
     this.state = this.getTime();
   }
+```
+
+`this.state` will now look like the following object
+```javascript
+{
+  hours: 11,
+  minutes: 8,
+  seconds: 11,
+  ampm: "am"
+}
 ```
 
 > The first line of the constructor should _always_ call `super(props)`. If you forget this, the component won't like you very much (i.e. there will be errors).
@@ -131,6 +159,10 @@ class Clock extends React.Component {
     this.state = this.getTime();
   }
   // ...
+  componentDidMount() {
+    this.setTimer();
+  }
+  // ...
   setTimer() {
     clearTimeout(this.timeout);
     this.timeout = setTimeout(this.updateClock.bind(this), 1000);
@@ -142,8 +174,8 @@ class Clock extends React.Component {
   // ...
 }
 ```
-
-> We will get into the lifecycle hooks in the next section, but for the time being we'll call this in the `constructor()` for simplicity.
+> To start updating the timer immediately after the our component has been rendered, we call `this.setTimer()` in a React
+> component lifecycle method called `componentDidMount`.We will get into the lifecycle hooks in the next section.
 
 In the `updateClock()` function we'll want to update the state with the new time. We can now update the state in the `updateClock()` function:
 
@@ -157,21 +189,7 @@ class Clock extends React.Component {
 }
 ```
 
-The component will be mounted on the page and in (approximately) one second (1000 milliseconds) it updates the current time. However, it won't be reset again. We can simply call the `setTimer()` function again at the end of the function:
-
-```javascript
-class Clock extends React.Component {
-  // ...
-  updateClock() {
-    const currentTime = new Date();
-    this.setState({
-      currentTime: currentTime
-    })
-    this.setTimer();
-  }
-  // ...
-}
-```
+The component will be mounted on the page and will update the time every second (approximately every 1000 milliseconds)
 
 Now the component itself might rerender slower than the timeout function gets called again, which would cause a rerendering bottleneck and needlessly using up precious battery on mobile devices. Instead of calling the `setTimer()` function after we call `this.setState()`, we can pass a second argument to the `this.setState()` function which will be guaranteed to be called _after_ the state has been updated.
 
@@ -187,6 +205,62 @@ class Clock extends React.Component {
   // ...
 }
 ```
+
+Here is our full `Clock` component code.
+
+```
+class Clock extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = this.getTime();
+  }
+  
+  componentDidMount() {
+    this.setTimer();
+  }
+
+  setTimer() {
+    clearTimeout(this.timeout);
+    this.timeout = setTimeout(this.updateClock.bind(this), 1000);
+  }
+
+  updateClock() {
+    this.setState(this.getTime, this.setTimer);
+  }
+
+  getTime() {
+    const currentTime = new Date();
+    return {
+      hours: currentTime.getHours(),
+      minutes: currentTime.getMinutes(),
+      seconds: currentTime.getSeconds(),
+      ampm: currentTime.getHours() >= 12 ? 'pm' : 'am'
+    }
+  }
+
+  render() {
+    const {hours, minutes, seconds, ampm} = this.state;
+    return (
+      <div className="clock">
+        {hours == 0 ? 12 : hours > 12 ? hours - 12 : hours}:
+        {minutes > 9 ? minutes : `0${minutes}`}:
+        {seconds > 9 ? seconds : `0${seconds}`} {ampm}
+      </div>
+    );
+  }
+}
+```
+
+> ## Styles
+>
+> As we're not focusing on [CSS](https://www.w3.org/standards/webdesign/htmlcss) in this course, we're not covering the CSS specific to build the clock as you see it on the screen.
+>
+> However, we want to make sure the clock you build looks similar to ours. If you include the following CSS as a `<link />` tag in your code, your clock will look similar and will be using the same styling ours is using:
+>
+> ```html
+> <link href="https://cdn.jsdelivr.net/gh/fullstackreact/30-days-of-react@master/day-06/public/Clock.css" rel="stylesheet" type="text/css" />
+> ```
+>
 
 <div class="demo"  id="demo2"></div>
 
