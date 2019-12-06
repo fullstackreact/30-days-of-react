@@ -1,25 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import App from './App';
+import * as serviceWorker from './serviceWorker';
 
-import RepeaterKey from './RepeaterKey';
+ReactDOM.render(<App />, document.getElementById('root'));
 
-export const load = () => {
-  const a = 10;
-  const ShowA = () => <div>{a}</div>;
-  const MultipleA = () => <div>{a * a}</div>;
-
-  ReactDOM.render(
-    <div>
-      <ShowA />
-      <MultipleA />
-    </div>,
-    document.getElementById('demo1')
-  );
-
-  ReactDOM.render(<RepeaterKey />, document.getElementById('demo2'));
-};
-
-try {
-  load();
-} catch (e) {}
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: https://bit.ly/CRA-PWA
+serviceWorker.unregister();
