@@ -116,9 +116,9 @@ touch src/components/{Header,Content}.js
 Now, let's write the two components in their respective file. First, the `Header` components in `src/components/Header.js`:
 
 ```javascript
-import React, {Component} from 'react';
+import React from 'react';
 
-class Header extends Component {
+class Header extends React.Component {
   render() {
     return (
       <div id="header">
@@ -132,9 +132,9 @@ class Header extends Component {
 And now let's write the `Content` component in the `src/components/Content.js` file:
 
 ```javascript
-import React, {Component} from 'react';
+import React from 'react';
 
-class Content extends Component {
+class Content extends React.Component {
   render() {
     return <p className="App-intro">Content goes here</p>;
   }
