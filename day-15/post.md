@@ -122,7 +122,7 @@ Dealing with asynchronousity in this way can get complex quickly. In addition, w
 Using promises, on the other hand helps us avoid a lot of this complexity (although is not a silver bullet solution). The previous code, which could be called spaghetti code can be turned into a neater, more synchronous-looking version:
 
 ```javascript
-function getCurrentTime(onSuccess, onFail) {
+function getCurrentTime() {
   // Get the current 'global' time from an API using Promise
   return new Promise((resolve, reject) => {
     setTimeout(function() {
