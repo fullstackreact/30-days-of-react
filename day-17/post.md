@@ -69,20 +69,6 @@ export class App extends React.Component {
 }
 ```
 
-Now let's define the routing root in the DOM using the `<Router />` component we imported in the `render()` function. We'll define the type of routing we are using using the `history` prop. In this example, we'll use the universally-compatible hash history type: 
-
-```javascript
-export class App extends React.Component {
-  // ...
-  render() {
-    <Router>
-      {/* routes will go here */}
-    </Router>
-  }
-  // ...
-}
-```
-
 Now let's define our first route. To define a route, we'll use the `<Route />` component export from `react-router` and pass it a few props:
 
 * `path` - The path for the route to be active
@@ -132,8 +118,11 @@ In our view we'll need to add a link (or an anchor tag -- `<a />`) to enable our
 The `<Link />` component requires a prop called `to` to point to the client-side route where we want to render. Let's update our `Home` and `About` components to use the `Link`:
 
 ```javascript
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+
 const Home = () => (<div><h1>Welcome home</h1><Link to='/about'>Go to about</Link></div>)
 const About = () => (<div><h1>About</h1><Link to='/'>Go home</Link></div>)
+// ...
 ```
 
 <div class="demo" id="demo3"></div>
@@ -143,8 +132,10 @@ Wait a minute... we don't quite want _both_ routes to show up... This happens be
 The `<Switch />` component will _only render the first matching route_ it finds. Let's update our component to use the `Switch` component. As react router will try to render _both_ components, we'll need to specify that we only want an `exact` match on the root component. 
 
 ```javascript
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+// ...
 const Home = () => (<div><h1>Welcome home</h1><Link to='/about'>Go to about</Link></div>)
-  // ...
+// ...
 class App extends React.Component {
   render() {
     return (
@@ -163,7 +154,7 @@ class App extends React.Component {
 
 ### Showing views
 
-Althogh this is a limited introduction, we could not leave the discussion of dealing with react router without talking about the different ways we can get subcomponents to render.
+Although this is a limited introduction, we could not leave the discussion of dealing with react router without talking about the different ways we can get subcomponents to render.
 
 We've already seen the simplest way possible, using the `component` prop, however there is a more powerful method using a prop called `render`. The `render` prop is expected to be a function that will be called with the `match` object along with the `location` and route configuration. 
 
