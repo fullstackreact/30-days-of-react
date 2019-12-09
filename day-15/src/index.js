@@ -1,30 +1,61 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
+import * as serviceWorker from "./serviceWorker";
+import getCurrentTimeHandlerId from "./getCurrentTimeHandlerId";
+import getCurrentTimeCallback from "./getCurrentTimeCallback";
+import getCurrentTimeOnFail from "./getCurrentTimeOnFail";
+import getCurrentTimePromise from "./getCurrentTimePromise";
 
-import './index.css';
+var currentTimeTimeoutId = getCurrentTimeHandlerId();
+console.log("[TimeoutId] The current time is: " + currentTimeTimeoutId);
 
-export const load = () => {
-  function getCurrentTime(onSuccess, onFail) {
-    // Get the current 'global' time from an API using Promise
-    return new Promise((resolve, reject) => {
-      setTimeout(function() {
-        resolve(new Date());
-      }, 1000);
-    });
+getCurrentTimeCallback(function(currentTime) {
+  console.log("[TimeoutId] The current time is: " + currentTime);
+});
+
+getCurrentTimeOnFail(
+  function(currentTime) {
+    console.log("[Callback] The current time is: " + currentTime);
+  },
+  function(error) {
+    console.log("[Callback] There was an error fetching the time");
   }
+);
 
-  getCurrentTime()
-    .then(currentTime => getCurrentTime())
-    .then(currentTime => {
-      ReactDOM.render(
-        <div>The current time is: {currentTime.toString()}</div>,
-        document.getElementById('demo2')
-      );
-      return true;
-    })
-    .catch(err => console.log('There was an error:', err));
-};
+getCurrentTimeOnFail(
+  function(currentTime) {
+    getCurrentTimeOnFail(
+      function(newCurrentTime) {
+        console.log(
+          "[Nested Callback] The real current time is: " + currentTime
+        );
+      },
+      function(nestedError) {
+        console.log(
+          "[Nested Callback] There was an error fetching the second time"
+        );
+      }
+    );
+  },
+  function(error) {
+    console.log("[Nested Callback] There was an error fetching the time");
+  }
+);
 
-try {
-  load();
-} catch (e) {}
+getCurrentTimePromise()
+  .then(currentTime => getCurrentTimePromise())
+  .then(currentTime => {
+    ReactDOM.render(
+      <div>The current time is: {currentTime.toString()}</div>,
+      document.getElementById("root")
+    );
+    return true;
+  })
+  .catch(err => console.log("[Promise] There was an error:", err));
+
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: https://bit.ly/CRA-PWA
+serviceWorker.unregister();
