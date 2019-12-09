@@ -1,13 +1,19 @@
-import React from 'react';
+import React from "react";
 
-import {
-  BrowserRouter as Router,
-  Route,
-  Link
-} from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
-const Home = () => (<div><h1>Welcome home</h1><Link to='/about'>Go to about</Link></div>)
-const About = () => (<div><h1>About</h1><Link to='/'>Go home</Link></div>)
+const Home = () => (
+  <div>
+    <h1>Welcome home</h1>
+    <Link to="/about">Go to about</Link>
+  </div>
+);
+const About = () => (
+  <div>
+    <h1>About</h1>
+    <Link to="/">Go home</Link>
+  </div>
+);
 
 class App extends React.Component {
   render() {
@@ -18,8 +24,8 @@ class App extends React.Component {
           <Route path="/" component={Home} />
         </div>
       </Router>
-    )
+    );
   }
 }
 
-export default App
+export default App;

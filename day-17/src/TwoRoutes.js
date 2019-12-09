@@ -1,12 +1,17 @@
-import React from 'react';
+import React from "react";
 
-import {
-  BrowserRouter as Router,
-  Route
-} from 'react-router-dom'
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
-const Home = () => (<div><h1>Welcome home</h1></div>)
-const About = () => (<div><h1>About</h1></div>)
+const Home = () => (
+  <div>
+    <h1>Welcome home</h1>
+  </div>
+);
+const About = () => (
+  <div>
+    <h1>About</h1>
+  </div>
+);
 
 class App extends React.Component {
   render() {
@@ -17,8 +22,8 @@ class App extends React.Component {
           <Route path="/about" component={About} />
         </div>
       </Router>
-    )
+    );
   }
 }
 
-export default App
+export default App;
