@@ -106,9 +106,10 @@ export class TimeForm extends React.Component {
   constructor(props) {
     super(props);
 
-    this.fetchCurrentTime = this.fetchCurrentTime.bind(this);
-    this.handleFormSubmit = this.handleFormSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+    this._changeTimezone = this._changeTimezone.bind(this);
+    this._handleFormSubmit = this._handleFormSubmit.bind(this);
+    this._handleChange = this._handleChange.bind(this);
+    this._changeMsg = this._changeMsg.bind(this);
 
     const {tz, msg} = this.props;
     this.state = {tz, msg};
@@ -126,7 +127,7 @@ export class TimeForm extends React.Component {
 
   _changeMsg(evt) {
     const msg =
-      encodeURIComponent(evt.target.value).replace(/%20/, '+');
+      encodeURIComponent(evt.target.value).replace(/%20/g, '+');
     this.setState({msg}, this._handleChange);
   }
 
