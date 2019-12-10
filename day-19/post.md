@@ -158,17 +158,16 @@ Let's build our root reducer in a file at `src/redux/reducers.js`.
 
 ```javascript
 // Initial (starting) state
-const initialState = {
+export const initialState = {
   currentTime: new Date().toString()
 }
 
 // Our root reducer starts with the initial state
 // and must return a representation of the next state
-const rootReducer = (state = initialState, action) => {
+export const rootReducer = (state = initialState, action) => {
   return state;
 }
 
-export default rootReducer
 ```
 
 In the function, we're defining the first argument to start out as the initial state (the first time it runs, the `rootReducer` is called with no arguments, so it will always return the `initialState` on the first run). 
@@ -299,6 +298,23 @@ export const configureStore = () => {
 export default configureStore;
 ```
 
+
+Now let's update our `Root.js` file with an instance of the `store` created by calling the `configureStore()` function.
+
+```javascript
+// ...
+import configureStore from "../redux/configureStore";
+const Root = (props) => {
+  const store = configureStore();
+  
+  return (
+    <Provider store={store}>
+      <App />
+    </Provider>
+  );
+}
+```
+
 If we load our page in the browser, we'll see we have one giant error and no page gets rendered.
 
 <img class="wide" src="/assets/images/series/30-days-of-react/day-19/no-reducer.png" />
@@ -317,20 +333,6 @@ export const configureStore = () => {
   );
 
   return store;
-}
-```
-
-Now let's update our `Root.js` file with an instance of the `store` created by calling the `configureStore()` function.
-
-```javascript
-const Root = (props) => {
-  const store = configureStore();
-  
-  return (
-    <Provider store={store}>
-      <App />
-    </Provider>
-  );
 }
 ```
 
