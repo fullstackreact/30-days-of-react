@@ -39,7 +39,7 @@ The major idea behind Flux is that there is a single-source of truth (the stores
 
 When a dispatch has been triggered, and the store updates, it will emit a change event which the views can rerender accordingly. 
 
-<img style="width: 100%" src="http://facebook.github.io/flux/img/flux-simple-f8-diagram-with-client-action-1300w.png" alt="flux diagram" />
+<img style="width: 100%" src="https://facebook.github.io/flux/img/overview/flux-simple-f8-diagram-1300w.png" alt="flux diagram" />
 
 This may seem unnecessarily complex, but the structure makes it incredibly easy to reason about where our data is coming from, what causes it's changes, how it changes, and lets us track specific user flows, etc. 
 
