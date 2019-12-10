@@ -40,6 +40,8 @@ As a refresher, an action is a simple object that _must_ include a `type` value.
 
 ```javascript
 export const FETCH_NEW_TIME = 'FETCH_NEW_TIME';
+export const LOGIN = 'USER_LOGIN';
+export const LOGOUT = 'USER_LOGOUT';
 ```
 
 As a quick review, our actions can be any object value that has the `type` key. We can send data along with our action (conventionally, we'll pass extra data along as the `payload` of an action).
@@ -71,15 +73,6 @@ export const fetchNewTime = () => ({
   type: types.FETCH_NEW_TIME,
   payload: new Date().toString(),
 })
-
-export const login = (user) => ({
-  type: types.LOGIN,
-  payload: user
-})
-
-export const logout = () => ({
-  type: types.LOGOUT,
-})
 ```
 
 Now if we call this function, _nothing_ will happen except an action object is returned. How do we get this action to dispatch on the store?
@@ -89,7 +82,7 @@ Recall we used the `connect()` function export from `react-redux` yesterday? The
 Let's see this in action. In our `src/views/Home/Home.js` file, let's update our call to connect by providing a second function to use the actionCreator we just created. We'll call this function `mapDispatchToProps`.
 
 ```javascript
-import { fetchNewTime } from '../../redux/actionCreators';
+import { fetchNewTime } from '../../../redux/actionCreators';
   // ...
 const mapDispatchToProps = dispatch => ({
   updateTime: () => dispatch(fetchNewTime())
@@ -188,6 +181,19 @@ export const configureStore = () => {
 }
 
 export default configureStore;
+```
+
+Let's also update our `Home` component `mapStateToProps` function to read it's value from the `time` reducer
+
+```javascript
+// ...
+const mapStateToProps = state => {
+  // our redux store has `time` and `user` states
+  return {
+    currentTime: state.time.currentTime
+  };
+};
+// ...
 ```
 
 Now we can create the `login()` and `logout()` action creators to send along the action on our store.
