@@ -1,8 +1,7 @@
- 
-import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers } from "redux";
 
-import { rootReducer, initialState } from './reducers'
-import { reducer, initialState as userInitialState } from './currentUser'
+import { rootReducer, initialState } from "./reducers";
+import { reducer, initialState as userInitialState } from "./currentUser";
 
 export const configureStore = () => {
   const store = createStore(
@@ -11,12 +10,12 @@ export const configureStore = () => {
       user: reducer
     }), // root reducer
     {
-      time: initialState, 
+      time: initialState,
       user: userInitialState
-    }, // our initialState
+    } // our initialState
   );
 
   return store;
-}
+};
 
 export default configureStore;
