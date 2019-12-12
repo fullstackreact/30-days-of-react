@@ -135,7 +135,7 @@ From this output, we can see the two tests with one passing test (with a green c
 
 Let's update the second test to make it pass by changing the expectation to `toBeFalsy()`:
 
-```
+```javascript
 describe('Timeline', () => {
 
   it('passing test', () => {
@@ -143,7 +143,7 @@ describe('Timeline', () => {
   })
 
   it('failing test', () => {
-    expect(false).toBeTruthy();
+    expect(false).toBeFalsy();
   })
 })
 ```
