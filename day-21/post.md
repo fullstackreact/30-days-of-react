@@ -111,9 +111,11 @@ Let's create our first middleware.
 Now the signature of middleware looks like this:
 
 ```javascript
+// src/redux/loggingMiddleWare.js
 const loggingMiddleware = (store) => (next) => (action) => {
   // Our middleware
 }
+export default loggingMiddleware;
 ```
 
 Befuddled about this middleware thing? Don't worry, we all are the first time we see it. Let's peel it back a little bit and destructure what's going on. That `loggingMiddleware` description above could be rewritten like the following:
@@ -157,14 +159,16 @@ import { createStore, applyMiddleware } from 'redux';
 To _apply_ middleware, we can call this `applyMiddleware()` function in the `createStore()` method. In our `src/redux/configureStore.js` file, let's update the store creation by adding a call to `applyMiddleware()`:
 
 ```javascript
-  const store = createStore(
-    rootReducer,
-    initialState,
-    applyMiddleware(
-      apiMiddleware,
-      loggingMiddleware,
-    )
-  );
+// ...
+import loggingMiddleware from "./loggingMiddleware";
+// ...
+const store = createStore(
+  rootReducer,
+  initialState,
+  applyMiddleware(
+    loggingMiddleware,
+  )
+);
 ```
 
 Now our middleware is in place. Open up the console in your browser to see all the actions that are being called for this demo. Try clicking on the `Update` button with the console open...
@@ -176,6 +180,7 @@ As we've seen, middleware gives us the ability to insert a function in our Redux
 We want to write a middleware function that can handle API requests. We can write a middleware function that listens only to actions corresponding to API requests. Our middleware can "watch" for actions that have a special marker. For instance, we can have a `meta` object on the action with a `type` of `'api'`. We can use this to ensure our middleware does not handle any actions that are not related to API requests:
 
 ```javascript
+// src/redux/apiMiddleware.js
 const apiMiddleware = store => next => action => {
   if (!action.meta || action.meta.type !== 'api') {
     return next(action);
@@ -183,17 +188,18 @@ const apiMiddleware = store => next => action => {
 
   // This is an api request
 }
+export default apiMiddleware
 ```
 
 If an action does have a meta object with a type of `'api'`, we'll pick up the request in the `apiMiddleware`.
 
-Let's convert our `updateTime()` actionCreator to include these properties into an API request. Let's open up the `currentTime` redux module we've been working with (in `src/redux/currentTime.js`) and find the `fetchNewTime()` function definition.
+Let's convert our `fetchNewTime()` actionCreator to include these properties into an API request. Let's open up the `actionCreators` redux module we've been working with (in `src/redux/actionCreators.js`) and find the `fetchNewTime()` function definition.
 
 Let's pass in the URL to our `meta` object for this request. We can even accept parameters from inside the call to the action creator:
 
 ```javascript
 const host = 'https://andthetimeis.com'
-export const fetchNewTime = ({ timezone = 'pst', str='now'}) => ({
+export const fetchNewTime = (timezone = 'pst', str='now') => ({
   type: types.FETCH_NEW_TIME,
   payload: new Date().toString(),
   meta: {
