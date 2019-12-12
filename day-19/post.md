@@ -146,8 +146,6 @@ touch src/redux/configureStore.js
 touch src/redux/reducers.js
 ```
 
-<img class="wide" src="/assets/images/series/30-days-of-react/day-19/structure.png" />
-
 Let's start by creating our reducer first. Although it sounds complex, a reducer is actually pretty straight-forward with some experience. A reducer is _literally_ only a function. It's sole responsibility is to return a representation of the _next_ state. 
 
 In the Redux pattern, unlike flux we are only handling _one_ global store for the _entire_ application. This makes things much easier to deal with as there's a single place for the data of our application to live. 
