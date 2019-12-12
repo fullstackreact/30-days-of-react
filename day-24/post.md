@@ -45,7 +45,7 @@ For every test that we write against React, we'll want to import react into our 
 
 ```javascript
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
+import TestUtils from "react-dom/test-utils";
 
 describe('Timeline', () => {
   // Tests go here
@@ -56,7 +56,7 @@ Since we're testing the `Timeline` component here, we'll also want to bring that
 
 ```javascript
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
+import TestUtils from "react-dom/test-utils";
 
 import Timeline from '../Timeline';
 
@@ -65,11 +65,11 @@ describe('Timeline', () => {
 })
 ```
 
-Let's write our first test. Our first assumption is pretty simple to test. We're testing to make sure the element is wrapped in a `.notificationsFrame` class. With every test we'll write, we'll need to render our application into the working test document. The `react-addons-test-utils` library provides a function to do just this called `renderIntoDocument()`:
+Let's write our first test. Our first assumption is pretty simple to test. We're testing to make sure the element is wrapped in a `.notificationsFrame` class. With every test we'll write, we'll need to render our application into the working test document. The `react-dom/test-utils` library provides a function to do just this called `renderIntoDocument()`:
 
 ```javascript
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
+import TestUtils from "react-dom/test-utils";
 
 import Timeline from '../Timeline';
 
@@ -90,7 +90,7 @@ The `findRenderedDOMComponentWithClass()` function accepts _two_ arguments. The 
 
 ```javascript
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
+import TestUtils from "react-dom/test-utils";
 
 import Timeline from '../Timeline';
 
