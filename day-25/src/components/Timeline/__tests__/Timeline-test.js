@@ -1,43 +1,38 @@
-import React from 'react';
-import { shallow, mount } from 'enzyme';
+import React from "react";
+import { shallow, mount } from "enzyme";
 
-import Timeline from '../Timeline';
+import Timeline from "../Timeline";
 
-describe('Timeline', () => {
+describe("Timeline", () => {
   let wrapper;
 
-  it('wraps content in a div with .notificationsFrame class', () => {
+  it("wraps content in a div with .notificationsFrame class", () => {
     wrapper = shallow(<Timeline />);
-    expect(wrapper.find('.notificationsFrame').length).toEqual(1);
+    expect(wrapper.find(".notificationsFrame").length).toEqual(1);
   });
 
-  it('has a title of Timeline', () => {
-    wrapper = mount(<Timeline />)
-    expect(wrapper.find('.title').text()).toBe("Timeline")
-  })
+  it("has a title of Timeline", () => {
+    wrapper = mount(<Timeline />);
+    expect(wrapper.find(".title").text()).toBe("Timeline");
+  });
 
-  describe('search button', () => {
-    let search;
-    beforeEach(() => wrapper = mount(<Timeline />))
-    beforeEach(() => search = wrapper.find('input.searchInput'))
+  describe("search button", () => {
+    beforeEach(() => (wrapper = mount(<Timeline />)));
 
-    it('starts out hidden', () => {  
-      expect(search.hasClass('active')).toBeFalsy()
-    })
-    it('becomes visible after being clicked on', () => {
-      const icon = wrapper.find('.searchIcon')
-      icon.simulate('click')
-      expect(search.hasClass('active')).toBeTruthy()
-    })
-  })
+    it("starts out hidden", () => {
+      expect(wrapper.find("input.searchInput").hasClass("active")).toBeFalsy();
+    });
+    it("becomes visible after being clicked on", () => {
+      const icon = wrapper.find(".searchIcon");
+      icon.simulate("click");
+      expect(wrapper.find("input.searchInput").hasClass("active")).toBeTruthy();
+    });
+  });
 
-  describe('status updates', () => {
-    it('has 4 status updates at minimum', () => {
-      wrapper = shallow(<Timeline />)
-      expect(
-        wrapper.find('ActivityItem').length
-      ).toBeGreaterThan(3)
-    })
-  })
-
-})
+  describe("status updates", () => {
+    it("has 4 status updates at minimum", () => {
+      wrapper = shallow(<Timeline />);
+      expect(wrapper.find("ActivityItem").length).toBeGreaterThan(3);
+    });
+  });
+});
