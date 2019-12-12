@@ -16,7 +16,7 @@ imagesDir: /assets/images/series/30-days-of-react/day-25
 includeFile: ./../_params.yaml
 ---
 
-Yesterday we used the `react-addons-test-utils` library to write our first test against the `Timeline` component. However, this library is fairly low-level and can be a bit cumbersome to use. [Enzyme](http://airbnb.io/enzyme/) is a testing utility library released and maintained by the [AirBnb](http://airbnb.io) team and it offers a nicer, higher-level API for dealing with React components under test.
+Yesterday we used the `react-dom/test-utils` library to write our first test against the `Timeline` component. However, this library is fairly low-level and can be a bit cumbersome to use. [Enzyme](http://airbnb.io/enzyme/) is a testing utility library released and maintained by the [AirBnb](http://airbnb.io) team and it offers a nicer, higher-level API for dealing with React components under test.
 
 We're testing against our `<Timeline />` component:
 
@@ -30,7 +30,7 @@ Yesterday, we wrote our first test as the following:
 
 ```javascript
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
+import TestUtils from "react-dom/test-utils";
 
 import Timeline from '../Timeline';
 
@@ -51,6 +51,16 @@ Rather than testing the complete component tree with Enzyme, we can test just th
 
 Enzyme makes shallow rendering super easy. We'll use the `shallow` function exported by Enzyme to mount our component.
 
+Let's first configure `enzyme` use the adapter that makes it compatible with React version 16. Create `src/setupTests.js` and add the following:
+
+```javascript
+import { configure } from "enzyme";
+import Adapter from "enzyme-adapter-react-16";
+
+configure({ adapter: new Adapter() });
+
+```
+
 Let's update the `src/components/Timeline/__tests__/Timeline-test.js` file to include the `shallow` function from `enzyme`:
 
 ```javascript
@@ -64,7 +74,7 @@ describe('Timeline', () => {
 })
 ```
 
-> Shallow rendering is supported by `react-addons-test-utils` as well. In fact, Enzyme just wraps this functionality. While we didn't use shallow rendering yesterday, if we were to use it would look like this:
+> Shallow rendering is supported by `react-dom/test-utils` as well. In fact, Enzyme just wraps this functionality. While we didn't use shallow rendering yesterday, if we were to use it would look like this:
 >
 > ```javascript
 > const renderer = ReactTestUtils.createRenderer();
@@ -84,41 +94,11 @@ import Timeline from '../Timeline';
 
 describe('Timeline', () => {
   let wrapper;
-
-  it('wraps content in a div with .notificationsFrame class', () => {
+  
+  it("wraps content in a div with .notificationsFrame class", () => {
     wrapper = shallow(<Timeline />);
-    expect(wrapper.find('.notificationsFrame').length).toEqual(1);
+    expect(wrapper.find(".notificationsFrame").length).toEqual(1);
   });
-
-  it('has a title of Timeline', () => {
-    wrapper = mount(<Timeline />)
-    expect(wrapper.find('.title').text()).toBe("Timeline")
-  })
-
-  describe('search button', () => {
-    let search;
-    beforeEach(() => wrapper = mount(<Timeline />))
-    beforeEach(() => search = wrapper.find('input.searchInput'))
-
-    it('starts out hidden', () => {  
-      expect(search.hasClass('active')).toBeFalsy()
-    })
-    it('becomes visible after being clicked on', () => {
-      const icon = wrapper.find('.searchIcon')
-      icon.simulate('click')
-      expect(search.hasClass('active')).toBeTruthy()
-    })
-  })
-
-  describe('status updates', () => {
-    it('has 4 status updates at minimum', () => {
-      wrapper = shallow(<Timeline />)
-      expect(
-        wrapper.find('ActivityItem').length
-      ).toBeGreaterThan(3)
-    })
-  })
-
 })
 ```
 
@@ -216,9 +196,7 @@ describe('Timeline', () => {
   let wrapper;
   // ...
   describe('search button', () => {
-    let search;
     beforeEach(() => wrapper = mount(<Timeline />))
-    beforeEach(() => search = wrapper.find('input.searchInput'))
     // ...
   })
 })
@@ -231,12 +209,10 @@ describe('Timeline', () => {
   let wrapper;
   // ...
   describe('search button', () => {
-    let search;
     beforeEach(() => wrapper = mount(<Timeline />))
-    beforeEach(() => search = wrapper.find('input.searchInput'))
 
     it('starts out hidden', () => {  
-      expect(search.hasClass('active')).toBeFalsy()
+      expect(wrapper.find("input.searchInput").hasClass("active")).toBeFalsy();
     })
     it('becomes visible after being clicked on')
     // ...
@@ -269,7 +245,7 @@ Now we can set an expectation that the `search` component has the `active` class
 it('becomes visible after being clicked on', () => {
   const icon = wrapper.find('.searchIcon')
   icon.simulate('click')
-  expect(search.hasClass('active')).toBeTruthy()
+  expect(wrapper.find("input.searchInput").hasClass("active")).toBeTruthy();
 })
 ```
 
@@ -319,17 +295,15 @@ describe('Timeline', () => {
   })
 
   describe('search button', () => {
-    let search;
     beforeEach(() => wrapper = mount(<Timeline />))
-    beforeEach(() => search = wrapper.find('input.searchInput'))
 
     it('starts out hidden', () => {  
-      expect(search.hasClass('active')).toBeFalsy()
+      expect(wrapper.find("input.searchInput").hasClass("active")).toBeFalsy();
     })
     it('becomes visible after being clicked on', () => {
       const icon = wrapper.find('.searchIcon')
       icon.simulate('click')
-      expect(search.hasClass('active')).toBeTruthy()
+      expect(wrapper.find("input.searchInput").hasClass("active")).toBeTruthy();
     })
   })
 
