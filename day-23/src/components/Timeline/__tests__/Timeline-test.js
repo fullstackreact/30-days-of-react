@@ -1,10 +1,9 @@
-describe('Timeline', () => {
-
-  it('passing test', () => {
+describe("Timeline", () => {
+  it("passing test", () => {
     expect(true).toBeTruthy();
-  })
+  });
 
-  it('failing test', () => {
-    expect(true).toBeTruthy();
-  })
-})
+  it("failing test", () => {
+    expect(false).toBeFalsy();
+  });
+});
