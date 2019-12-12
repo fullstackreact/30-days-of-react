@@ -53,7 +53,7 @@ The [redux-mock-store](https://github.com/arnaudbenard/redux-mock-store) library
 To install all of these libraries, we'll use the following `npm` command in the terminal while in the root directory of our projects:
 
 ```bash
-yarn add --dev babel-jest babel-preset-stage-0 enzyme jest-cli react-addons-test-utils react-test-renderer redux-mock-store sinon
+yarn add --dev babel-jest babel-preset-stage-0 enzyme enzyme-adapter-react-16 jest-cli react-addons-test-utils react-test-renderer redux-mock-store sinon
 ```
 
 ## Configuration
