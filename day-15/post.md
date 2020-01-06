@@ -6,7 +6,7 @@ day: 15
 title: Introduction to Promises
 description: >-
   Today, we're going to look at what we need to know to understand Promises from
-  a high-level, so we can build our our applications using this incredibly
+  a high-level, so we can build our applications using this incredibly
   useful concept.
 dayDir: '15'
 hero_image: /assets/images/series/30-days-of-react/headings/15.jpg
