@@ -207,12 +207,12 @@ module.exports = {
   // ...
   plugins: [
     // ...
-    // Makes some environment variables available to 
-    // the JS code, for example:
-    // if (process.env.NODE_ENV === 'development') {
-    //  ... 
-    // }. See `env.js` 
-    new webpack.DefinePlugin(env),
+    // Makes some environment variables available to the JS code, for example:
+    // if (process.env.NODE_ENV === 'production') { ... }. See `./env.js`.
+    // It is absolutely essential that NODE_ENV is set to production
+    // during a production build.
+    // Otherwise React will be compiled in the very slow development mode.
+    new webpack.DefinePlugin(env.stringified),
     // ...
   ]
 }
@@ -248,15 +248,41 @@ Looking at the `config/env.js` file, we can see that it takes all the variables 
 
 ```javascript
 // ...
-module.exports = Object
-  .keys(process.env)
-  .filter(key => REACT_APP.test(key))
-  .reduce((env, key) => {
-    env['process.env.' + key] = JSON.stringify(process.env[key]);
-    return env;
-  }, {
-    'process.env.NODE_ENV': NODE_ENV
-  });
+// Grab NODE_ENV and REACT_APP_* environment variables and prepare them to be
+// injected into the application via DefinePlugin in Webpack configuration.
+const REACT_APP = /^REACT_APP_/i;
+// ...
+function getClientEnvironment(publicUrl) {
+  const raw = Object.keys(process.env)
+    .filter(key => REACT_APP.test(key))
+    .reduce(
+      (env, key) => {
+        env[key] = process.env[key];
+        return env;
+      },
+      {
+        // Useful for determining whether we’re running in production mode.
+        // Most importantly, it switches React into the correct mode.
+        NODE_ENV: process.env.NODE_ENV || "development",
+        // Useful for resolving the correct path to static assets in `public`.
+        // For example, <img src={process.env.PUBLIC_URL + '/img/logo.png'} />.
+        // This should only be used as an escape hatch. Normally you would put
+        // images into the `src` and `import` them in code to get their paths.
+        PUBLIC_URL: publicUrl,
+      }
+    );
+  // Stringify all values so we can feed into Webpack DefinePlugin
+  const stringified = {
+    "process.env": Object.keys(raw).reduce((env, key) => {
+      env[key] = JSON.stringify(raw[key]);
+      return env;
+    }, {})
+  };
+
+  return { raw, stringified };
+}
+
+module.exports = getClientEnvironment;
 ```
 
 We can skip all the complex part of that operation as we'll only need to modify the second argument to the reduce function, in other words, we'll update the object:
@@ -313,9 +339,14 @@ const envDotEnv = dotenv.config({
 Next, let's concatenate all these variables together as well as include our `NODE_ENV` option in this object. The `Object.assign()` method creates a _new_ object and merges each object from right to left. This way, the environment config variable
 
 ```javascript
-const allVars = Object.assign({}, {
-  'NODE_ENV': NODE_ENV
-}, globalDotEnv, envDotEnv);
+const allVars = Object.assign(
+  {},
+  {
+    NODE_ENV: NODE_ENV
+  },
+  globalDotEnv.parsed,
+  envDotEnv.parsed
+);
 ```
 
 With our current setup, the `allVars` variable will look like:
@@ -327,37 +358,32 @@ With our current setup, the `allVars` variable will look like:
 }
 ```
 
-Finally, let's create an object that puts these variables on `process.env` and ensures they are valid strings (using `JSON.stringify`).
+Now we can add this `allVars` as an argument to the reduce function initial value called in the `raw` variable in the `getClientEnvironment` function. Let's update it to use this object:
 
 ```javascript
-const initialVariableObject =
-  Object.keys(allVars)
-  .reduce((memo, key) => {
-    memo['process.env.' + key.toUpperCase()] = 
-      JSON.stringify(allVars[key]);
-    return memo;
-  }, {});
-```
-
-With our current setup (with the `.env` file in the root), this creates the `initialVariableObject` to be the following object:
-
-```javascript
-{
-  'process.env.NODE_ENV': '"development"',
-  'process.env.APP_NAME': '"30days"'
+function getClientEnvironment(publicUrl) {
+  // ...
+  const raw = Object.keys(process.env)
+    .filter(key => REACT_APP.test(key))
+    .reduce(
+      (env, key) => {
+        env[key] = process.env[key];
+        return env;
+      },
+      {
+        // Useful for determining whether we’re running in production mode.
+        // Most importantly, it switches React into the correct mode.
+        NODE_ENV: process.env.NODE_ENV || "development",
+        // Useful for resolving the correct path to static assets in `public`.
+        // For example, <img src={process.env.PUBLIC_URL + '/img/logo.png'} />.
+        // This should only be used as an escape hatch. Normally you would put
+        // images into the `src` and `import` them in code to get their paths.
+        PUBLIC_URL: publicUrl,
+        ...allVars
+      }
+    );
+  // ...
 }
-```
-
-Now we can use this `initialVariableObject` as the second argument for the original `module.exports` like. Let's update it to use this object:
-
-```javascript
-module.exports = Object
-  .keys(process.env)
-  .filter(key => REACT_APP.test(key))
-  .reduce((env, key) => {
-    env['process.env.' + key] = JSON.stringify(process.env[key]);
-    return env;
-  }, initialVariableObject);
 ```
 
 Now, anywhere in our code we can use the variables we set in our `.env` files. 
@@ -381,25 +407,20 @@ TIME_SERVER='https://fullstacktime.herokuapp.com'
 
 Now, when we run `npm start`, any occurrences of `process.env.TIME_SERVER` will be replaced by which ever value takes precedence. 
 
-Let's update our `src/redux/modules/currentTime.js` module to use the new server, rather than the hardcoded one we used previously.
+Let's update our `src/redux/actionCreators.js` module to use the new server, rather than the hardcoded one we used previously.
 
 ```javascript
 // ...
-export const reducer = (state = initialState, action) => {
-  // ...
-}
-
 const host = process.env.TIME_SERVER;
-export const actions = {
-  updateTime: ({timezone = 'pst', str='now'}) => ({
-    type: types.FETCH_NEW_TIME,
-    meta: {
-      type: 'api',
-      url: host + '/' + timezone + '/' + str + '.json',
-      method: 'GET'
-    }
-  })
-}
+export const fetchNewTime = (timezone = "pst", str = "now") => ({
+  type: types.FETCH_NEW_TIME,
+  payload: new Date().toString(),
+  meta: {
+    type: "api",
+    url: host + "/" + timezone + "/" + str + ".json"
+  }
+});
+
 ```
 
 Now, for our production deployment, we'll use the heroku app, so let's create a copy of the `development.config.env` file as `production.config.env` in the `config/` directory:
@@ -419,18 +440,24 @@ let middleware = [
   loggingMiddleware,
   apiMiddleware
 ];
-const store = createStore(reducer, applyMiddleware(...middleware));
+
+export const configureStore = () => {
+  // ...
+  const store = createStore(rootReducer, initialState, applyMiddleware(...middleware));
+  // ...
+}
+
 ```
 
 Now that we have the `process.env.NODE_ENV` available to us in our files, we can update the `middleware` array depending upon the environment we're running in. Let's update it to only add the logging if we are in the development environment:
 
 ```javascript
+// ...
 let middleware = [apiMiddleware];
 if ("development" === process.env.NODE_ENV) {
   middleware.unshift(loggingMiddleware);
 }
-
-const store = createStore(reducer, applyMiddleware(...middleware));
+// ...
 ```
 
 Now when we run our application in development, we'll have the `loggingMiddleware` set, while in any other environment we've disabled it.
