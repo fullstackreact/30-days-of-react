@@ -138,7 +138,7 @@ module.exports = {
       // wait for page to load
       .waitForElementVisible('.navbar', 1000)
       // click on the login link
-      .click('a[href="#/login"]')
+      .click('a[href="/login"]')
 
     browser.assert.urlContains('login');
   },
@@ -196,32 +196,36 @@ Writing this up in code is straight-forward too. Just like we did previously, le
 
 ```javascript
 module.exports = {
-  'get to login page': (browser) => {
+  "get to login page": browser => {
     browser
+      // Load the page at the launch URL
       .url(browser.launchUrl)
-      .waitForElementVisible('.navbar', 1000)
-      .click('a[href="#/login"]')
+      // wait for page to load
+      .waitForElementVisible(".navbar", 1000)
+      // click on the login link
+      .click('a[href="/login"]');
 
-    browser.assert.urlContains('login');
+    browser.assert.urlContains("login");
   },
-  'logging in': (browser) => {
+  "logging in": browser => {
     browser
-      // set the input email to a valid email
-      .setValue('input[type=email]', 'ari@fullstack.io')
+      // set the input email to a valid username / password
+      .setValue("input[type=text]", "admin")
+      .setValue("input[type=password]", "secret")
       // submit the form
-      .click('input[type=submit]')
+      .click("input[type=submit]")
       // wait for the page to load
-      .waitForElementVisible('.navbar', 1000)
+      .waitForElementVisible(".navbar", 1000)
       // Get the text of the h1 tag
-      .getText('.content h1', function(comp) {
-        this.assert.equal(comp.value, 'Welcome home!')
-      })
+      .getText(".home h1", function(comp) {
+        this.assert.equal(comp.value, "Welcome home!");
+      });
 
-    browser.assert.urlContains(browser.launchUrl)
+    browser.assert.urlContains(browser.launchUrl);
   },
-  'logging out': (browser) => {},
-  'close': (browser) => {},
-}
+  "logging out": browser => {},
+  close: browser => {}
+};
 ```
 
 Running these tests again (in the third terminal window):
@@ -235,55 +239,57 @@ nightwatch
 We can do a similar thing with the `logging out` step from our browser. To get a user to log out, we will:
 
 1. `Find and click` on the logout link
-2. `Wait` for the content to load for the next page (which contains an "are you sure?"-style button).
-3. We'll `click` on the "I'm sure" button to log out
-4. We'll want to `wait for the content to load again
-5. We'll `assert` that t`he h1 tag contains the value we expect it to have
-6. And we'll make sure the page shows the Login button
+2. We'll want to `wait for the content to load again
+3. We'll `assert` that t`he h1 tag contains the value we expect it to have
+4. And we'll make sure the page shows the Login button
 
 Let's implement this with comments inline:
 
 
 ```javascript
 module.exports = {
-  'get to login page': (browser) => {
+  "get to login page": browser => {
     browser
+      // Load the page at the launch URL
       .url(browser.launchUrl)
-      .waitForElementVisible('.navbar', 1000)
-      .click('a[href="#/login"]')
+      // wait for page to load
+      .waitForElementVisible(".navbar", 1000)
+      // click on the login link
+      .click('a[href="/login"]');
 
-    browser.assert.urlContains('login');
+    browser.assert.urlContains("login");
   },
-  'logging in': (browser) => {
+  "logging in": browser => {
     browser
-      .setValue('input[type=email]', 'ari@fullstack.io')
-      .click('input[type=submit]')
-      .waitForElementVisible('.navbar', 1000)
-      .getText('.content h1', function(comp) {
-        this.assert.equal(comp.value, 'Welcome home!')
-      })
+      // set the input email to a valid username / password
+      .setValue("input[type=text]", "admin")
+      .setValue("input[type=password]", "secret")
+      // submit the form
+      .click("input[type=submit]")
+      // wait for the page to load
+      .waitForElementVisible(".navbar", 1000)
+      // Get the text of the h1 tag
+      .getText(".home h1", function(comp) {
+        this.assert.equal(comp.value, "Welcome home!");
+      });
 
-    browser.assert.urlContains(browser.launchUrl)
+    browser.assert.urlContains(browser.launchUrl);
   },
-  'logging out': (browser) => {
+  "logging out": browser => {
     browser
       // Find and click on the logout link
-      .click('a[href="#/logout"]')
-      // Wait for the content to load
-      .waitForElementVisible('.content button', 1000)
-      // Click on the button to logout
-      .click('button')
+      .click(".logout")
       // We'll wait for the next content to load
-      .waitForElementVisible('h1', 1000)
+      .waitForElementVisible("h1", 1000)
       // Get the text of the h1 tag
-      .getText('h1', function(res) {
-        this.assert.equal(res.value, 'Welcome home!')
+      .getText("h1", function(res) {
+        this.assert.equal(res.value, "You need to know the secret");
       })
       // Make sure the Login button shows now
-      .waitForElementVisible('a[href="#/login"]', 1000);
+      .waitForElementVisible('a[href="/login"]', 1000);
   },
-  'close': (browser) => {},
-}
+  close: browser => {}
+};
 ```
 
 As of now, you may have noticed that your chrome browsers haven't been closing when the tests have completed. This is because we haven't told selenium that we want the session to be complete. We can use the `end()` command on the `browser` object to close the connection. This is why we have the last and final step called `close`.
