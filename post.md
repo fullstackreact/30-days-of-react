@@ -22,11 +22,11 @@ We've almost made it through your first week of getting up and running on React.
 
 React does _not_ allow us to modify `this.props` on our components for good reason. Imagine if we passed in the `title` prop to the `Header` component and the `Header` component was able to modify it. How do we know what the `title` is of the `Header` component? We set ourselves up for race-conditions, confusing data state, and it would be an all-around bad idea to modify a variable passed to us by a parent component and modified in a child.
 
-However, sometimes a component needs to be able to update it's own state. For example, setting an `active` flag or updating a timer on a stopwatch, for instance. 
+However, sometimes a component needs to be able to update its own state. For example, setting an `active` flag or updating a timer on a stopwatch, for instance. 
 
 While it's preferable to use `props` as much as we can, sometimes we need to hold on to the state of a component. To handle this, React gives us the ability to have _state_ in our components.
 
-`state` in a component is intended to be completely internal to the Component and it's children (i.e. accessed by the component and any children it used). Similar to how we access `props` in a component, the state can be accessed via `this.state` in a component. Whenever the state changes (via the `this.setState()` function), the component will rerender. 
+`state` in a component is intended to be completely internal to the Component and its children (i.e. accessed by the component and any children it used). Similar to how we access `props` in a component, the state can be accessed via `this.state` in a component. Whenever the state changes (via the `this.setState()` function), the component will rerender. 
 
 For instance, let's say we have a simple clock component that shows the current time:
 
