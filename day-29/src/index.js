@@ -1,8 +1,6 @@
-import './index.css';
+import React from "react";
+import ReactDOM from "react-dom";
+import Root from "./containers/Root";
+import "./index.css";
 
-export const load = () => {
-}
-
-try {
-  // load()
-} catch(e) {}
+ReactDOM.render(<Root />, document.getElementById("root"));

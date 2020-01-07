@@ -1,8 +1,9 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
+import React from "react";
+import { render } from "@testing-library/react";
+import App from "./containers/Root";
 
-it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<App />, div);
+test("renders welcom home text", () => {
+  const { getByText } = render(<App />);
+  const textElement = getByText(/welcome home/i);
+  expect(textElement).toBeInTheDocument();
 });
