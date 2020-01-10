@@ -38,7 +38,7 @@ Let's use our build system to generate a list of production files we'll want to 
 npm run build
 ```
 
-<img class="wide" src="/assets/images/series/30-days-of-react/day-28/npm-build.jpg" />
+<img class="wide" src="../images/28/npm-build.jpg" />
 
 ## Where
 
@@ -65,7 +65,7 @@ We'll explore a few of these options together.
 
 ## surge.sh
 
-<img class="wide" src="/assets/images/series/30-days-of-react/day-28/surge.jpg" />
+<img class="wide" src="../images/28/surge.jpg" />
 
 [surge.sh](https://surge.sh/) is arguably one of the easiest hosting providers to host our static site with. They provide a way for us to easily and repeatable methods for hosting our sites. 
 
@@ -83,23 +83,23 @@ surge -p build
 
 The surge tool will run and it will upload all of our files to a domain specified by the output of the tool. In the case of the previous run, this uploads our files to the url of [hateful-impulse.surge.sh](http://hateful-impulse.surge.sh/) (or the SSL version at [https://hateful-impulse.surge.sh/](https://hateful-impulse.surge.sh/))
 
-<img class="wide" src="/assets/images/series/30-days-of-react/day-28/surge-deploy.jpg" />
+<img class="wide" src="../images/28/surge-deploy.jpg" />
 
 For more information on `surge`, check out their documentation at [https://surge.sh/help/](https://surge.sh/help/).
 
 ## Github pages
 
-<img class="wide" src="/assets/images/series/30-days-of-react/day-28/github-pages.jpg" />
+<img class="wide" src="../images/28/github-pages.jpg" />
 
 [github pages](https://pages.github.com/) is another easy service to deploy our static files to. It's dependent upon using github to host our git files, but is another easy-to-use hosting environment for single page applications. 
 
 We'll need to start by creating our github pages repository on github. With an active account, we can visit the [github.com/new](https://github.com/new) site and create a repository. 
 
-<img class="wide" src="/assets/images/series/30-days-of-react/day-28/github-repo.jpg" />
+<img class="wide" src="../images/28/github-repo.jpg" />
 
 With this repo, it will redirect us to the repo url. Let's click on the `clone or download` button and find the github git url. Let's copy and paste this to our clipboard and head to our terminal.
 
-<img class="wide" src="/assets/images/series/30-days-of-react/day-28/github-url.jpg" />
+<img class="wide" src="../images/28/github-url.jpg" />
 
 In our terminal, let's add this as a remote origin for our git repo. 
 
@@ -130,7 +130,7 @@ git filter-branch -f --prune-empty --subdirectory-filter build
 git checkout -
 ```
 
-<img class="wide" src="/assets/images/series/30-days-of-react/day-28/git-branch.jpg" />
+<img class="wide" src="../images/28/git-branch.jpg" />
 
 Since github pages does not serve directly from the root, but instead the build folder, we'll need to add a configuration to our `package.json` by setting the `homepage` key to the `package.json` file with our github url. Let's open the `package.json` file and add the "homepage" key:
 
@@ -182,7 +182,7 @@ For more information on github pages, check out their documentation at [https://
 
 ## Heroku
 
-<img class="wide" src="/assets/images/series/30-days-of-react/day-28/heroku.jpg" />
+<img class="wide" src="../images/28/heroku.jpg" />
 
 [Heroku](https://www.heroku.com/) is a very cool hosting service that allows us to host both static and non-static websites. We might want to deploy a static site to heroku as we may want to move to a dynamic backend at some point, are already comfortable with deploying to heroku, etc. 
 
@@ -196,7 +196,7 @@ Finally, we'll need to run `heroku login` to set up credentials for our applicat
 heroku login
 ```
 
-<img class="wide" src="/assets/images/series/30-days-of-react/day-28/heroku-login.jpg" />
+<img class="wide" src="../images/28/heroku-login.jpg" />
 
 Next, we'll need to tell the `heroku` command-line that we have a heroku app. We can do this by calling `heroku apps:create` from the command-line in our project root:
 
@@ -206,7 +206,7 @@ heroku apps:create
 heroku apps:create thirty-days-of-react-demo
 ```
 
-<img class="wide" src="/assets/images/series/30-days-of-react/day-28/heroku-create.jpg" />
+<img class="wide" src="../images/28/heroku-create.jpg" />
 
 Heroku knows how to run our application thanks to [buildpacks](https://devcenter.heroku.com/articles/buildpacks). We'll need to tell heroku we have a static-file buildpack so it knows to serve our application as a static file/spa. 
 
@@ -216,7 +216,7 @@ We'll need to install the static-files plugin for heroku. This can be easiy inst
 heroku plugins:install heroku-cli-static
 ```
 
-<img class="wide" src="/assets/images/series/30-days-of-react/day-28/heroku-plugin.jpg" />
+<img class="wide" src="../images/28/heroku-plugin.jpg" />
 
 We can add the static file buildpack with the following command:
 
@@ -230,7 +230,7 @@ For any configuration updates, we'll need to run the `static:init` command from 
 heroku static:init
 ```
 
-<img class="wide" src="/assets/images/series/30-days-of-react/day-28/heroku-static-init.jpg" />
+<img class="wide" src="../images/28/heroku-static-init.jpg" />
 
 Now we can deploy our static site to heroku using the `git` workflow:
 

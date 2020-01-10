@@ -8,17 +8,16 @@ description: >-
   Yesterday we examined the different types of tests that we write in React.
   Today we'll see it in action. We'll install the dependencies required to set
   up tests as well as write our first assertions.
-dayDir: '23'
+dayDir: "23"
 hero_image: /assets/images/series/30-days-of-react/headings/23.jpg
 imageUrl: /assets/images/series/30-days-of-react/headings/23.jpg
 introBannerUrl: /assets/images/series/30-days-of-react/headings/23_wide.jpg
-date: 'Wed Oct 26 2016 21:29:42 GMT-0700 (PDT)'
+date: "Wed Oct 26 2016 21:29:42 GMT-0700 (PDT)"
 imagesDir: /assets/images/series/30-days-of-react/day-23
 includeFile: ./../_params.yaml
 ---
 
 Let's get our application set up to be tested. Since we're going to be using a few different libraries, we'll need to install them before we can use them (obviously).
-
 
 ## Dependencies
 
@@ -87,17 +86,15 @@ The `Timeline-test.js` file will include all the tests for our `Timeline` compon
 
 We'll write our tests using the [Jasmine](http://jasmine.github.io) framework. Jasmine provides a few methods we'll use quite a bit. Both of the following methods accept two arguments, the first being a description string and the second a function to execute:
 
-* `describe()`
-* `it()`
+- `describe()`
+- `it()`
 
 The `describe()` function provides a way for us to group our tests together in logical bundles. Since we're writing a bunch of tests for our `Timeline`, we'll use the `describe()` function in our test to indicate we're testing the Timeline.
 
 In the `src/components/Timeline/__tests__/Timeline-test.js` file, let's add the describe block:
 
 ```javascript
-describe('Timeline', () => {
-
-});
+describe("Timeline", () => {});
 ```
 
 We can add our first test using the `it()` function. The `it()` function is where we will set our expectations. Let's set up our tests with our first expectations, one passing and one failing so we can see the difference in output.
@@ -105,23 +102,22 @@ We can add our first test using the `it()` function. The `it()` function is wher
 In the same file, let's add two tests:
 
 ```javascript
-describe('Timeline', () => {
-
-  it('passing test', () => {
+describe("Timeline", () => {
+  it("passing test", () => {
     expect(true).toBeTruthy();
-  })
+  });
 
-  it('failing test', () => {
+  it("failing test", () => {
     expect(false).toBeTruthy();
-  })
-})
+  });
+});
 ```
 
 We'll look at the possible expectations we can set in a moment. First, let's run our tests.
 
 ## Executing tests
 
-The `create-react-app` package sets up a quality testing environment using Jest automatically for us. We can execute our tests by using the `yarn test` or `npm test` script. 
+The `create-react-app` package sets up a quality testing environment using Jest automatically for us. We can execute our tests by using the `yarn test` or `npm test` script.
 
 In the terminal, let's execute our tests:
 
@@ -129,23 +125,22 @@ In the terminal, let's execute our tests:
 yarn test
 ```
 
-<img class="wide" src="/assets/images/series/30-days-of-react/day-23/first-tests.jpg" />
+<img class="wide" src="../images/23/first-tests.jpg" />
 
 From this output, we can see the two tests with one passing test (with a green checkmark) and one failing test (with the red x and a description of the failure).
 
 Let's update the second test to make it pass by changing the expectation to `toBeFalsy()`:
 
 ```javascript
-describe('Timeline', () => {
-
-  it('passing test', () => {
+describe("Timeline", () => {
+  it("passing test", () => {
     expect(true).toBeTruthy();
-  })
+  });
 
-  it('failing test', () => {
+  it("failing test", () => {
     expect(false).toBeFalsy();
-  })
-})
+  });
+});
 ```
 
 Re-running the test, we can see we have two passing tests
@@ -154,23 +149,22 @@ Re-running the test, we can see we have two passing tests
 yarn test
 ```
 
-<img class="wide" src="/assets/images/series/30-days-of-react/day-23/second-tests.png" />
+<img class="wide" src="../images/23/second-tests.png" />
 
 ## Expectations
 
 Jest provides a few global commands in our tests by default (i.e. things you don't need to require). One of those is the `expect()` command. The `expect()` command has a few expectations which we can call on it, including the two we've used already:
 
-* `toBeTruthy()`
-* `toBeFalsy()`
-* `toBe()`
-* `toEqual()`
-* `toBeDefined()`
-* `toBeCalled()`
-* etc.
+- `toBeTruthy()`
+- `toBeFalsy()`
+- `toBe()`
+- `toEqual()`
+- `toBeDefined()`
+- `toBeCalled()`
+- etc.
 
 The entire suite of expectations is available on the jest documentation page at: [https://facebook.github.io/jest/docs/api.html#writing-assertions-with-expect](https://facebook.github.io/jest/docs/api.html#writing-assertions-with-expect).
 
 The `expect()` function takes a single argument: the value or function that returns a value to be tested. For instance, our two tests we've already writen pass the boolean values of `true` and `false`.
 
 Now that we've written our first tests and confirmed our setup, we'll actually get down to testing our Timeline component tomorrow. Great job today and see you tomorrow!
-

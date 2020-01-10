@@ -8,10 +8,10 @@ description: >-
   start building a more complex interface.
 hero_image: /assets/images/series/30-days-of-react/headings/4.jpg
 imageUrl: /assets/images/series/30-days-of-react/headings/4.jpg
-dayDir: '04'
+dayDir: "04"
 day: 4
 introBannerUrl: /assets/images/series/30-days-of-react/headings/4_wide.jpg
-date: 'Fri Oct 07 2016 21:29:42 GMT-0700 (PDT)'
+date: "Fri Oct 07 2016 21:29:42 GMT-0700 (PDT)"
 imagesDir: /assets/images/series/30-days-of-react/day-4
 includeFile: ./../_params.yaml
 ---
@@ -27,7 +27,11 @@ A common web element we might see is a user timeline. For instance, we might hav
 > However, we want to make sure the timeline you build looks similar to ours. If you include the following CSS as a `<link />` tag in your code, you're timeline will look similar and will be using the same styling ours is using:
 >
 > ```html
-> <link href="https://cdn.jsdelivr.net/gh/fullstackreact/30-days-of-react@master/day-04/src/components/Timeline/Timeline.css" rel="stylesheet" type="text/css" />
+> <link
+>   href="https://cdn.jsdelivr.net/gh/fullstackreact/30-days-of-react@master/day-04/src/components/Timeline/Timeline.css"
+>   rel="stylesheet"
+>   type="text/css"
+> />
 > ```
 >
 > And make sure to surround your code in a component with the class of `demo` (we left it this way purposefully as it's the _exact_ same code we use in all the demos here). Check out the [https://jsfiddle.net/auser/zwomnfwk/](https://jsfiddle.net/auser/zwomnfwk/) for a working example.
@@ -37,7 +41,11 @@ A common web element we might see is a user timeline. For instance, we might hav
 > In addition, in order to make the timeline look _exactly_ like the way ours does on the site, you'll need to include [font-awesome](http://fontawesome.io/) in your web application. There are multiple ways to handle this. The simplest way is to include the link styles:
 >
 > ```html
-> <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+> <link
+>   href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+>   rel="stylesheet"
+>   type="text/css"
+> />
 > ```
 >
 > _All_ the code for the examples on the page is available at the [github repo (at https://github.com/fullstackreact/30-days-of-react)](https://github.com/fullstackreact/30-days-of-react).
@@ -45,80 +53,84 @@ A common web element we might see is a user timeline. For instance, we might hav
 We _could_ build this entire UI in a single component. However, building an entire application in a single component is not a great idea as it can grow huge, complex, and difficult to test.
 
 ```html
-class Timeline extends React.Component {
-  render() {
-    return (
-      <div className="notificationsFrame">
-        <div className="panel">
-          <div className="header">
-
-            <div className="menuIcon">
-              <div className="dashTop"></div>
-              <div className="dashBottom"></div>
-              <div className="circle"></div>
-            </div>
-
-            <span className="title">Timeline</span>
-
-            <input
-              type="text"
-              className="searchInput"
-              placeholder="Search ..." />
-
-            <div className="fa fa-search searchIcon"></div>
-          </div>
-          <div className="content">
-            <div className="line"></div>
-            <div className="item">
-
-              <div className="avatar">
-                <img
-                alt='doug'
-                src="http://www.croop.cl/UI/twitter/images/doug.jpg" />
-              </div>
-
-              <span className="time">
-                An hour ago
-              </span>
-              <p>Ate lunch</p>
-            </div>
-
-            <div className="item">
-              <div className="avatar">
-                <img
-                  alt='doug' src="http://www.croop.cl/UI/twitter/images/doug.jpg" />
-              </div>
-
-              <span className="time">10 am</span>
-              <p>Read Day two article</p>
-            </div>
-
-            <div className="item">
-              <div className="avatar">
-                <img
-                  alt='doug' src="http://www.croop.cl/UI/twitter/images/doug.jpg" />
-              </div>
-
-              <span className="time">10 am</span>
-              <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-            </div>
-
-            <div className="item">
-              <div className="avatar">
-                <img
-                  alt='doug' src="http://www.croop.cl/UI/twitter/images/doug.jpg" />
-              </div>
-
-              <span className="time">2:21 pm</span>
-              <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-            </div>
-
-          </div>
-        </div>
+class Timeline extends React.Component { render() { return (
+<div className="notificationsFrame">
+  <div className="panel">
+    <div className="header">
+      <div className="menuIcon">
+        <div className="dashTop"></div>
+        <div className="dashBottom"></div>
+        <div className="circle"></div>
       </div>
-    )
-  }
-}
+
+      <span className="title">Timeline</span>
+
+      <input type="text" className="searchInput" placeholder="Search ..." />
+
+      <div className="fa fa-search searchIcon"></div>
+    </div>
+    <div className="content">
+      <div className="line"></div>
+      <div className="item">
+        <div className="avatar">
+          <img
+            alt="doug"
+            src="http://www.croop.cl/UI/twitter/images/doug.jpg"
+          />
+        </div>
+
+        <span className="time">
+          An hour ago
+        </span>
+        <p>Ate lunch</p>
+      </div>
+
+      <div className="item">
+        <div className="avatar">
+          <img
+            alt="doug"
+            src="http://www.croop.cl/UI/twitter/images/doug.jpg"
+          />
+        </div>
+
+        <span className="time">10 am</span>
+        <p>Read Day two article</p>
+      </div>
+
+      <div className="item">
+        <div className="avatar">
+          <img
+            alt="doug"
+            src="http://www.croop.cl/UI/twitter/images/doug.jpg"
+          />
+        </div>
+
+        <span className="time">10 am</span>
+        <p>
+          Lorem Ipsum is simply dummy text of the printing and typesetting
+          industry.
+        </p>
+      </div>
+
+      <div className="item">
+        <div className="avatar">
+          <img
+            alt="doug"
+            src="http://www.croop.cl/UI/twitter/images/doug.jpg"
+          />
+        </div>
+
+        <span className="time">2:21 pm</span>
+        <p>
+          Lorem Ipsum has been the industry's standard dummy text ever since the
+          1500s, when an unknown printer took a galley of type and scrambled it
+          to make a type specimen book.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+) } }
 ```
 
 <div class="demo" id="demo1"></div>
@@ -132,11 +144,11 @@ Looking at this component, there are 2 separate parts to the larger component as
 1. The title bar
 2. The content
 
-<img class="wide" src="/assets/images/series/30-days-of-react/day-4/breakdown.png" />
+<img class="wide" src="../images/04/breakdown.png" />
 
 We can chop up the content part of the component into individual places of concern. There are 3 different _item_ components inside the content part.
 
-<img class="wide" src="/assets/images/series/30-days-of-react/day-4/breakdown-2.png" />
+<img class="wide" src="../images/04/breakdown-2.png" />
 
 > If we wanted to go one step further, we could even break down the title bar into 3 component parts, the _menu_ button, the _title_, and the _search_ icon. We could dive even further into each one of those if we needed to.
 >
@@ -157,11 +169,9 @@ class App extends React.Component {
   render() {
     return (
       <div className="notificationsFrame">
-        <div className="panel">
-          {/* content goes here */}
-        </div>
+        <div className="panel">{/* content goes here */}</div>
       </div>
-    )
+    );
   }
 }
 ```
@@ -190,14 +200,11 @@ class Header extends React.Component {
         </div>
         <span className="title">Timeline</span>
 
-        <input
-          type="text"
-          className="searchInput"
-          placeholder="Search ..." />
+        <input type="text" className="searchInput" placeholder="Search ..." />
 
         <div className="fa fa-search searchIcon"></div>
       </div>
-    )
+    );
   }
 }
 ```
@@ -217,24 +224,20 @@ class Content extends React.Component {
         <div className="item">
           <div className="avatar">
             <img
-            alt='Doug'
-            src="http://www.croop.cl/UI/twitter/images/doug.jpg" />
+              alt="Doug"
+              src="http://www.croop.cl/UI/twitter/images/doug.jpg"
+            />
             Doug
           </div>
 
-          <span className="time">
-            An hour ago
-          </span>
+          <span className="time">An hour ago</span>
           <p>Ate lunch</p>
-          <div className="commentCount">
-            2
-          </div>
+          <div className="commentCount">2</div>
         </div>
 
         {/* ... */}
-
       </div>
-    )
+    );
   }
 }
 ```
@@ -246,6 +249,7 @@ class Content extends React.Component {
 > ```html
 > <!-- this is a comment in HTML -->
 > ```
+>
 > the React version of the comment must be in brackets:
 >
 > ```html
@@ -266,7 +270,7 @@ class App extends React.Component {
           <Content />
         </div>
       </div>
-    )
+    );
   }
 }
 ```
@@ -276,16 +280,14 @@ class App extends React.Component {
 > Note!
 >
 > Don't forget to call `ReactDOM.render` to place your app on the page
+>
 > ```javascript
-> var mountComponent = document.querySelector('#app');
+> var mountComponent = document.querySelector("#app");
 > ReactDOM.render(<App />, mountComponent);
 > ```
->
->
 
 With this knowledge, we now have the ability to write multiple components and we can start to build more complex applications.
 
 However, you may notice that this app does not have any user interaction nor custom data. In fact, as it stands right now our React application isn't that much easier to build than straight, no-frills HTML.
 
 In the next section, we'll look how to make our component more dynamic and become _data-driven_ with React.
-

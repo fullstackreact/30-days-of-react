@@ -7,11 +7,11 @@ title: Integration Testing
 description: >-
   Today we'll write tests to simulate how users interact with our application
   and will test the entire flow of our app in a live browser.
-dayDir: '26'
+dayDir: "26"
 hero_image: /assets/images/series/30-days-of-react/headings/26.jpg
 imageUrl: /assets/images/series/30-days-of-react/headings/26.jpg
 introBannerUrl: /assets/images/series/30-days-of-react/headings/26_wide.jpg
-date: 'Wed Oct 29 2016 21:29:42 GMT-0700 (PDT)'
+date: "Wed Oct 29 2016 21:29:42 GMT-0700 (PDT)"
 imagesDir: /assets/images/series/30-days-of-react/day-26
 includeFile: ./../_params.yaml
 ---
@@ -112,11 +112,11 @@ Updating our `tests/auth-flow.js` file with these four test functions look like 
 
 ```javascript
 module.exports = {
-  'get to login page': (browser) => {},
-  'logging in': (browser) => {},
-  'logging out': (browser) => {},
-  'close': (browser) => {},
-}
+  "get to login page": browser => {},
+  "logging in": browser => {},
+  "logging out": browser => {},
+  close: browser => {}
+};
 ```
 
 Each of the functions in our object exports will receive a `browser` instance which serves as the interface between our test and the selenium webdriver. We have all sorts of available options we can run on this `browser` variable.
@@ -131,21 +131,21 @@ And we'll set up assertions along the way. Let's get busy! We'll ask the `browse
 
 ```javascript
 module.exports = {
-  'get to login page': (browser) => {
+  "get to login page": browser => {
     browser
       // Load the page at the launch URL
       .url(browser.launchUrl)
       // wait for page to load
-      .waitForElementVisible('.navbar', 1000)
+      .waitForElementVisible(".navbar", 1000)
       // click on the login link
-      .click('a[href="/login"]')
+      .click('a[href="/login"]');
 
-    browser.assert.urlContains('login');
+    browser.assert.urlContains("login");
   },
-  'logging in': (browser) => {},
-  'logging out': (browser) => {},
-  'close': (browser) => {},
-}
+  "logging in": browser => {},
+  "logging out": browser => {},
+  close: browser => {}
+};
 ```
 
 Thats it. Before we get too far ahead, let's run this test to make sure our test setup works. We'll need to open 3 terminal windows here.
@@ -162,7 +162,7 @@ If you downloaded it through homebrew, you can use the `selenium-server` command
 selenium-server
 ```
 
-<img class="wide" src="/assets/images/series/30-days-of-react/day-26/selenium-server.png" />
+<img class="wide" src="../images/26/selenium-server.png" />
 
 In the second window, we'll need to launch our app. Remember, the browser we're going to launch will _actually_ hit our site, so we need an instance of it running. We can start our app up with the `npm start` comamnd:
 
@@ -170,7 +170,7 @@ In the second window, we'll need to launch our app. Remember, the browser we're 
 npm start
 ```
 
-<img class="wide" src="/assets/images/series/30-days-of-react/day-26/npm-start.jpg" />
+<img class="wide" src="../images/26/npm-start.jpg" />
 
 Finally, in the third and final terminal window, we'll run our tests using the `nightwatch` command.
 
@@ -178,7 +178,7 @@ Finally, in the third and final terminal window, we'll run our tests using the `
 nightwatch
 ```
 
-<img class="wide" src="/assets/images/series/30-days-of-react/day-26/nightwatch-1.jpg" />
+<img class="wide" src="../images/26/nightwatch-1.jpg" />
 
 When we run the `nightwatch` command, we'll see a chrome window open up, visit the site, and click on the login link automatically... (pretty cool, right?).
 
@@ -234,7 +234,7 @@ Running these tests again (in the third terminal window):
 nightwatch
 ```
 
-<img class="wide" src="/assets/images/series/30-days-of-react/day-26/nightwatch-2.jpg" />
+<img class="wide" src="../images/26/nightwatch-2.jpg" />
 
 We can do a similar thing with the `logging out` step from our browser. To get a user to log out, we will:
 
@@ -244,7 +244,6 @@ We can do a similar thing with the `logging out` step from our browser. To get a
 4. And we'll make sure the page shows the Login button
 
 Let's implement this with comments inline:
-
 
 ```javascript
 module.exports = {
@@ -307,11 +306,10 @@ Now let's run the entire suite and make sure it passes again using the `nightwat
 nightwatch
 ```
 
-<img class="wide" src="/assets/images/series/30-days-of-react/day-26/nightwatch-3.jpg" />
+<img class="wide" src="../images/26/nightwatch-3.jpg" />
 
 One final note, if you're interested in a deeper set of selenium tutorials, check out the free tutorials from guru99.com at [https://www.guru99.com/selenium-tutorial.html](https://www.guru99.com/selenium-tutorial.html). They are pretty in-depth and well done (in our opinion).
 
 That's it! We've made it and have covered 3 types of testing entirely, from low-level up through faking a real browser instance. Now we have the tools to ensure our applications are ready for full deployment.
 
 But wait, we don't actually have deployment figured out yet, do we? Stay tuned for tomorrow when we start getting our application deployed into the cloud.
-

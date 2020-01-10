@@ -9,9 +9,9 @@ description: >-
   can easily develop and deploy our applications.
 hero_image: /assets/images/series/30-days-of-react/headings/12.jpg
 imageUrl: /assets/images/series/30-days-of-react/headings/12.jpg
-dayDir: '12'
+dayDir: "12"
 introBannerUrl: /assets/images/series/30-days-of-react/headings/12_wide.jpg
-date: 'Wed Oct 15 2016 21:29:42 GMT-0700 (PDT)'
+date: "Wed Oct 15 2016 21:29:42 GMT-0700 (PDT)"
 imagesDir: /assets/images/series/30-days-of-react/day-12
 includeFile: ./../_params.yaml
 ---
@@ -44,7 +44,7 @@ With `node` installed on our system, we can install the `create-react-app` packa
 npm install --global create-react-app
 ```
 
-<img class="wide" src="/assets/images/series/30-days-of-react/day-12/install-create-react-app.jpg" />
+<img class="wide" src="../images/12/install-create-react-app.jpg" />
 
 With `create-react-app` installed globally, we'll be able to use the `create-react-app` command anywhere in our terminal.
 
@@ -56,11 +56,7 @@ In terminal, we can create a new React application using the command and adding 
 create-react-app 30days && cd 30days
 ```
 
-<img class="wide" src="/assets/images/series/30-days-of-react/day-12/create-app.jpg" />
-
-Inside our new project, we can run `npm start` to see our new project!
-
-<img class="wide" src="/assets/images/series/30-days-of-react/day-8/project.png" />
+<img class="wide" src="../images/12/create-app.jpg" />
 
 Let's start our app in the browser. The `create-react-app` package comes with a few built-in scripts it created for us (in the `package.json` file). We can _start_ editing our app using the built-in webserver using the `npm start` command:
 
@@ -68,30 +64,30 @@ Let's start our app in the browser. The `create-react-app` package comes with a 
 npm start
 ```
 
-<img class="wide" src="/assets/images/series/30-days-of-react/day-12/npm-start.jpg" />
+<img class="wide" src="../images/12/npm-start.jpg" />
 
 This command will open a window in Chrome to the default app it created for us running at the url: [http://localhost:3000/](http://localhost:3000/).
 
-<img class="wide" src="/assets/images/series/30-days-of-react/day-12/chrome-start.jpg" />
+<img class="wide" src="../images/12/chrome-start.jpg" />
 
 Let's edit the newly created app. Looking at the directory structure it created, we'll see we have a basic node app running with a `public/index.html` and a few files in the `src/` directory that comprise our running app.
 
-<img class="wide" src="/assets/images/series/30-days-of-react/day-12/tree.jpg" />
+<img class="wide" src="../images/12/tree.jpg" />
 
 Let's open up the `src/App.js` file and we'll see we have a very basic component that should all look familiar. It has a simple render function which returns the result we see in the Chrome window.
 
-<img class="wide" src="/assets/images/series/30-days-of-react/day-12/app.jpg" />
+<img class="wide" src="../images/12/app.jpg" />
 
 The `index.html` file has a single `<div />` node with the id of `#root`, where the app itself will be mounted for us automatically (this is handled in the `src/index.js` file). Anytime we want to add webfonts, style tags, etc. we can load them in the `index.html` file.
 
-<img class="wide" src="/assets/images/series/30-days-of-react/day-12/index-html.jpg" />
+<img class="wide" src="../images/12/index-html.jpg" />
 
 Let's look at a few of the features `create-react-app` enables for us.
 
 We've used multiple components in the past. Let's pull in the example we walked through on day-4 with a header and content (slightly simplified -- changing the className from `notificationsFrame` to `App` and removing the inner component):
 
 ```javascript
-import React from 'react'
+import React from "react";
 
 class App extends React.Component {
   render() {
@@ -100,7 +96,7 @@ class App extends React.Component {
         <Header />
         <Content />
       </div>
-    )
+    );
   }
 }
 ```
@@ -116,7 +112,7 @@ touch src/components/{Header,Content}.js
 Now, let's write the two components in their respective file. First, the `Header` components in `src/components/Header.js`:
 
 ```javascript
-import React from 'react';
+import React from "react";
 
 class Header extends React.Component {
   render() {
@@ -132,7 +128,7 @@ class Header extends React.Component {
 And now let's write the `Content` component in the `src/components/Content.js` file:
 
 ```javascript
-import React from 'react';
+import React from "react";
 
 class Content extends React.Component {
   render() {
@@ -164,10 +160,10 @@ export class Content extends React.Component {
 Now we can `import` these two component from our `src/App.js` file. Let's update our `App.js` by adding these two `import` statements:
 
 ```javascript
-import React from 'react'
+import React from "react";
 
-import {Header} from './components/Header'
-import {Content} from './components/Content'
+import { Header } from "./components/Header";
+import { Content } from "./components/Content";
 
 class App extends React.Component {
   render() {
@@ -176,7 +172,7 @@ class App extends React.Component {
         <Header />
         <Content />
       </div>
-    )
+    );
   }
 }
 ```
@@ -190,7 +186,7 @@ export class Header extends React.Component {
   // ...
 }
 
-export default Header
+export default Header;
 ```
 
 and the `Content` component:
@@ -200,16 +196,16 @@ export class Content extends React.Component {
   // ...
 }
 
-export default Content
+export default Content;
 ```
 
 Now we can update our import of the two components like so:
 
 ```javascript
-import React from 'react'
+import React from "react";
 
-import Header from './components/Header'
-import Content from './components/Content'
+import Header from "./components/Header";
+import Content from "./components/Content";
 
 class App extends React.Component {
   render() {
@@ -218,7 +214,7 @@ class App extends React.Component {
         <Header />
         <Content />
       </div>
-    )
+    );
   }
 }
 ```
@@ -226,12 +222,13 @@ class App extends React.Component {
 Using this knowledge, we can now also update our components by importing the named `Component` class and simplify our definition of the class file again. Let's take the `Content` component in `src/components/Content.js`:
 
 ```javascript
-import React, {Component} from 'react'; // This is the change
+import React, { Component } from "react"; // This is the change
 
-export class Content extends Component { // and this allows us
-                                         // to not call React.Component
-                                         // but instead use just
-                                         // the Component class
+export class Content extends Component {
+  // and this allows us
+  // to not call React.Component
+  // but instead use just
+  // the Component class
   render() {
     return <p className="App-intro">Content goes here</p>;
   }
@@ -250,7 +247,6 @@ We can build our app using the `npm run build` command in the root of our projec
 npm run build
 ```
 
-<img class="wide" src="/assets/images/series/30-days-of-react/day-12/build.jpg" />
+<img class="wide" src="../images/12/build.jpg" />
 
 With that, we now have a live-reloading single-page app (SPA) ready for development. Tomorrow, we'll use this new app we built diving into rendering multiple components at run-time.
-
