@@ -177,11 +177,9 @@ const Formatter = props => {
 > Remember WWWWWAAAAAYYYYY back on day 2 we looked at how the browser _sees_ JSX? It turns it into JavaScript that looks similar to:
 >
 > ```javascript
-> React.createElement(
->   "div",
->   null,
->   React.createElement("img", { src: "profile.jpg", alt: "Profile photo" }),
->   React.createElement("h1", null, "Welcome back Ari")
+> React.createElement("div", null, 
+>  React.createElement("img", {src: "profile.jpg", alt: "Profile photo"}),
+>  React.createElement("h1", null, "Welcome back Ari")
 > );
 > ```
 >

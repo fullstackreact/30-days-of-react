@@ -155,13 +155,13 @@ yarn test
 
 Jest provides a few global commands in our tests by default (i.e. things you don't need to require). One of those is the `expect()` command. The `expect()` command has a few expectations which we can call on it, including the two we've used already:
 
-- `toBeTruthy()`
-- `toBeFalsy()`
-- `toBe()`
-- `toEqual()`
-- `toBeDefined()`
-- `toBeCalled()`
-- etc.
+* `toBeTruthy()`
+* `toBeFalsy()`
+* `toBe()`
+* `toEqual()`
+* `toBeDefined()`
+* `toBeCalled()`
+* etc.
 
 The entire suite of expectations is available on the jest documentation page at: [https://facebook.github.io/jest/docs/api.html#writing-assertions-with-expect](https://facebook.github.io/jest/docs/api.html#writing-assertions-with-expect).
 

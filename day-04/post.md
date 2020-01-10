@@ -53,84 +53,80 @@ A common web element we might see is a user timeline. For instance, we might hav
 We _could_ build this entire UI in a single component. However, building an entire application in a single component is not a great idea as it can grow huge, complex, and difficult to test.
 
 ```html
-class Timeline extends React.Component { render() { return (
-<div className="notificationsFrame">
-  <div className="panel">
-    <div className="header">
-      <div className="menuIcon">
-        <div className="dashTop"></div>
-        <div className="dashBottom"></div>
-        <div className="circle"></div>
-      </div>
+class Timeline extends React.Component {
+  render() {
+    return (
+      <div className="notificationsFrame">
+        <div className="panel">
+          <div className="header">
 
-      <span className="title">Timeline</span>
+            <div className="menuIcon">
+              <div className="dashTop"></div>
+              <div className="dashBottom"></div>
+              <div className="circle"></div>
+            </div>
 
-      <input type="text" className="searchInput" placeholder="Search ..." />
+            <span className="title">Timeline</span>
 
-      <div className="fa fa-search searchIcon"></div>
-    </div>
-    <div className="content">
-      <div className="line"></div>
-      <div className="item">
-        <div className="avatar">
-          <img
-            alt="doug"
-            src="http://www.croop.cl/UI/twitter/images/doug.jpg"
-          />
+            <input
+              type="text"
+              className="searchInput"
+              placeholder="Search ..." />
+
+            <div className="fa fa-search searchIcon"></div>
+          </div>
+          <div className="content">
+            <div className="line"></div>
+            <div className="item">
+
+              <div className="avatar">
+                <img
+                alt='doug'
+                src="http://www.croop.cl/UI/twitter/images/doug.jpg" />
+              </div>
+
+              <span className="time">
+                An hour ago
+              </span>
+              <p>Ate lunch</p>
+            </div>
+
+            <div className="item">
+              <div className="avatar">
+                <img
+                  alt='doug' src="http://www.croop.cl/UI/twitter/images/doug.jpg" />
+              </div>
+
+              <span className="time">10 am</span>
+              <p>Read Day two article</p>
+            </div>
+
+            <div className="item">
+              <div className="avatar">
+                <img
+                  alt='doug' src="http://www.croop.cl/UI/twitter/images/doug.jpg" />
+              </div>
+
+              <span className="time">10 am</span>
+              <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+            </div>
+
+            <div className="item">
+              <div className="avatar">
+                <img
+                  alt='doug' src="http://www.croop.cl/UI/twitter/images/doug.jpg" />
+              </div>
+
+              <span className="time">2:21 pm</span>
+              <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+            </div>
+
+          </div>
         </div>
-
-        <span className="time">
-          An hour ago
-        </span>
-        <p>Ate lunch</p>
       </div>
-
-      <div className="item">
-        <div className="avatar">
-          <img
-            alt="doug"
-            src="http://www.croop.cl/UI/twitter/images/doug.jpg"
-          />
-        </div>
-
-        <span className="time">10 am</span>
-        <p>Read Day two article</p>
-      </div>
-
-      <div className="item">
-        <div className="avatar">
-          <img
-            alt="doug"
-            src="http://www.croop.cl/UI/twitter/images/doug.jpg"
-          />
-        </div>
-
-        <span className="time">10 am</span>
-        <p>
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry.
-        </p>
-      </div>
-
-      <div className="item">
-        <div className="avatar">
-          <img
-            alt="doug"
-            src="http://www.croop.cl/UI/twitter/images/doug.jpg"
-          />
-        </div>
-
-        <span className="time">2:21 pm</span>
-        <p>
-          Lorem Ipsum has been the industry's standard dummy text ever since the
-          1500s, when an unknown printer took a galley of type and scrambled it
-          to make a type specimen book.
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
-) } }
+    )
+  }
+}
 ```
 
 <div class="demo" id="demo1"></div>

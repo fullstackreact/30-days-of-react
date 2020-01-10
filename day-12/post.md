@@ -222,13 +222,12 @@ class App extends React.Component {
 Using this knowledge, we can now also update our components by importing the named `Component` class and simplify our definition of the class file again. Let's take the `Content` component in `src/components/Content.js`:
 
 ```javascript
-import React, { Component } from "react"; // This is the change
+import React, {Component} from 'react'; // This is the change
 
-export class Content extends Component {
-  // and this allows us
-  // to not call React.Component
-  // but instead use just
-  // the Component class
+export class Content extends Component { // and this allows us
+                                         // to not call React.Component
+                                         // but instead use just
+                                         // the Component class
   render() {
     return <p className="App-intro">Content goes here</p>;
   }

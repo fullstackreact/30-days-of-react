@@ -168,7 +168,7 @@ The action we might dispatch from our store to handle this update looks like:
 
 ```javascript
 {
-  type: "FETCH_NEW_TIME";
+  type: "FETCH_NEW_TIME"
 }
 ```
 
