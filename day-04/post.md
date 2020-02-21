@@ -24,7 +24,7 @@ A common web element we might see is a user timeline. For instance, we might hav
 >
 > As we're not focusing on [CSS](https://www.w3.org/standards/webdesign/htmlcss) in this course, we're not covering the CSS specific to build the timeline as you see it on the screen.
 >
-> However, we want to make sure the timeline you build looks similar to ours. If you include the following CSS as a `<link />` tag in your code, you're timeline will look similar and will be using the same styling ours is using:
+> However, we want to make sure the timeline you build looks similar to ours. If you include the following CSS as a `<link />` tag in your code, your timeline will look similar and will be using the same styling ours is using:
 >
 > ```html
 > <link
