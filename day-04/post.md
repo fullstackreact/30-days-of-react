@@ -140,11 +140,11 @@ Looking at this component, there are 2 separate parts to the larger component as
 1. The title bar
 2. The content
 
-<img class="wide" src="../images/04/breakdown.png" />
+<img class="wide" src="/assets/series/30-days-of-react/images/04/breakdown.png" />
 
 We can chop up the content part of the component into individual places of concern. There are 3 different _item_ components inside the content part.
 
-<img class="wide" src="../images/04/breakdown-2.png" />
+<img class="wide" src="/assets/series/30-days-of-react/images/04/breakdown-2.png" />
 
 > If we wanted to go one step further, we could even break down the title bar into 3 component parts, the _menu_ button, the _title_, and the _search_ icon. We could dive even further into each one of those if we needed to.
 >

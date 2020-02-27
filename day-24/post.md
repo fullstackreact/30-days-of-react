@@ -111,7 +111,7 @@ As a reminder, we can run our tests using either the `npm test` command or the `
 yarn test
 ```
 
-<img class="wide" src="../images/24/passing-test.png" />
+<img class="wide" src="/assets/series/30-days-of-react/images/24/passing-test.png" />
 
 With our one passing test, we've confirmed our test setup is working.
 

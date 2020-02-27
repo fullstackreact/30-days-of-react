@@ -38,7 +38,7 @@ In order to use fetch, we'll need to install the library in our app we previousl
 npm install --save whatwg-fetch
 ```
 
-<img class="wide" src="../images/14/install-fetch.jpg" />
+<img class="wide" src="/assets/series/30-days-of-react/images/14/install-fetch.jpg" />
 
 With the library installed, we can make a request to an off-site server. In order to get access to the `fetch` library, we'll need to `import` the package in our script. Let's update the top few lines of our `src/App.js` file adding the second line:
 

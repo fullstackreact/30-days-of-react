@@ -44,7 +44,7 @@ With `node` installed on our system, we can install the `create-react-app` packa
 npm install --global create-react-app
 ```
 
-<img class="wide" src="../images/12/install-create-react-app.jpg" />
+<img class="wide" src="/assets/series/30-days-of-react/images/12/install-create-react-app.jpg" />
 
 With `create-react-app` installed globally, we'll be able to use the `create-react-app` command anywhere in our terminal.
 
@@ -56,7 +56,7 @@ In terminal, we can create a new React application using the command and adding 
 create-react-app 30days && cd 30days
 ```
 
-<img class="wide" src="../images/12/create-app.jpg" />
+<img class="wide" src="/assets/series/30-days-of-react/images/12/create-app.jpg" />
 
 Let's start our app in the browser. The `create-react-app` package comes with a few built-in scripts it created for us (in the `package.json` file). We can _start_ editing our app using the built-in webserver using the `npm start` command:
 
@@ -64,23 +64,23 @@ Let's start our app in the browser. The `create-react-app` package comes with a 
 npm start
 ```
 
-<img class="wide" src="../images/12/npm-start.jpg" />
+<img class="wide" src="/assets/series/30-days-of-react/images/12/npm-start.jpg" />
 
 This command will open a window in Chrome to the default app it created for us running at the url: [http://localhost:3000/](http://localhost:3000/).
 
-<img class="wide" src="../images/12/chrome-start.jpg" />
+<img class="wide" src="/assets/series/30-days-of-react/images/12/chrome-start.jpg" />
 
 Let's edit the newly created app. Looking at the directory structure it created, we'll see we have a basic node app running with a `public/index.html` and a few files in the `src/` directory that comprise our running app.
 
-<img class="wide" src="../images/12/tree.jpg" />
+<img class="wide" src="/assets/series/30-days-of-react/images/12/tree.jpg" />
 
 Let's open up the `src/App.js` file and we'll see we have a very basic component that should all look familiar. It has a simple render function which returns the result we see in the Chrome window.
 
-<img class="wide" src="../images/12/app.jpg" />
+<img class="wide" src="/assets/series/30-days-of-react/images/12/app.jpg" />
 
 The `index.html` file has a single `<div />` node with the id of `#root`, where the app itself will be mounted for us automatically (this is handled in the `src/index.js` file). Anytime we want to add webfonts, style tags, etc. we can load them in the `index.html` file.
 
-<img class="wide" src="../images/12/index-html.jpg" />
+<img class="wide" src="/assets/series/30-days-of-react/images/12/index-html.jpg" />
 
 Let's look at a few of the features `create-react-app` enables for us.
 
@@ -246,6 +246,6 @@ We can build our app using the `npm run build` command in the root of our projec
 npm run build
 ```
 
-<img class="wide" src="../images/12/build.jpg" />
+<img class="wide" src="/assets/series/30-days-of-react/images/12/build.jpg" />
 
 With that, we now have a live-reloading single-page app (SPA) ready for development. Tomorrow, we'll use this new app we built diving into rendering multiple components at run-time.

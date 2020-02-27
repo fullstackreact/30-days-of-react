@@ -104,7 +104,7 @@ We can run our tests in the same manner as we did before using the `yarn test` c
 yarn test
 ```
 
-<img class="wide" src="../images/25/enzyme-test-1.png" />
+<img class="wide" src="/assets/series/30-days-of-react/images/25/enzyme-test-1.png" />
 
 Our test passes and is more readable and maintainable.
 
@@ -178,7 +178,7 @@ describe("Timeline", () => {
 
 Running our tests, we'll see these two expectations pass:
 
-<img class="wide" src="../images/25/enzyme-test-2.png" />
+<img class="wide" src="/assets/series/30-days-of-react/images/25/enzyme-test-2.png" />
 
 Next, let's update our search button tests. We have two tests here, where one requires us to test an interaction. Enzyme provides a very clean interface for handling interactions. Let's see how we can write a test against the search icon.
 

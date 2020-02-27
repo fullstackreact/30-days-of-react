@@ -162,7 +162,7 @@ If you downloaded it through homebrew, you can use the `selenium-server` command
 selenium-server
 ```
 
-<img class="wide" src="../images/26/selenium-server.png" />
+<img class="wide" src="/assets/series/30-days-of-react/images/26/selenium-server.png" />
 
 In the second window, we'll need to launch our app. Remember, the browser we're going to launch will _actually_ hit our site, so we need an instance of it running. We can start our app up with the `npm start` comamnd:
 
@@ -170,7 +170,7 @@ In the second window, we'll need to launch our app. Remember, the browser we're 
 npm start
 ```
 
-<img class="wide" src="../images/26/npm-start.jpg" />
+<img class="wide" src="/assets/series/30-days-of-react/images/26/npm-start.jpg" />
 
 Finally, in the third and final terminal window, we'll run our tests using the `nightwatch` command.
 
@@ -178,7 +178,7 @@ Finally, in the third and final terminal window, we'll run our tests using the `
 nightwatch
 ```
 
-<img class="wide" src="../images/26/nightwatch-1.jpg" />
+<img class="wide" src="/assets/series/30-days-of-react/images/26/nightwatch-1.jpg" />
 
 When we run the `nightwatch` command, we'll see a chrome window open up, visit the site, and click on the login link automatically... (pretty cool, right?).
 
@@ -234,7 +234,7 @@ Running these tests again (in the third terminal window):
 nightwatch
 ```
 
-<img class="wide" src="../images/26/nightwatch-2.jpg" />
+<img class="wide" src="/assets/series/30-days-of-react/images/26/nightwatch-2.jpg" />
 
 We can do a similar thing with the `logging out` step from our browser. To get a user to log out, we will:
 
@@ -306,7 +306,7 @@ Now let's run the entire suite and make sure it passes again using the `nightwat
 nightwatch
 ```
 
-<img class="wide" src="../images/26/nightwatch-3.jpg" />
+<img class="wide" src="/assets/series/30-days-of-react/images/26/nightwatch-3.jpg" />
 
 One final note, if you're interested in a deeper set of selenium tutorials, check out the free tutorials from guru99.com at [https://www.guru99.com/selenium-tutorial.html](https://www.guru99.com/selenium-tutorial.html). They are pretty in-depth and well done (in our opinion).
 

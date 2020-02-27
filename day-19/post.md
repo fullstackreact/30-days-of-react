@@ -32,7 +32,7 @@ We'll also need to install another package that we'll use with redux, the `react
 npm install --save react-redux
 ```
 
-<img class="wide" src="../images/19/install-redux.png" />
+<img class="wide" src="/assets/series/30-days-of-react/images/19/install-redux.png" />
 
 ## Configuration and setup
 
@@ -300,7 +300,7 @@ const Root = props => {
 
 If we load our page in the browser, we'll see we have one giant error and no page gets rendered.
 
-<img class="wide" src="../images/19/no-reducer.png" />
+<img class="wide" src="/assets/series/30-days-of-react/images/19/no-reducer.png" />
 
 The error redux is giving us is telling us that we don't have a reducer inside our store. Without a reducer, it won't know what to do with actions or how to create the state, etc. In order to move beyond this error, we'll need to reference our rootReducer we created.
 

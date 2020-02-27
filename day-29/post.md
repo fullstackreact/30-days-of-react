@@ -158,7 +158,7 @@ npm run release
 
 With all our tests passing, our updated application will be deployed successfully!
 
-<img class="wide" src="../images/29/deploy-script.jpg" />
+<img class="wide" src="/assets/series/30-days-of-react/images/29/deploy-script.jpg" />
 
 If any of our tests fail, we'll get all the output of our command, including the failure errors. Let's update one of our tests to make them fail purposefully to test the script.
 
@@ -178,7 +178,7 @@ Let's rerun the `release` script and watch it fail and _not_ run the deploy scri
 npm run release
 ```
 
-<img class="wide" src="../images/29/deploy-fail.jpg" />
+<img class="wide" src="/assets/series/30-days-of-react/images/29/deploy-fail.jpg" />
 
 As we see, we'll get the output of the failing test in our logs, so we can fix the bug and then rerelease our application again by running the `npm run release` script again.
 
@@ -188,15 +188,15 @@ As we see, we'll get the output of the failing test in our logs, so we can fix t
 
 Head to [travis-ci.org](https://travis-ci.org/) and sign up there.
 
-<img class="wide" src="../images/29/travis-setup.jpg" />
+<img class="wide" src="/assets/series/30-days-of-react/images/29/travis-setup.jpg" />
 
 Once you're signed up, click on the `+` button and find your repository:
 
-<img class="wide" src="../images/29/travis-select-repo.jpg" />
+<img class="wide" src="/assets/series/30-days-of-react/images/29/travis-select-repo.jpg" />
 
 From the project screen, click on the big 'activate repo' button.
 
-<img class="wide" src="../images/29/travis-activate-repo.jpg" />
+<img class="wide" src="/assets/series/30-days-of-react/images/29/travis-activate-repo.jpg" />
 
 To allow Travis CI to automatically log in for us during deployment, we need to add `SURGE_LOGIN` and `SURGE_TOKEN` environment variables. Open the _More Options_ menu and click settings.
 
@@ -230,7 +230,7 @@ git push github master
 
 That's it. Now travis will execute our tests based on the default script of `npm test`.
 
-<img class="wide" src="../images/29/travis-output.jpg" />
+<img class="wide" src="/assets/series/30-days-of-react/images/29/travis-output.jpg" />
 
 Now, we'll want travis to actually deploy our app for us. Since we already have a `scripts/deploy.sh` script that will deploy our app, we can use this to deploy from travis.
 

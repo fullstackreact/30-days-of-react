@@ -125,7 +125,7 @@ In the terminal, let's execute our tests:
 yarn test
 ```
 
-<img class="wide" src="../images/23/first-tests.jpg" />
+<img class="wide" src="/assets/series/30-days-of-react/images/23/first-tests.jpg" />
 
 From this output, we can see the two tests with one passing test (with a green checkmark) and one failing test (with the red x and a description of the failure).
 
@@ -149,7 +149,7 @@ Re-running the test, we can see we have two passing tests
 yarn test
 ```
 
-<img class="wide" src="../images/23/second-tests.png" />
+<img class="wide" src="/assets/series/30-days-of-react/images/23/second-tests.png" />
 
 ## Expectations
 

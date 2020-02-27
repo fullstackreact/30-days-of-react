@@ -29,7 +29,7 @@ We'll use the very popular [react-router](https://github.com/reactjs/react-route
 npm install --save react-router-dom
 ```
 
-<img class="wide" src="../images/17/install-react-router.png" />
+<img class="wide" src="/assets/series/30-days-of-react/images/17/install-react-router.png" />
 
 With `react-router` installed, we'll import a few packages from the library and update our app architecture. Before we make those updates, let's take a step back and from a high level look at _how_ and _why_ we architect our application this way.
 
