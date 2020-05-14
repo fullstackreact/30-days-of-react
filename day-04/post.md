@@ -28,7 +28,7 @@ A common web element we might see is a user timeline. For instance, we might hav
 >
 > ```html
 > <link
->   href="https://cdn.jsdelivr.net/gh/fullstackreact/30-days-of-react@master/day-04/src/components/Timeline/Timeline.css"
+>   href="https://cdn.jsdelivr.net/gh/fullstackreact/30-days-of-react@master/day-04/public/Timeline.css"
 >   rel="stylesheet"
 >   type="text/css"
 > />
@@ -36,7 +36,7 @@ A common web element we might see is a user timeline. For instance, we might hav
 >
 > And make sure to surround your code in a component with the class of `demo` (we left it this way purposefully as it's the _exact_ same code we use in all the demos here). Check out the [https://jsfiddle.net/auser/zwomnfwk/](https://jsfiddle.net/auser/zwomnfwk/) for a working example.
 >
-> The entire compiled CSS can be found on the github repository at [https://github.com/fullstackreact/30-days-of-react/blob/master/day-04/src/components/Timeline/Timeline.css](https://github.com/fullstackreact/30-days-of-react/blob/master/day-04/src/components/Timeline/Timeline.css).
+> The entire compiled CSS can be found on the github repository at [https://github.com/fullstackreact/30-days-of-react/blob/master/day-04/public/Timeline.css](https://github.com/fullstackreact/30-days-of-react/blob/master/day-04/public/Timeline.css).
 >
 > In addition, in order to make the timeline look _exactly_ like the way ours does on the site, you'll need to include [font-awesome](http://fontawesome.io/) in your web application. There are multiple ways to handle this. The simplest way is to include the link styles:
 >
