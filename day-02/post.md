@@ -52,7 +52,7 @@ class HelloWorld extends React.Component {
 
 <div id="demo1"></div>
 
-The `render()` function in the `HelloWorld` component looks like it's returning HTML, but this is actually JSX. The JSX is _translated_ to regular JavaScript at runtime. That component, after translation, looks like this:
+The `render()` function in the `HelloWorld` component looks like it's returning HTML, but this is actually JSX. The JSX is _translated_ to regular JavaScript at compile time. That component, after translation, looks like this:
 
 ```javascript
 class HelloWorld extends React.Component {
