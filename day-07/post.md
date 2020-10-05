@@ -75,7 +75,12 @@ Now, we'll want to make an HTTP request when the component itself is getting rea
 
 Let's update the `Content` component with the request to the github api. Since we'll only want to display a small list, let's take the latest four events.
 
-> We've stored a static JSON file of github data that we'll load directly from source here (we'll get back to making AJAX requests in a few days) using promises. For now, let's focus on how we'll implement updating our component with new data:
+> We've stored a static JSON file of github data that we'll load directly from source here (we'll get back to making AJAX requests in a few days) using promises. To access this data, add the following `script` tag to your document:
+> ```html
+> <script src="https://cdn.jsdelivr.net/gh/fullstackreact/30-days-of-react@master/day-07/public/data.js"></script>
+>```
+
+For now, let's focus on how we'll implement updating our component with new data:
 
 ```javascript
 class Content extends React.Component {
