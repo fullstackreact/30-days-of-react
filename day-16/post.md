@@ -102,7 +102,7 @@ Now let's add content. We'll want our `TimeForm` to take the role of allowing th
 import React from 'react'
 const timezones = ['PST', 'MST', 'MDT', 'EST', 'UTC']
 
-export class TimeForm extends React.Component {
+class TimeForm extends React.Component {
   constructor(props) {
     super(props);
 
