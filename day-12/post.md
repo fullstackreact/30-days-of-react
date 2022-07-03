@@ -238,7 +238,7 @@ export default Content;
 
 ## Shipping
 
-We'll get to deployment in a few weeks, but for the time being know that the generator created a build command so we can create minified, optimize versions of our app that we can upload to a server.
+We'll get to deployment in a few weeks, but for the time being know that the generator created a build command so we can create minified, optimized versions of our app that we can upload to a server.
 
 We can build our app using the `npm run build` command in the root of our project:
 
