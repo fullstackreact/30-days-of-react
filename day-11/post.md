@@ -189,7 +189,7 @@ Advantages to using functional components in React are:
 * FAST FAST FAST FAST FAST
 * They are _easy_ to reuse
 
-You might say why not use a functional component? Well, some of the disadvantage of using a functional component are some of the advantages:
+You might say why not use a functional component? Well, some of the disadvantages of using a functional component are some of the advantages:
 
 * No life-cycle callback hooks
 * Limited functionality
