@@ -109,7 +109,7 @@ mkdir src/components
 touch src/components/{Header,Content}.js
 ```
 
-Now, let's write the two components in their respective file. First, the `Header` components in `src/components/Header.js`:
+Now, let's write the two components in their respective file. First, the `Header` component in `src/components/Header.js`:
 
 ```javascript
 import React from "react";
@@ -238,7 +238,7 @@ export default Content;
 
 ## Shipping
 
-We'll get to deployment in a few weeks, but for the time being know that the generator created a build command so we can create minified, optimize versions of our app that we can upload to a server.
+We'll get to deployment in a few weeks, but for the time being know that the generator created a build command so we can create minified, optimized versions of our app that we can upload to a server.
 
 We can build our app using the `npm run build` command in the root of our project:
 
