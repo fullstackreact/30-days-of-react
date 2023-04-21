@@ -2,7 +2,7 @@
 page_id: 30-days-of-react/day-6
 series: 30-days-of-react
 permalink: day-6
-title: State
+title: A Beginner's Guide to Stateful Components in React
 description: >-
   Today we're getting started on how stateful components work in React and look
   at when and why we'll use state.

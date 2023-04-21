@@ -2,7 +2,7 @@
 page_id: 30-days-of-react/day-10
 series: 30-days-of-react
 permalink: day-10
-title: Interactivity
+title: How to Add Interactivity to React Applications
 description: >-
   Today we'll walk through how to add interactivity to our applications to make
   them engaging and dynamic.

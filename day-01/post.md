@@ -3,7 +3,7 @@ page_id: 30-days-of-react/day-1
 permalink: day-1
 day: 1
 series: 30-days-of-react
-title: What is React?
+title: What is React and What is it Used for?
 description: >-
   Today, we're starting out at the beginning. Let's look at what React is and
   what makes it tick. We'll discuss why we want to use it.

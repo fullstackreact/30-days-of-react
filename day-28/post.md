@@ -3,7 +3,7 @@ page_id: 30-days-of-react/day-28
 series: 30-days-of-react
 permalink: day-28
 day: 28
-title: Deployment
+title: How to Deploy a React App
 description: >-
   Today, we'll look through some ready-to-go options so we can get our site up
   and running. By the end of today, you'll be able to share a link to your

@@ -2,7 +2,7 @@
 page_id: 30-days-of-react/day-9
 series: 30-days-of-react
 permalink: day-9
-title: Styles
+title: An Introduction to Styling React Components
 description: >-
   No application is complete without style. We'll look at the different methods
   we can use to style our components, from traditional CSS to inline styling.

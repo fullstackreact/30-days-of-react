@@ -2,7 +2,7 @@
 page_id: 30-days-of-react/day-2
 permalink: day-2
 day: 2
-title: What is JSX?
+title: What is JavaScript XML (JSX) and How is it Used?
 description: >-
   Now that we know what React is, let's take a look at a few terms and concepts
   that will come up throughout the rest of the series.

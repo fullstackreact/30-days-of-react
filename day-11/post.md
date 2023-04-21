@@ -3,7 +3,7 @@ page_id: 30-days-of-react/day-11
 series: 30-days-of-react
 permalink: day-11
 day: 11
-title: Pure Components
+title: Pure Components [Definitions, Uses, and Examples]
 description: >-
   React offers several different methods for creating components. Today we'll
   talk about the final method of creating components, the function stateless

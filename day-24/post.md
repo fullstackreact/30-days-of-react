@@ -3,7 +3,7 @@ page_id: 30-days-of-react/day-24
 series: 30-days-of-react
 permalink: day-24
 day: 24
-title: Testing the App
+title: Component Testing Within React Apps
 description: >-
   Let's start by looking at one feature of our application and thinking about
   where the edge cases are and what we assume will happen with the component.

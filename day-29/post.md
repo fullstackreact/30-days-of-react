@@ -3,7 +3,7 @@ page_id: 30-days-of-react/day-29
 series: 30-days-of-react
 permalink: day-29
 day: 29
-title: Continuous Integration
+title: An Introduction to Continuous Integration for React Apps
 description: >-
   Today we'll look through some continuous integration solutions available for
   us to run tests against as well as implement one to test our application in

@@ -3,7 +3,7 @@ page_id: 30-days-of-react/day-25
 series: 30-days-of-react
 permalink: day-25
 day: 25
-title: Better Testing with Enzyme
+title: How to Improve App Testing with Enzyme
 description: >-
   Today, we'll look at an open-source library maintained by Airbnb called Enzyme
   that makes testing fun and easy.

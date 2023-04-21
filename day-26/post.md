@@ -3,7 +3,7 @@ page_id: 30-days-of-react/day-26
 series: 30-days-of-react
 permalink: day-26
 day: 26
-title: Integration Testing
+title: What Does Integration Testing in React Look Like?
 description: >-
   Today we'll write tests to simulate how users interact with our application
   and will test the entire flow of our app in a live browser.

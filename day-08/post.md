@@ -2,7 +2,7 @@
 page_id: 30-days-of-react/day-8
 series: 30-days-of-react
 permalink: day-8
-title: Packaging and PropTypes
+title: How to Create Reusable React Components
 description: >-
   We're looking at how to make reusable React components today so we can share our components across apps and teams.
 dayDir: 08

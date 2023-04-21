@@ -3,7 +3,7 @@ page_id: 30-days-of-react/day-19
 series: 30-days-of-react
 permalink: day-19
 day: 19
-title: Data Management with Redux
+title: A Redux Tutorial for App Data Management
 description: >-
   With the knowledge of flux and Redux, let's integrate Redux in our application
   and walk through connected applications.

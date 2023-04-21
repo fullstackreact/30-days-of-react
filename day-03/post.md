@@ -2,7 +2,7 @@
 page_id: 30-days-of-react/day-3
 series: 30-days-of-react
 permalink: day-3
-title: Our First Components
+title: Building Your First React Components
 description: >-
   The first two articles in this series were heavy on discussion. In today's
   session, let's dive into some code and write our first React app.

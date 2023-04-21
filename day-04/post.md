@@ -2,7 +2,7 @@
 page_id: 30-days-of-react/day-4
 series: 30-days-of-react
 permalink: day-4
-title: Complex Components
+title: Creating Child/Parent Components With React
 description: >-
   Awesome, we've built our first component. Now let's get a bit fancier and
   start building a more complex interface.

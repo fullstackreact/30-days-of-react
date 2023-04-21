@@ -3,7 +3,7 @@ page_id: 30-days-of-react/day-16
 series: 30-days-of-react
 permalink: day-16
 day: 16
-title: Displaying Remote Data
+title: How to Fetch Data from an API
 description: >-
   Our front-end applications are only as interesting as the data we display in
   them. Today, let's actually start making a request for data and get it
