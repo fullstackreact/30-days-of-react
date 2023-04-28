@@ -3,7 +3,7 @@ page_id: 30-days-of-react/day-22
 series: 30-days-of-react
 permalink: day-22
 day: 22
-title: Introduction to Testing
+title: App Testing - Unit vs Functional vs Integration
 description: >-
   Test suites are an upfront investment that pay dividends over the lifetime of
   a system. Today we'll introduce the topic of testing and discuss the different

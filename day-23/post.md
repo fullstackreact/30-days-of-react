@@ -3,7 +3,7 @@ page_id: 30-days-of-react/day-23
 series: 30-days-of-react
 permalink: day-23
 day: 23
-title: Implementing Tests
+title: How to Set Up your App Testing Environment
 description: >-
   Yesterday we examined the different types of tests that we write in React.
   Today we'll see it in action. We'll install the dependencies required to set

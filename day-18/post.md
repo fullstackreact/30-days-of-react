@@ -3,7 +3,7 @@ page_id: 30-days-of-react/day-18
 series: 30-days-of-react
 permalink: day-18
 day: 18
-title: Introduction to Flux
+title: Introduction to Flux and Unidirectional Data Flow
 description: >-
   Handling data inside a client-side application is a complex task. Today we're
   looking at a one method of handling complex data proposed by Facebook called

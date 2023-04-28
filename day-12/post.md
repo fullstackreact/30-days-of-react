@@ -3,7 +3,7 @@ page_id: 30-days-of-react/day-12
 series: 30-days-of-react
 permalink: day-12
 day: 12
-title: create-react-app
+title: How to Build a React App with Create React App
 description: >-
   Today, we're going to add a build process to store common build actions so we
   can easily develop and deploy our applications.

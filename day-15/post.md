@@ -3,7 +3,7 @@ page_id: 30-days-of-react/day-15
 series: 30-days-of-react
 permalink: day-15
 day: 15
-title: Introduction to Promises
+title: Introduction to React Promises [with Examples]
 description: >-
   Today, we're going to look at what we need to know to understand Promises from
   a high-level, so we can build our applications using this incredibly

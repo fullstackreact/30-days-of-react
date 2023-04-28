@@ -3,7 +3,7 @@ page_id: 30-days-of-react/day-27
 series: 30-days-of-react
 permalink: day-27
 day: 27
-title: Deployment Introduction
+title: Preparing a React App for Deployment
 description: >-
   Today, we'll explore the different pieces involved in deploying our
   application so the world can use our application out in the wild.

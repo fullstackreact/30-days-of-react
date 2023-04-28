@@ -3,7 +3,7 @@ page_id: 30-days-of-react/day-20
 series: 30-days-of-react
 permalink: day-20
 day: 20
-title: Redux actions
+title: Redux Basics - How to Modify State with actionCreator
 description: >-
   With Redux in place, let's talk about how we actually modify the Redux state
   from within our applications.

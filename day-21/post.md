@@ -3,7 +3,7 @@ page_id: 30-days-of-react/day-21
 series: 30-days-of-react
 permalink: day-21
 day: 21
-title: Redux Middleware
+title: Become a Redux Ninja with Middleware [examples included]
 description: >-
   Today, we're looking at the Redux method of managing complex state changes in
   our code using Redux middleware.

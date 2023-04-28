@@ -3,7 +3,7 @@ page_id: 30-days-of-react/day-30
 series: 30-days-of-react
 permalink: day-30
 day: 30
-title: Wrap-up and More Resources
+title: 30 Days of React Course Summary
 description: >-
   We've made it! Day 30. Congrats! Now you have enough information to write some
   very complex applications, integrated with data, styled to perfection, tested

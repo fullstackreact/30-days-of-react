@@ -3,7 +3,7 @@ page_id: 30-days-of-react/day-14
 series: 30-days-of-react
 permalink: day-14
 day: 14
-title: Fetching Remote Data
+title: How to Use whatwg-fetch to Simplify API Queries
 description: >-
   We're ready to make an external request to fetch data! Today we're looking at
   the first step of making a call to an external API.

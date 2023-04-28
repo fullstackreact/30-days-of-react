@@ -3,7 +3,7 @@ page_id: 30-days-of-react/day-17
 series: 30-days-of-react
 permalink: day-17
 day: 17
-title: Client-side Routing
+title: A Beginner's Guide to Client-side Routing with react-router
 description: >-
   Most, if not all of our applications will have multiple views in our
   single-page application. Let's dive right into creating multiple views for our

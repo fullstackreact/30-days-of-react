@@ -3,7 +3,7 @@ page_id: 30-days-of-react/day-5
 series: 30-days-of-react
 permalink: day-5
 day: 5
-title: Data-Driven
+title: How to Set Up Dynamic, Data-Driven Components
 description: >-
   Hard-coding data in our applications isn't exactly ideal. Today, we'll set up
   our components to be driven by data to them access to external data.
