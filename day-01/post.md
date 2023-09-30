@@ -40,7 +40,7 @@ There are several ways to approach building web applications in React.
 
 For now, let's work with cloud-based IDEs with ready templates for React projects ready to go.
 
-Let's look at CodeSandbox example of a React app that says 'Hello World'.
+Let's look at a simple React app that says 'Hello World'.
 
 <iframe src="https://codesandbox.io/embed/hello-world-p4wj53?fontsize=14&hidenavigation=1&theme=dark"
      style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
@@ -49,15 +49,30 @@ Let's look at CodeSandbox example of a React app that says 'Hello World'.
      sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
    ></iframe>
 
-<div id="demo1"></div>
+We have our main component 'App' that returns what looks like an HTML code - a header with the text 'Hello World'.
 
-Although it might look a little scary, the JavaScript code is a single line that dynamically adds _Hello world_ to the page. Note that we only needed to include a handful of JavaScript files to get everything working.
+But why does a function return HTML, and how does the value returned by the function end up on the page?
+
+A lot of this seems like magic, but it's a simple setup, which we'll explain to show you the essence of how JavaScript code translates into real HTML elements on the page.
 
 ## How does it work?
 
-Unlike many of its predecessors, React operates not directly on the browser's Document Object Model (DOM) immediately, but on a **virtual DOM**. That is, rather than manipulating the `document` in a browser after changes to our data (which can be quite slow) it resolves changes on a DOM built and run entirely in memory. After the virtual DOM has been updated, React intelligently determines what changes to make to the actual browser's DOM.
+If you look at the body of `index.html` file in our project, it has an empty `<div>` container with the id of 'root'. However, an innocent HTML element doesn't yet explain the React 'magic'. 
 
-The [React Virtual DOM](https://facebook.github.io/react/docs/dom-differences.html) exists entirely in-memory and is a representation of the web browser's DOM. Because of this, when we write a React component, we're not writing directly to the DOM, but we're writing a virtual component that React will turn into the DOM.
+Next, let's move on to `index.js` file, where `document.getElementById()` method gets the empty container and stores it in the variable named `rootElement`.
 
-In the next article, we'll look at what this means for us as we build our React components and jump into JSX and writing our first real components.
+If you aren't familiar, `document.getElementById()` is a common method for working with individual DOM elements. You pass it the element's ID as a string and the method returns that element's DOM node. 
+
+In this case, we access empty `<div>` container from `index.html`.
+
+Once we have access to the empty `<div>`, we are going to use it as a space for our container to live. This is where React high-level API comes into play.
+
+'createRoot' is a method that transforms empty container into a place for our React application to live. It provides many useful methods empty container does not have.
+
+One of the methods is render, which we call on `root` to get our application going. 
+
+high-level API is what happens under the hood. React provides us with easy, friendly syntax like functions to write React components. It does the hard work of translating that friendly syntax into these difficult and scary (even for experienced developers) calls to high-level API.
+
+Truth is, you only need to work with high-level API once - to create the React application. Once it's done, you can revert back to simpler syntax. 
+we use `createRoot()` method to create a root - 
 
