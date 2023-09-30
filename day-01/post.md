@@ -28,43 +28,22 @@ Let's get started. We'll start [at the very beginning](https://www.youtube.com/w
 
 [React](https://facebook.github.io/react/) is a JavaScript library for building user interfaces. It is the view layer for web applications.
 
-At the heart of all React applications are **components**. As their name suggests, React components are small self-contained pieces of web application. Components can be as small as a button, or an individual input field on the page.
+At the heart of all React applications are **components**. As their name suggests, React components are self-contained pieces of web application. Components can be as small as a button or an input field.
 
-Components are building blocks of an application, but they are also building blocks for other, larger components. For example - previous examples of button or input components can be a part of larger form component.
+Components are often building blocks for other, larger components. For example - button or input components can be a part of larger form component.
 
-Process of building apps in React is writing React components to build up our interface. Similar to collecting pieces to complete a puzzle. Smaller components like buttons and input fields combine to make larger components, like forms.
-
-React web application is nothing but a component tree made up of components like forms, made up of even smaller components themselves. 
-
-Importantly, each component in a React app abides by strict data management principles. Complex, interactive user interfaces often involve complex data and application state. The surface area of React is limited and aimed at giving us the tools to be able to anticipate how our application will look with a given set of circumstances. We dig into these principles later in the course.
+Building React apps is writing small individual components and composing them into larger components that make up the React application. React provides guardrails so developers can easily organize many small components to build complex user interfaces. 
 
 ## Okay, so how do we use it?
 
-React is a JavaScript framework. Using the framework is as simple as including a JavaScript file in our HTML and using the `React` exports in our application's JavaScript.
+There are several ways to approach building web applications in React.
 
-For instance, the _Hello world_ example of a React website can be as simple as:
+For now, let's work with cloud-based IDEs with ready templates for React projects ready to go.
 
-```html
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>Hello world</title>
-  <!-- Script tags including React -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react-dom.min.js"></script>
-  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-</head>
-<body>
-  <div id="app"></div>
-  <script type="text/babel">
-    ReactDOM.render(
-      <h1>Hello world</h1>,
-      document.querySelector('#app')
-    );
-  </script>
-</body>
-</html>
-```
+Let's look at CodeSandbox example of a React app that says 'Hello World'.
+
+[![Edit hello world!](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/hello-world-p4wj53?fontsize=14&hidenavigation=1&theme=dark)
+
 
 <div id="demo1"></div>
 
