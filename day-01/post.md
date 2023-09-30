@@ -65,14 +65,8 @@ If you aren't familiar, `document.getElementById()` is a common method for worki
 
 In this case, we access empty `<div>` container from `index.html`.
 
-Once we have access to the empty `<div>`, we are going to use it as a space for our container to live. This is where React high-level API comes into play.
+Once we have access to the empty `<div>`, will use the 'createRoot' method to transform empty HTML container into a place for our component to live.
 
-'createRoot' is a method that transforms empty container into a place for our React application to live. It provides many useful methods empty container does not have.
+`createRoot` rarely comes up outside of when you need to create a container for React app, so it's enough to know that 'createRoot' gives the container many properties and useful methods it needs to 'host' our React app. 
 
-One of the methods is render, which we call on `root` to get our application going. 
-
-high-level API is what happens under the hood. React provides us with easy, friendly syntax like functions to write React components. It does the hard work of translating that friendly syntax into these difficult and scary (even for experienced developers) calls to high-level API.
-
-Truth is, you only need to work with high-level API once - to create the React application. Once it's done, you can revert back to simpler syntax. 
-we use `createRoot()` method to create a root - 
-
+We call one of those methods `render`, which renders our component `App`. 
