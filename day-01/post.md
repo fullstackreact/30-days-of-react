@@ -67,6 +67,8 @@ In this case, we access empty `<div>` container from `index.html`.
 
 Once we have access to the empty `<div>`, will use the 'createRoot' method to transform empty HTML container into a place for our component to live.
 
-`createRoot` rarely comes up outside of when you need to create a container for React app, so it's enough to know that 'createRoot' gives the container many properties and useful methods it needs to 'host' our React app. 
+For now, you don't need to concern yourself with `createRoot`, just know that it gives plain HTML container properties and methods so it can become home for our React app. 
 
-We call one of those methods `render`, which renders our component `App`. 
+One of those methods is 'render'. Without going into details, this method renders our one component 'App' inside the container.
+
+This is the link between component 'App' that displays 'Hello World' and HTML contents of our app. 
