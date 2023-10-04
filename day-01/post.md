@@ -58,8 +58,8 @@ That is why, in `index.js` file, we use `document.getElementById()` method to ge
 
 > `document.getElementById()` method is frequently used in JavaScript DOM manipulation. It accepts one argument - `id` of the DOM element you want to select.
 
-Calling `createRoot` on a plain `<div>` gives it necessary properties and methods to be a home for our React app.
+Calling `createRoot()` on a plain `<div>` gives it necessary properties and methods to be a home for our React app.
 
-One of them is 'render', a very important method that dictates what the app should look like. In this case, it renders one component - `App` inside the container. 
+One of them is `render()`, a very important method that dictates what the component should look like. In this case, it renders one component - `App` inside the container. 
 
 Tomorrow, you will learn about JSX, HTML-like syntax that helps us define components' layout. 
