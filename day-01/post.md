@@ -28,11 +28,11 @@ Let's get started. We'll start [at the very beginning](https://www.youtube.com/w
 
 [React](https://facebook.github.io/react/) is a JavaScript library for building user interfaces. It is the view layer for web applications.
 
-At the heart of all React applications are **components**. As their name suggests, React components are self-contained pieces of web application. Components can be as small as a button or an input field.
+At the heart of all React applications are **components**. As their name suggests, React components are self-contained pieces of UI that put together, make up the web application. A component can be as small as a button or an input field, or a large component made up of smaller components. For example - a Form component that contains smaller Button and Input components. 
 
-Components are often building blocks for other, larger components. For example - button or input components can be a part of larger form component.
+Process of building React apps is writing and organizing small components into larger structures, making sure that individual components are flexible and reusable, but also consistent.
 
-Building React apps is writing small individual components and composing them into larger components that make up the React application. React provides guardrails so developers can easily organize many small components to build complex user interfaces. 
+React provides guardrails to guide us through this difficult process, so developers can easily build complex user interfaces.
 
 ## Okay, so how do we use it?
 
