@@ -56,14 +56,10 @@ The body of `index.html` file has an empty `<div>` container with the id of 'roo
 
 That is why, in `index.js` file, we use `document.getElementById()` method to get the empty container and store it the variable named `rootElement`.
 
-If you aren't familiar, `document.getElementById()` is a common method for working with individual DOM elements. You pass it the element's ID as a string and the method returns that element's DOM node. 
+> `document.getElementById()` method is frequently used in JavaScript DOM manipulation. It accepts one argument - `id` of the DOM element you want to select.
 
-In this case, we access empty `<div>` container from `index.html`.
+Calling `createRoot` on a plain `<div>` gives it necessary properties and methods to be a home for our React app.
 
-Once we have access to the empty `<div>`, will use the 'createRoot' method to transform empty HTML container into a place for our component to live.
+One of them is 'render', a very important method that dictates what the app should look like. In this case, it renders one component - `App` inside the container. 
 
-For now, you don't need to concern yourself with `createRoot`, just know that it gives plain HTML container properties and methods so it can become home for our React app. 
-
-One of those methods is 'render'. Without going into details, this method renders our one component 'App' inside the container.
-
-This is the link between component 'App' that displays 'Hello World' and HTML contents of our app. 
+Tomorrow, you will learn about JSX, HTML-like syntax that helps us define components' layout. 
