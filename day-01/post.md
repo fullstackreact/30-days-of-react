@@ -32,7 +32,7 @@ At the heart of all React applications are **components**. These are self-contai
 
 Process of building React apps is writing and organizing small components into larger structures, making sure that individual components are flexible and reusable, but also consistent.
 
-React provides guardrails to guide us through this difficult process, so developers can easily build complex user interfaces.
+React provides guardrails to guide us through this difficult process, so we, developers, can focus on building user interfaces.
 
 ## Okay, so how do we use it?
 
