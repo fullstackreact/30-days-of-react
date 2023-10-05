@@ -21,39 +21,66 @@ Today, you will learn about JSX and ES6, two essential tools for developing apps
 
 ## What is JSX? 
 
-**JSX**, short for JavaScript XML, is HTML-like syntax that helps us define component layout in React.
+**JSX**, short for JavaScript XML, is HTML-like syntax that helps us define component layouts in React.
 
-Its familiar syntax helps us easily build and maintain complex web applications in React.
+Let's go back to our example from day 1.
 
-On day 1, we saw a React component return a header element with the text 'Hello World'.
+We have a React component that returns an `<h1>` element with the text 'Hello World'.
+
+HTML-like code the function returns is JSX.
+
+```javascript
+function App() {
+  return (
+      <h1>Hello World</h1>
+  );
+}
+```
+
+Remember that JSX is an extension of JavaScript. Once application runs, JSX is _translated_ into calls to `React.createElement()` and other JavaScript methods on Top-Level API of React.
+
+Using JSX is not mandatory. You can make calls to `React.createElement()` method to get the same result, but the JavaScript code gets complicated very fast. 
+
+```javascript
+function App() {
+  return React.createElement("h1", null, "Hello World");
+}
+```
+
+JSX is obviously more readable than calling the `React.createElement()` method. Difference is even more evident when you have nested elements and components.
+
+Let's try and add a `<p>` paragraph under the `<h1>` header. 
+
+JSX code is still fairly simple:
 
 ```javascript
 function App() {
   return (
     <div className="App">
       <h1>Hello World</h1>
+      <p>Lorem ipsum dolor sit amet</p>
     </div>
   );
 }
 ```
 
-HTML-like code in the `return` statement is JSX.
-
-Remember that JSX is simply a familiar syntax for writing JavaScript code. Once application runs, JSX is _translated_ into calls to `React.createElement()` and other JavaScript methods on Top-Level API of React.
-
-You can make calls to `React.createElement()` method to get the same result, but looking at the code should tell you why many React developers use JSX. 
-
+Using the `React.createElement()` method to recreate the same component would look like this:
 ```javascript
-function App() {
-  return React.createElement("h1", { className: "App" }, "Hello World");
+export default function App() {
+  return React.createElement("div", { className: "App" }, [
+    React.createElement("h1", null, "Hello World"),
+    React.createElement("p", null, "Lorem ipsum dolor sit amet")
+  ]);
 }
 ```
 
-Compared to `React.createElement()` calls, JSX is more readable and familiar. Its HTML-like syntax makes it very easy to define component layouts, especially when it comes to building complex components. 
+As you build more complex components, code becomes even more difficult to follow. 
+
+
 
 ### why `className` attribute instead of `class`? 
 
-You may have noticed that in JSX we use `className`, not `class`. This is necessary because in JavaScript, 'class' and 'for' are reserved words, and JSX is a syntax extension of JS. So the `for` HTML attribute becomes `htmlFor` in React. 
+In JSX, certain attribute names are different from HTML. For example, we use `className` instead of `class`. This is necessary because in JavaScript, 'class' and 'for' are reserved words, and JSX is a syntax extension of JS. The `for` HTML attribute becomes `htmlFor` in React. 
 
 ## What is ES6? 
 
