@@ -15,17 +15,17 @@ imagesDir: /assets/images/series/30-days-of-react/day-2
 includeFile: ./../_params.yaml
 ---
 
-In our previous article, we looked at what [React](https://facebook.github.io/react/) is and how it works. In this article, we're going to look at JSX, the HTML-like syntax that helps us easily define component layout, and ES6, modern syntax for writing JavaScript code.
+In our previous article, we looked at what [React](https://facebook.github.io/react/) is and how it works.
+
+Today, you will learn about JSX and ES6, two essential tools for developing apps with React.
 
 ## What is JSX? 
 
-In our previous example, we saw that all React components return HTML-like code.
+**JSX**, short for JavaScript XML, is HTML-like syntax that helps us define component layout in React.
 
-That code is actually **JSX**, short for (JavaScript XML), and it saves a lot of time on writing React apps. 
+Its familiar syntax helps us easily build and maintain complex web applications in React.
 
-If you're new to React, JSX probably feels familiar, since it looks so much like HTML. But don't get confused, all React apps are written entirely in JavaScript. At runtime, JSX code is translated into JavaScript. React sees our JSX code and helps out by writing a JavaScript code that corresponds with our JSX layout.
-
-Let's go back to our previous example, this is the `App` component, a friendly function that returns an `<h1>` element. Easy to follow. 
+On day 1, we saw a React component return a header element with the text 'Hello World'.
 
 ```javascript
 function App() {
@@ -37,52 +37,29 @@ function App() {
 }
 ```
 
-You can write React components using high-level React API and use methods like `React.createElement()`. The code for our `App` component would look like this:
+HTML-like code in the `return` statement is JSX.
+
+Remember that JSX is simply a familiar syntax for writing JavaScript code. Once application runs, JSX is _translated_ into calls to `React.createElement()` and other JavaScript methods on Top-Level API of React.
+
+You can make calls to `React.createElement()` method to get the same result, but looking at the code should tell you why many React developers use JSX. 
 
 ```javascript
 function App() {
   return React.createElement("h1", { className: "App" }, "Hello World");
 }
 ```
- 
-As you can see, making calls to `React.createElement()` is not as readable and friendly as JSX, even when you have a very simple component. 
 
-On the other hand, you are probably used to structuring layouts using HTML. That's why most React developers use JSX.
-
-Because JSX is just a simpler syntax to write JavaScript, it allows us to easily integrate JavaScript logic right into the markup. 
-
-> Although in previous paradigms it was viewed as a bad habit to include JavaScript and markup in the same place, it turns out that combining the view with the functionality makes reasoning about the view straight-forward.
-
+Compared to `React.createElement()` calls, JSX is more readable and familiar. Its HTML-like syntax makes it very easy to define component layouts, especially when it comes to building complex components. 
 
 ### why `className` attribute instead of `class`? 
 
-Because JSX is JavaScript, we can't use JavaScript reserved words. This includes words like class and for.
-
-React gives us the attribute className. We use it in HelloWorld to set the large class on our h1 tag. There are a few other attributes, such as the for attribute on a label that React translates into htmlFor as for is also a reserved word. We'll look at these when we start using them.
-
-## Virtual DOM
-
-While JSX looks like HTML, it is actually just a terser way to write a `React.createElement()` declaration. When a component renders, it outputs a tree of React elements or a **virtual representation** of the HTML elements this component outputs. React will then determine what changes to make to the actual DOM based on this React element representation. In the case of the `HelloWorld` component, the HTML that React writes to the DOM will look like this:
-
+You may have noticed that in JSX we use `className`, not `class`. This is necessary because in JavaScript, 'class' and 'for' are reserved words, and JSX is a syntax extension of JS. So the `for` HTML attribute becomes `htmlFor` in React. 
 
 ## What is ES6? 
 
-ES6 is modern syntax for JavaScript, as opposed to ES5. 
+ES6 is the newest version of JavaScript that comes with many useful methods and easier syntax for building apps in React. It has wide browser support, and most web applications are written in ES6. 
 
-ES5 (the `ES` stands for ECMAScript) is basically "regular JavaScript." The 5th update to JavaScript, ES5 was finalized in 2009. It has been supported by all major browsers for several years. Therefore, if you've written or seen any JavaScript in the recent past, chances are it was ES5.
-
-ES6 is a new version of JavaScript that adds some nice syntactical and functional additions. It was finalized in 2015. ES6 is [almost fully supported](http://kangax.github.io/compat-table/es6/) by all major browsers. But it will be some time until older versions of web browsers are phased out of use. For instance, Internet Explorer 11 does not support ES6, but has about 12% of the browser market share.
-
-In order to reap the benefits of ES6 today, we have to do a few things to get it to work in as many browsers as we can:
-
-1. We have to _transpile_ our code so that a wider range of browsers understand our JavaScript. This means converting ES6 JavaScript into ES5 JavaScript.
-2. We have to include a _shim_ or _polyfill_ that provides additional functionality added in ES6 that a browser may or may not have.
-
-We'll see how we do this a bit later in the series.
-
-> Most of the code we'll write in this series will be easily translatable to ES5. In cases where we use ES6, we'll introduce the feature at first and then walk through it.
-
-
+Sometimes ES6 is transpiled into older version of JavaScript ES5, to make sure all browsers understand ES6. 
 
 Now that we understand JSX, we can start writing our first React components. Join us tomorrow when we jump into our first React app.
 
