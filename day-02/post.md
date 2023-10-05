@@ -83,7 +83,7 @@ In JSX, certain attribute names are different from HTML. For example, we use `cl
 
 ## What is ES6? 
 
-ES6 is the newest version of JavaScript that comes with many useful methods and easier syntax for writing modern web applications. At the time of writing this, most browsers support ES6. According to caniuse.com, 97% of internet surfers use browsers that support ES6.
+ES6 is the newest version of JavaScript that comes with many useful methods and easier syntax for writing modern web applications. At the time of writing this, most browsers support ES6. According to [caniuse.com](https://caniuse.com/?search=es6), 97% of internet surfers use browsers that support ES6.
 
 ES6 code can be transpiled into ES5, older version of JavaScript, to make sure the rest of users are not left out. 
 
