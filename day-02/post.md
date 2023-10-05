@@ -81,6 +81,22 @@ Every additional element makes JavaScript code exponentially more difficult to f
 
 In JSX, certain attribute names are different from HTML. For example, we use `className` instead of `class`. This is necessary because in JavaScript, 'class' and 'for' are reserved words, and JSX is a syntax extension of JS. The `for` HTML attribute becomes `htmlFor` in React. 
 
+### A mix of markup and logic
+
+Unlike HTML, you can embed dynamic JavaScript expressions inside JSX. This can be mainly attributed to the fact that JSX is simply an extension of JavaScript.
+
+To embed JavaScript expression in JSX, you need to wrap it with curly braces.
+
+```javascript
+function App() {
+  return (
+      <h1>{"Hello" + " World"}</h1>
+  );
+}
+```
+
+In this example, a simple `+` operator concatenates two strings `"Hello"` and `" World"`, so the component renders the header 'Hello World'.
+
 ## What is ES6? 
 
 ES6 is the newest version of JavaScript that comes with many useful methods and easier syntax for writing modern web applications. At the time of writing this, most browsers support ES6. According to [caniuse.com](https://caniuse.com/?search=es6), 97% of internet surfers use browsers that support ES6.
