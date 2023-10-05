@@ -28,7 +28,7 @@ Let's get started. We'll start [at the very beginning](https://www.youtube.com/w
 
 [React](https://facebook.github.io/react/) is a JavaScript library for building user interfaces. It is the view layer for web applications.
 
-At the heart of all React applications are **components**. These are self-contained pieces of UI that when put together, make up the web application. A component can be as small as a button or an input field, or as large as a Form component that contains smaller Button and Input components. The entire React app is often a parent component that contains all other components. 
+At the heart of all React applications are **components**. These are self-contained pieces of UI that when put together, make up the web application. A component can be as small as a button or an input field, or a Form component that contains smaller Button and Input components.
 
 Process of building React apps is writing and organizing small components into larger structures, making sure that individual components are flexible and reusable, but also consistent.
 
@@ -38,17 +38,17 @@ React provides guardrails to guide us through this difficult process, so we, dev
 
 There are several ways to approach building web applications in React.
 
-For now, let's work with cloud-based IDEs with ready templates for React projects ready to go.
+For now, let's work with cloud-based IDEs to instantly set up a React project, write React components and see changes in real time. 
 
 Let's look at a simple React app that says 'Hello World'.
 
 [![Edit hello world!](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/hello-world-p4wj53?fontsize=14&hidenavigation=1&module=%2Fsrc%2FApp.js&theme=dark)
 
-So far, we have a function 'App' that returns what looks like an HTML code - a header with the text 'Hello World'.
+In this code example, we have a function `App` that returns what looks like an HTML code - a header with the text 'Hello World'.
 
-'App' is a React component. React components can be written either as a function (like 'App' is) or using ES6 class syntax. Because functions are more familiar and easier to write, our examples will stick with function components.
+`App` is a React component. React components can be written as a function (like `App` is) or using ES6 class syntax. Because functions are more familiar and easier to write, let's stick with function components for now. 
 
-All React components, like 'App' in the example, return HTML-like (**not HTML**) code to describe what UI should look like. 
+All React components return HTML-like (**not HTML**) code to describe what UI should look like. 
 
 ## How does it work?
 
