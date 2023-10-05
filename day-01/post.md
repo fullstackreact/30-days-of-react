@@ -48,18 +48,7 @@ In this code example, we have a function `App` that returns what looks like an H
 
 `App` is a React component. React components can be written as a function (like `App` is) or using ES6 class syntax. Because functions are more familiar and easier to write, let's stick with function components for now. 
 
-All React components return HTML-like (**not HTML**) code to describe what UI should look like. 
+All React components return HTML-like (**not HTML**) code to describe what UI should look like.
 
-## How does it work?
+Tomorrow, you will learn about JSX, the syntax that helps us define components' layout and build dynamic web apps with React.
 
-The body of `index.html` file has an empty `<div>` container with the id of 'root'. Obviously an innocent HTML element doesn't have capabilities to render React components. 
-
-That is why, in `index.js` file, we use `document.getElementById()` method to get the empty container and store it the variable named `rootElement`.
-
-> `document.getElementById()` method is frequently used in JavaScript DOM manipulation. It accepts one argument - `id` of the DOM element you want to select.
-
-Calling `createRoot()` on a plain `<div>` gives it necessary properties and methods to be a home for our React app.
-
-One of them is `render()`, a very important method that dictates what the component should look like. In this case, it renders one component - `App` inside the container. 
-
-Tomorrow, you will learn about JSX, HTML-like syntax that helps us define components' layout. 
