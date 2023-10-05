@@ -45,15 +45,25 @@ function App() {
 }
 ```
  
-Our app is relatively simple and only renders one `<h1>` element. Even then, making calls to `React.createElement()` is not as readable and friendly as JSX. 
-
-Web applications in the real world are not so simple, and working with high-level React API can get very confusing.
+As you can see, making calls to `React.createElement()` is not as readable and friendly as JSX, even when you have a very simple component. 
 
 On the other hand, you are probably used to structuring layouts using HTML. That's why most React developers use JSX.
 
 Because JSX is just a simpler syntax to write JavaScript, it allows us to easily integrate JavaScript logic right into the markup. 
 
 > Although in previous paradigms it was viewed as a bad habit to include JavaScript and markup in the same place, it turns out that combining the view with the functionality makes reasoning about the view straight-forward.
+
+
+### why `className` attribute instead of `class`? 
+
+Because JSX is JavaScript, we can't use JavaScript reserved words. This includes words like class and for.
+
+React gives us the attribute className. We use it in HelloWorld to set the large class on our h1 tag. There are a few other attributes, such as the for attribute on a label that React translates into htmlFor as for is also a reserved word. We'll look at these when we start using them.
+
+## Virtual DOM
+
+While JSX looks like HTML, it is actually just a terser way to write a `React.createElement()` declaration. When a component renders, it outputs a tree of React elements or a **virtual representation** of the HTML elements this component outputs. React will then determine what changes to make to the actual DOM based on this React element representation. In the case of the `HelloWorld` component, the HTML that React writes to the DOM will look like this:
+
 
 ## What is ES6? 
 
@@ -73,61 +83,6 @@ We'll see how we do this a bit later in the series.
 > Most of the code we'll write in this series will be easily translatable to ES5. In cases where we use ES6, we'll introduce the feature at first and then walk through it.
 
 
-
-The `render()` function in the `HelloWorld` component looks like it's returning HTML, but this is actually JSX. The JSX is _translated_ to regular JavaScript at runtime. That component, after translation, looks like this:
-
-```javascript
-class HelloWorld extends React.Component {
-  render() {
-    return (
-      React.createElement(
-        'h1',
-        {className: 'large'},
-        'Hello World'
-      )
-    );
-  }
-}
-```
-
-While JSX looks like HTML, it is actually just a terser way to write a `React.createElement()` declaration. When a component renders, it outputs a tree of React elements or a **virtual representation** of the HTML elements this component outputs. React will then determine what changes to make to the actual DOM based on this React element representation. In the case of the `HelloWorld` component, the HTML that React writes to the DOM will look like this:
-
-```html
-<h1 class='large'>Hello World</h1>
-```
-
-> The `class extends` syntax we used in our first React component is ES6 syntax. It allows us to write objects using a familiar Object-Oriented style.
-> In ES5, the `class` syntax might be translated as:
->
-> ```javascript
-> var HelloWorld = function() {}
-> Object.extends(HelloWorld, React.Component)
-> HelloWorld.prototype.render = function() {}
-> ```
-
-Because JSX is JavaScript, we can't use JavaScript reserved words. This includes words like `class` and `for`.
-
-React gives us the attribute `className`. We use it in `HelloWorld` to set the `large` class on our `h1` tag. There are a few other attributes, such as the `for` attribute on a label that React translates into `htmlFor` as `for` is also a reserved word. We'll look at these when we start using them.
-
-If we want to write pure JavaScript instead of rely on a JSX compiler, we can just write the `React.createElement()` function and not worry about the layer of abstraction. But we like JSX. It's especially more readable with complex components. Consider the following JSX:
-
-```javascript
-<div>
-  <img src="profile.jpg" alt="Profile photo" />
-  <h1>Welcome back Ari</h1>
-</div>
-```
-
-The JavaScript delivered to the browser will look like this:
-
-```javascript
-React.createElement("div", null,
-  React.createElement("img", {src: "profile.jpg", alt: "Profile photo"}),
-  React.createElement("h1", null, "Welcome back Ari")
-);
-```
-
-Again, while you can skip JSX and write the latter directly, the JSX syntax is well-suited for representing nested HTML elements.
 
 Now that we understand JSX, we can start writing our first React components. Join us tomorrow when we jump into our first React app.
 
