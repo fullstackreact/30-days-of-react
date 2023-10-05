@@ -75,17 +75,19 @@ export default function App() {
 }
 ```
 
-Every additional element makes JavaScript code exponentially more difficult to follow. Especially when elements are nested. That's why even experienced React developers use JSX. 
+Every additional element makes JavaScript code exponentially more difficult to follow. Especially when elements are nested, have conditional classes, and more dynamic features. That's why even experienced React developers use JSX.
 
-### why `className` attribute instead of `class`? 
+### Why `className` attribute instead of `class`? 
 
 In JSX, certain attribute names are different from HTML. For example, we use `className` instead of `class`. This is necessary because in JavaScript, 'class' and 'for' are reserved words, and JSX is a syntax extension of JS. The `for` HTML attribute becomes `htmlFor` in React. 
 
 ## What is ES6? 
 
-ES6 is the newest version of JavaScript that comes with many useful methods and easier syntax for building apps in React. It has wide browser support, and most web applications are written in ES6. 
+ES6 is the newest version of JavaScript that comes with many useful methods and easier syntax for writing modern web applications. At the time of writing this, most browsers support ES6. According to caniuse.com, 97% of internet surfers use browsers that support ES6.
 
-Sometimes ES6 is transpiled into older version of JavaScript ES5, to make sure all browsers understand ES6. 
+ES6 code can be transpiled into ES5, older version of JavaScript, to make sure the rest of users are not left out. 
 
-Now that we understand JSX, we can start writing our first React components. Join us tomorrow when we jump into our first React app.
+## Final thoughts
+
+Now that we understand JSX, it's time write a real web application in React. 
 
