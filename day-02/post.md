@@ -15,11 +15,49 @@ imagesDir: /assets/images/series/30-days-of-react/day-2
 includeFile: ./../_params.yaml
 ---
 
-In our previous article, we looked at what [React](https://facebook.github.io/react/) is and discussed at a high-level how it works. In this article, we're going to look at one part of the React ecosystem: ES6 and JSX.
+In our previous article, we looked at what [React](https://facebook.github.io/react/) is and how it works. In this article, we're going to look at JSX, the HTML-like syntax that helps us easily define component layout, and ES6, modern syntax for writing JavaScript code.
 
-## JSX/ES5/ES6 WTF??!
+## What is JSX? 
 
-In any cursory search on the Internet looking for React material, no doubt you have already run into the terms `JSX`, ES5, and ES6. These opaque acronyms can get confusing quickly.
+In our previous example, we saw that all React components return HTML-like code.
+
+That code is actually **JSX**, short for (JavaScript XML), and it saves a lot of time on writing React apps. 
+
+If you're new to React, JSX probably feels familiar, since it looks so much like HTML. But don't get confused, all React apps are written entirely in JavaScript. At runtime, JSX code is translated into JavaScript. React sees our JSX code and helps out by writing a JavaScript code that corresponds with our JSX layout.
+
+Let's go back to our previous example, this is the `App` component, a friendly function that returns an `<h1>` element. Easy to follow. 
+
+```javascript
+function App() {
+  return (
+    <div className="App">
+      <h1>Hello World</h1>
+    </div>
+  );
+}
+```
+
+You can write React components using high-level React API and use methods like `React.createElement()`. The code for our `App` component would look like this:
+
+```javascript
+function App() {
+  return React.createElement("h1", { className: "App" }, "Hello World");
+}
+```
+ 
+Our app is relatively simple and only renders one `<h1>` element. Even then, making calls to `React.createElement()` is not as readable and friendly as JSX. 
+
+Web applications in the real world are not so simple, and working with high-level React API can get very confusing.
+
+On the other hand, you are probably used to structuring layouts using HTML. That's why most React developers use JSX.
+
+Because JSX is just a simpler syntax to write JavaScript, it allows us to easily integrate JavaScript logic right into the markup. 
+
+> Although in previous paradigms it was viewed as a bad habit to include JavaScript and markup in the same place, it turns out that combining the view with the functionality makes reasoning about the view straight-forward.
+
+## What is ES6? 
+
+ES6 is modern syntax for JavaScript, as opposed to ES5. 
 
 ES5 (the `ES` stands for ECMAScript) is basically "regular JavaScript." The 5th update to JavaScript, ES5 was finalized in 2009. It has been supported by all major browsers for several years. Therefore, if you've written or seen any JavaScript in the recent past, chances are it was ES5.
 
@@ -34,23 +72,7 @@ We'll see how we do this a bit later in the series.
 
 > Most of the code we'll write in this series will be easily translatable to ES5. In cases where we use ES6, we'll introduce the feature at first and then walk through it.
 
-As we'll see, all of our React components have a `render` function that specifies what the HTML output of our React component will be. **JavaScript eXtension**, or more commonly **JSX**, is a React extension that allows us to write JavaScript that _looks like_ HTML.
 
-> Although in previous paradigms it was viewed as a bad habit to include JavaScript and markup in the same place, it turns out that combining the view with the functionality makes reasoning about the view straight-forward.
-
-To see what this means, imagine we had a React component that renders an `h1` HTML tag. JSX allows us to declare this element in a manner that closely resembles HTML:
-
-```javascript
-class HelloWorld extends React.Component {
-  render() {
-    return (
-      <h1 className='large'>Hello World</h1>
-    );
-  }
-}
-```
-
-<div id="demo1"></div>
 
 The `render()` function in the `HelloWorld` component looks like it's returning HTML, but this is actually JSX. The JSX is _translated_ to regular JavaScript at runtime. That component, after translation, looks like this:
 
