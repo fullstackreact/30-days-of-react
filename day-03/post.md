@@ -16,67 +16,46 @@ imagesDir: /assets/images/series/30-days-of-react/day-3
 includeFile: ./../_params.yaml
 ---
 
-Let's revisit the "Hello world" app we introduced on day one. Here it is again, written slightly differently:
+Let's revisit the "Hello world" app we introduced on day one.
 
-```html
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>Hello world</title>
-  <!-- Script tags including React -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react-dom.min.js"></script>
-  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-</head>
-<body>
-  <div id="app"></div>
-  <script type="text/babel">
-    var app = <h1>Hello world</h1>
-    var mountComponent = document.querySelector('#app');
-    ReactDOM.render(app, mountComponent);
-  </script>
-</body>
-</html>
+```javascript
+function App() {
+  return (
+    <div className="App">
+      <h1>Hello World</h1>
+    </div>
+  );
+}
 ```
+It's time to look at our CodeSandbox project and understand how the JSX code returned by our function component ends up on the screen. 
 
-<div id="demo1"></div>
+## How does it work?
 
-### Loading the React library
+In `index.html` file, there is an empty `<div>` container with the id of 'root'. Obviously an innocent HTML element doesn't have capabilities to render React components. 
 
-We've included the source of React as a `<script>` tag inside the `<head>` element of our page. It's important to place our `<script>` loading tags _before_ we start writing our React application otherwise the `React` and `ReactDOM` variables won't be defined in time for us to use them.
+[![Edit hello world!](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/hello-world-p4wj53?fontsize=14&hidenavigation=1&module=%2Fpublic%2Findex.html&theme=dark)
 
-Also inside `head` is a `script` tag that includes a library, `babel-core`. But what is `babel-core`?
+That is why, in `index.js` file, we use `document.getElementById()` method to get the empty container and store it the variable named `rootElement`.
 
-### Babel
+[![Edit hello world!](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/hello-world-p4wj53?fontsize=14&hidenavigation=1&theme=dark)
 
-Yesterday, we talked about ES5 and ES6. We mentioned that support for ES6 is still spotty. In order to use ES6, it's best if we transpile our ES6 JavaScript into ES5 JavaScript to support more browsers.
+> `document.getElementById()` method is frequently used in JavaScript DOM manipulation. It accepts one argument - `id` of the DOM element you want to select.
 
-**Babel** is a library for transpiling ES6 to ES5.
+Calling `createRoot()` on a plain `<div>` gives it necessary properties and methods to be a home for our React app.
 
-Inside `body`, we have a `script` body. Inside of `script`, we define our first React application. Note that the `script` tag has a `type` of `text/babel`:
+One of them is `render()`, a very important method that dictates what the component should look like. In this case, it renders one component - `App` inside the container. 
 
-```html
-<script type="text/babel">
-```
+If you inspect the header, you will see that the `<h1>` element is indeed nested in the `<div>` with the `id` of 'root'.
 
-This signals to Babel that we would like it to handle the execution of the JavaScript inside this `script` body, this way we can write our React app using ES6 JavaScript and be assured that Babel will live-transpile its execution in browsers that only support ES5.
-
-> ## Warning in the console?
->
-> When using the `babel-standalone` package, we'll get a warning in the console. This is fine and expected. We'll switch to a precompilation step in a few days.
->
-> We've included the `<script />` tag here for ease of use.
+Don't worry - you won't need to go through this process to add every component. Once you add one, you can use JSX to render other components inside that added component, and all of its child elements and components will show up on the page. 
 
 ### The React app
 
-Inside the Babel `script` body, we've defined our first React application. Our application consists of a single element, the `<h1>Hello world</h1>`. The call to `ReactDOM.render()` actually places our tiny React application on the page. Without the call to `ReactDOM.render()`, nothing would render in the DOM. The first argument to `ReactDOM.render()` is _what_ to render and the second is _where_:
+So far, our `App` component is the entire app. It's time we added more components and learned to use various features to build interactive apps with React. 
 
-```
-ReactDOM.render(<what>, <where>)
-```
+Real web applications can accept and respond to user inputs, receive and send HTTP requests and much more. In time, we will learn all these features. 
 
-We've written a React application. Our "app" is a React element which represents an `h1` tag. But this isn't very interesting. Rich web applications accept user input, change their shape based on user interaction, and communicate with web servers. Let's begin touching on this power by building our first React component.
+To start, let's build our first component other than `App`. 
 
 ## Components and more
 
