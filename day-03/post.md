@@ -49,7 +49,7 @@ If you inspect the header, you will see that the `<h1>` element is indeed nested
 
 Don't worry - you won't need to go through this process to add every component. Once you add one, you can use JSX to render other components inside that added component, and all of its child elements and components will show up on the page. 
 
-### The React app
+## The React app
 
 So far, our `App` component is the entire app. It's time we added more components and learned to use various features to build interactive apps with React. 
 
@@ -57,66 +57,34 @@ Real web applications can accept and respond to user inputs, receive and send HT
 
 To start, let's build our first component other than `App`. 
 
-## Components and more
+## Reusable components
 
-We mentioned at the beginning of this series that at the heart of all React applications are _components_. The best way to understand React components is to write them. We'll write our React components as ES6 classes.
+On day 1, we stated that at the heart of all React applications are _components_, self-contained pieces of UI (component definition). Let's try to expand on that and really understand the importance of components for building apps in React.
 
-Let's look at a component we'll call `App`. Like all other React components, this ES6 class will extend the `React.Component` class from the React package:
+Web applications and even mobile and desktop apps often have repeated bits of UI. 
 
-```javascript
-class App extends React.Component {
-  render() {
-    return <h1>Hello from our app</h1>
-  }
-}
-```
+For example, comments on facebook are structurally the same, even if they say different things. Components give you the power to create your own structure, the skeleton for the UI, and reuse it throughout the app, or even in different projects. Concept of reusable components is very powerful and can save a lot of time. It's like if you could create your own custom element in HTML, and then reuse it instead of having to write it over and over again whenever you need it. 
 
-> All React components require at least a `render()` function. This `render()` function is expected to return a virtual DOM representation of the browser DOM element(s).
+When trying to implement a difficult feature in React, chances are someone has already created a custom component that perfectly implements that feature. You only have to import it and use it, you don't even have to understand how it works (although it's preferable if you did). 
 
-In our `index.html`, let's replace our JavaScript from before with our new `App` component.
-
-```html
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>Hello world</title>
-  <!-- Script tags including React -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react-dom.min.js"></script>
-  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-</head>
-<body>
-  <div id="app"></div>
-  <script type="text/babel">
-    class App extends React.Component {
-      render() {
-        return <h1>Hello from our app</h1>
-      }
-    }
-  </script>
-</body>
-</html>
-```
-
-However, nothing is going to render on the screen. Do you remember why?
-
-We haven't told React we want to render anything on the screen or _where_ to render it. We need to use the `ReactDOM.render()` function again to express to React what we want rendered and where.
-
-Adding the `ReactDOM.render()` function will render our application on screen:
+Let's create our first reusable component and name it 'Entry', so we could reuse it to show different entries. 
 
 ```javascript
-var mount = document.querySelector('#app');
-ReactDOM.render(<App />, mount);
+-
 ```
 
-<div id="demo2"></div>
+Reusing it is as simple as invoking a React component by its name - `<Entry>`, as if it was just another HTML element. This way, you can nest components and combine components to compose complex web applications, just as **if we were writing HTML layout with nested children elements** (Google to nail the phrasing). 
 
-Notice that we can render our React app using the `App` class as though it is a built-in DOM component type (like the `<h1 />` and `<div />` tags). Here we're using it as though it's an element with the angle brackets: `<App />`.
+If we wanted to build a journal app that shows different entries from different times, we could simply invoke the `<Entry>` component in our JSX multiple times. And we would have different entries.
 
-The idea that our React components act just like any other element on our page allows us to build a component tree **just as if we were creating a native browser tree**.
+But reusable components are not really useful if we can not customize their contents. 
 
-While we're rendering a React component now, our app still lacks richness or interactivity. Soon, we'll see how to make React components data-driven and dynamic.
+In HTML, we could use attributes to customize some aspects of elements, so even if it was the same element, it worked differently. For example, if we had two buttons, one might have `disabled` attribute and would be disabled.
 
-But first, in the next installment of this series, we'll explore how we can layer components. Nested components are the foundation of a rich React web application.
+React feature called **props** is somewhat similar, except it allows us to customize React components' contents, appearance, functionality, and much more. It is the absolute necessity for actually reusing the components
 
+## Final words
+
+Our React web application got a bit smarter, but we are not even close to utilizing true potential of React. Soon, we'll see how to make React components data-driven and dynamic.
+
+In the next installment of this series, we'll explore how to actually compose and nest components, and build component trees that make up React web applications. 
