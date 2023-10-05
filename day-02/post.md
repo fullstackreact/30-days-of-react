@@ -27,7 +27,7 @@ Let's go back to our example from day 1.
 
 We have a React component that returns an `<h1>` element with the text 'Hello World'.
 
-HTML-like code the function returns is JSX.
+The HTML-like code inside the return statement is JSX. 
 
 ```javascript
 function App() {
@@ -39,7 +39,7 @@ function App() {
 
 Remember that JSX is an extension of JavaScript. Once application runs, JSX is _translated_ into calls to `React.createElement()` and other JavaScript methods on Top-Level API of React.
 
-Using JSX is not mandatory. You can make calls to `React.createElement()` method to get the same result, but the JavaScript code gets complicated very fast. 
+You don't have to use JSX. You can make calls to `React.createElement()` method to get the same result, but the JavaScript code gets complicated very fast. 
 
 ```javascript
 function App() {
@@ -65,6 +65,7 @@ function App() {
 ```
 
 Using the `React.createElement()` method to recreate the same component would look like this:
+
 ```javascript
 export default function App() {
   return React.createElement("div", { className: "App" }, [
@@ -74,9 +75,7 @@ export default function App() {
 }
 ```
 
-As you build more complex components, code becomes even more difficult to follow. 
-
-
+Every additional element makes JavaScript code exponentially more difficult to follow. Especially when elements are nested. That's why even experienced React developers use JSX. 
 
 ### why `className` attribute instead of `class`? 
 
