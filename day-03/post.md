@@ -16,7 +16,7 @@ imagesDir: /assets/images/series/30-days-of-react/day-3
 includeFile: ./../_params.yaml
 ---
 
-Today we will discuss components, the foundation for building user interfaces with React. By the end, hopefully you will see the value of creating and using components. 
+Today we will discuss components, UI building blocks in React. By the end, hopefully you will have learned how to build and design excellent React components and the benefits of doing so.
 
 Let's revisit the example from day one.
 
@@ -32,41 +32,76 @@ So far, our entire React app is just one `App` component.
 
 It's time to learn how to create real web applications that make use of all interactive features React has to offer. 
 
-Let's start with components, basic building blocks for complex user interfaces. 
+For starters, let's learn how to create reusable components. 
 
 ## Reusable components
 
-On day 1, we stated that at the heart of all React applications are _components_. Components are independent, encapsulated bits of UI. They are also reusable and save React developers a lot of time. 
+On day 1, we stated that at the heart of all React applications are _components_. Components are independent, encapsulated bits of UI. More importantly, reusable components can save you a lot of time. 
+
+In JavaScript, we define functions to perform common tasks by reusing logic. Similarly, components enable us to reuse parts of UI.
 
 Let's say you are developing a social media app.
 
 ![](https://github.com/irakli12345/30-days-of-react/blob/master/day-03/instagram%20clone.png)
 
-Individual posts can have different content and authors, but the overall structure of the post is the same. The most efficient way to write code for different posts is to define overall UI structure and reuse it. Then pass it data to customize content, author, or any other aspect of the post.
+Individual posts have different content and authors, but overall structure is the same. React allows you to define components' interface, so you can customize their content. 
 
-We create and reuse components to render a certain UI the same way we write and call functions to avoid writing the same logic over and over again.
-
-You can also borrow other React developers' components to implement advanced features without having to do any of the work. You don't even need to know how that borrowed component works. 
+React community created libraries of reusable React components you can borrow to implement advanced features without having to write any of the code. 
 
 ## Write a reusable component
 
-So far, our app has one `<h1>` element that says hello world.
+So far, our app has one `<h1>` element that says 'Hello World'.
 
-Let's change it to say 'Journal', and create a new component to render journal entries. 
+Let's change header text to say 'Journal' and create new components for entries in the journal. 
+
+For now, let's keep `Entry` components simple. A simple `<p>` paragraph in a `<div>` container will be fine. 
 
 ```javascript
--
+function Entry() {
+  return (
+    <div className="entry">
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+        ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+        aliquip ex ea commodo consequat.
+      </p>
+    </div>
+  );
+}
+```
+We added lorem ipsum text as an example. 
+
+You can invoke custom React components by their name. JSX is great because it allows us to compose React components and elements to build interfaces the same way we build layouts in HTML.
+
+Let's say our journal has three entries:
+
+```javascript
+export default function Journal() {
+  return (
+    <div>
+      <h1>Journal</h1>
+      <Entry></Entry>
+      <Entry></Entry>
+      <Entry></Entry>
+    </div>
+  );
+}
 ```
 
-Reusing it is as simple as invoking a React component by its name - `<Entry>`, as if it was just another HTML element. This way, you can nest components and combine components to compose complex web applications, just as **if we were writing HTML layout with nested children elements** (Google to nail the phrasing). 
+So far, JSX code is pretty simple. We one `<h1>` element and three custom `<Entry>` components inside a `<div>`. 
 
-If we wanted to build a journal app that shows different entries from different times, we could simply invoke the `<Entry>` component in our JSX multiple times. And we would have different entries.
+> React has one important rule - components are allowed to return only one element. In this case, our `Journal` component returns multiple `<Entry>` components, so we must wrap them in a `<div>`. So technically, component returns one `<div>` element.
 
 But reusable components are not really useful if we can not customize their contents. 
 
-In HTML, we could use attributes to customize some aspects of elements, so even if it was the same element, it worked differently. For example, if we had two buttons, one might have `disabled` attribute and would be disabled.
+## Customize components 
 
-React feature called **props** is somewhat similar, except it allows us to customize React components' contents, appearance, functionality, and much more. It is the absolute necessity for actually reusing the components
+Props are somewhat similar to attributes in HTML. We will explore them in detail later. In HTML, we could set attributes to customize HTML elements to some degree. React feature called **props** is somewhat similar, except it allows us to customize React components' contents, appearance, functionality, and much more. It is the absolute necessity for actually reusing the components
+
+The problem now, is that all entry components are the same. We need some way to pass them strings, so they display different texts. 
+
+
 
 ## Final words
 
