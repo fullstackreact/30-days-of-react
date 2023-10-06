@@ -16,38 +16,19 @@ imagesDir: /assets/images/series/30-days-of-react/day-3
 includeFile: ./../_params.yaml
 ---
 
-Let's revisit the "Hello world" app we introduced on day one.
+Components are the foundation for building user interfaces with React. It's time you learned how to create flexible and highly reusable React components.
+
+Let's revisit the example from day one.
 
 ```javascript
 function App() {
   return (
-    <div className="App">
       <h1>Hello World</h1>
-    </div>
   );
 }
 ```
+
 It's time to look at our CodeSandbox project and understand how the JSX code returned by our function component ends up on the screen. 
-
-## How does it work?
-
-In `index.html` file, there is an empty `<div>` container with the id of 'root'. Obviously an innocent HTML element doesn't have capabilities to render React components. 
-
-[![Edit hello world!](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/hello-world-p4wj53?fontsize=14&hidenavigation=1&module=%2Fpublic%2Findex.html&theme=dark)
-
-That is why, in `index.js` file, we use `document.getElementById()` method to get the empty container and store it the variable named `rootElement`.
-
-[![Edit hello world!](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/hello-world-p4wj53?fontsize=14&hidenavigation=1&theme=dark)
-
-> `document.getElementById()` method is frequently used in JavaScript DOM manipulation. It accepts one argument - `id` of the DOM element you want to select.
-
-Calling `createRoot()` on a plain `<div>` gives it necessary properties and methods to be a home for our React app.
-
-One of them is `render()`, a very important method that dictates what the component should look like. In this case, it renders one component - `App` inside the container. 
-
-If you inspect the header, you will see that the `<h1>` element is indeed nested in the `<div>` with the `id` of 'root'.
-
-Don't worry - you won't need to go through this process to add every component. Once you add one, you can use JSX to render other components inside that added component, and all of its child elements and components will show up on the page. 
 
 ## The React app
 
