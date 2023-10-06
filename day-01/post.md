@@ -50,5 +50,25 @@ In this code example, we have a function `App` that returns what looks like an H
 
 All React components return HTML-like (**not HTML**) code to describe what UI should look like.
 
+## How does it work?
+
+In `index.html` file, there is an empty `<div>` container with the id of 'root'. Obviously an innocent HTML element doesn't have capabilities to render React components. 
+
+[![Edit hello world!](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/hello-world-p4wj53?fontsize=14&hidenavigation=1&module=%2Fpublic%2Findex.html&theme=dark)
+
+That is why, in `index.js` file, we use `document.getElementById()` method to get the empty container and store it the variable named `rootElement`.
+
+[![Edit hello world!](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/hello-world-p4wj53?fontsize=14&hidenavigation=1&theme=dark)
+
+> `document.getElementById()` method is frequently used in JavaScript DOM manipulation. It accepts one argument - `id` of the DOM element you want to select.
+
+Calling `createRoot()` on a plain `<div>` gives it necessary properties and methods to be a home for our React app.
+
+One of them is `render()`, a very important method that dictates what the component should look like. In this case, it renders one component - `App` inside the container. 
+
+If you inspect the header, you will see that the `<h1>` element is indeed nested in the `<div>` with the `id` of 'root'.
+
+## Final words
+
 Tomorrow, you will learn about JSX, the syntax that helps us define components' layout and build dynamic web apps with React.
 
