@@ -48,7 +48,7 @@ We create and reuse components to render a certain UI the same way we write and 
 
 You can also borrow other React developers' components to implement advanced features without having to do any of the work. You don't even need to know how that borrowed component works. 
 
-### Write a reusable component
+## Write a reusable component
 
 So far, our app has one <h1> element that says hello world.
 
