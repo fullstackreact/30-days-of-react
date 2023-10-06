@@ -50,7 +50,7 @@ You can also borrow other React developers' components to implement advanced fea
 
 ## Write a reusable component
 
-So far, our app has one <h1> element that says hello world.
+So far, our app has one `<h1>` element that says hello world.
 
 Let's change it to say 'Journal', and create a new component to render journal entries. 
 
