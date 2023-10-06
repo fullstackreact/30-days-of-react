@@ -40,9 +40,9 @@ On day 1, we stated that at the heart of all React applications are _components_
 
 Let's say you are developing a social media app.
 
-![](https://cdn3.vectorstock.com/i/1000x1000/15/02/bullet-journal-hand-drawn-note-element-vector-39081502.jpg)
+![](https://github.com/irakli12345/30-days-of-react/blob/master/day-03/instagram%20clone.png)
 
-Published posts can have content and authors, but the overall structure of the post is the same. With React components, you can define overall UI structure and reuse it, passing it data to customize the content, author, or any other aspect of the post.
+Individual posts can have different content and authors, but the overall structure of the post is the same. The most efficient way to write code for different posts is to define overall UI structure and reuse it. Then pass it data to customize content, author, or any other aspect of the post.
 
 We create and reuse components to render a certain UI the same way we write and call functions to avoid writing the same logic over and over again.
 
