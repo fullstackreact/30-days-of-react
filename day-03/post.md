@@ -16,7 +16,7 @@ imagesDir: /assets/images/series/30-days-of-react/day-3
 includeFile: ./../_params.yaml
 ---
 
-Components are the foundation for building user interfaces with React. It's time you learned how to create flexible and highly reusable React components.
+Today we will discuss components, the foundation for building user interfaces with React. By the end, hopefully you will see the value of creating and using components. 
 
 Let's revisit the example from day one.
 
@@ -28,27 +28,31 @@ function App() {
 }
 ```
 
-It's time to look at our CodeSandbox project and understand how the JSX code returned by our function component ends up on the screen. 
+So far, our entire React app is just one `App` component.
 
-## The React app
+It's time to learn how to create real web applications that make use of all interactive features React has to offer. 
 
-So far, our `App` component is the entire app. It's time we added more components and learned to use various features to build interactive apps with React. 
-
-Real web applications can accept and respond to user inputs, receive and send HTTP requests and much more. In time, we will learn all these features. 
-
-To start, let's build our first component other than `App`. 
+Let's start with components, basic building blocks for complex user interfaces. 
 
 ## Reusable components
 
-On day 1, we stated that at the heart of all React applications are _components_, self-contained pieces of UI (component definition). Let's try to expand on that and really understand the importance of components for building apps in React.
+On day 1, we stated that at the heart of all React applications are _components_. Components are independent, encapsulated bits of UI. They are also reusable and save React developers a lot of time. 
 
-Web applications and even mobile and desktop apps often have repeated bits of UI. 
+Let's say you are developing a social media app.
 
-For example, comments on facebook are structurally the same, even if they say different things. Components give you the power to create your own structure, the skeleton for the UI, and reuse it throughout the app, or even in different projects. Concept of reusable components is very powerful and can save a lot of time. It's like if you could create your own custom element in HTML, and then reuse it instead of having to write it over and over again whenever you need it. 
+![](https://cdn3.vectorstock.com/i/1000x1000/15/02/bullet-journal-hand-drawn-note-element-vector-39081502.jpg)
 
-When trying to implement a difficult feature in React, chances are someone has already created a custom component that perfectly implements that feature. You only have to import it and use it, you don't even have to understand how it works (although it's preferable if you did). 
+Published posts can have content and authors, but the overall structure of the post is the same. With React components, you can define overall UI structure and reuse it, passing it data to customize the content, author, or any other aspect of the post.
 
-Let's create our first reusable component and name it 'Entry', so we could reuse it to show different entries. 
+We create and reuse components to render a certain UI the same way we write and call functions to avoid writing the same logic over and over again.
+
+You can also borrow other React developers' components to implement advanced features without having to do any of the work. You don't even need to know how that borrowed component works. 
+
+### Write a reusable component
+
+So far, our app has one <h1> element that says hello world.
+
+Let's change it to say 'Journal', and create a new component to render journal entries. 
 
 ```javascript
 -
