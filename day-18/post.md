@@ -77,7 +77,7 @@ The [3 major principles](http://redux.js.org/docs/introduction/ThreePrinciples.h
 
 * Updates are made with pure functions (in reducers)
 * `state` is a read-only property
-* `state` is the single source of truth (there is only one `store` in a Redux app)
+* `store` is the single source of truth (there is only one `store` in a Redux app)
 
 One big difference with Redux and Flux is the concept of middleware. Redux added the idea of middleware that we can use to manipulate actions as we receive them, both coming in and heading out of our application. We'll discuss them in further detail in a few days.
 
