@@ -16,7 +16,7 @@ imagesDir: /assets/images/series/30-days-of-react/day-3
 includeFile: ./../_params.yaml
 ---
 
-Today we will discuss components, UI building blocks in React. By the end, hopefully you will have learned how to build and design excellent React components and the benefits of doing so.
+Today we will discuss components, UI building blocks in React. You will also learn best practices for building reusable components. 
 
 Let's revisit the example from day one.
 
@@ -50,9 +50,9 @@ Posts can have different content and authors, but their overall structure is alw
 
 So far, our app has one `<h1>` element that says 'Hello World'.
 
-Let's change header text to say 'Journal' and create new component for entries in the journal. 
+Let's change header text to say 'Journal' and create new component to render journal entries. 
 
-For now, let's keep `Entry` components simple. A simple `<p>` paragraph in a `<div>` container will be fine. 
+For now, let's keep `Entry` components simple. A simple `<p>` paragraph in a `<div>` container will suffice. 
 
 ```javascript
 function Entry() {
@@ -65,9 +65,10 @@ function Entry() {
   );
 }
 ```
+
 We added lorem ipsum text as an example. 
 
-You can invoke custom React components by their name. JSX is great because it allows us to compose elements and components the same way we build layouts in HTML.
+JSX allows you to invoke custom React components by their name, the same way you invoke elements in HTML. You can also compose elements and components the same way we build layouts in HTML.
 
 Let's say our journal has three entries:
 
@@ -86,9 +87,9 @@ export default function Journal() {
 
 So far, JSX code is pretty simple - we have one `<h1>` element and three custom `<Entry>` components inside a `<div>`. 
 
-> Our `Journal` component wraps multiple `<Entry>` components and an `<h1>` element inside a single `<div>` to satisfy an important rule in React - all components are required to return a single root element.
+> Our `Journal` component wraps multiple components (and one element) with a `<div>` to satisfy one of the most important rules in React - all components must return one root element.
 
-> Difference between 'element' and 'component' is simple: React elements are JavaScript copies of `<div>`, `<h1>`, `<p>`, and other HTML elements we know and love. Elements are readily available in JSX and don't need to be defined. On the other hand, components are manually created (or imported) pieces of UI.
+> To understand difference between elements and components: React **elements** are JavaScript copies of `<div>`, `<h1>`, `<p>`, and other HTML elements we know and love. Elements are readily available in JSX and don't need to be defined. On the other hand, components are manually created (or imported) pieces of UI.
 
 Finally, let's see how to pass string values to `<Entry>`, so every instance displays different text instead of the static text they have now. 
 
