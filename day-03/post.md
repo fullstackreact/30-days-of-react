@@ -112,9 +112,9 @@ function Journal() {
 }
 ```
 
-In this example, `<Entry>` components receive string values via `text` prop. You are free to name props anything you want, but it's a good practice to choose descriptive names for props.
+In this example, `<Entry>` components receive string values via `text` prop. You are free to name props anything you want, but it's a good practice to choose descriptive names.
 
-Now, let's modify the `<Entry>` component itself to use the string value passed to it via `text` prop.  
+Now, let's make changes to the JSX of `<Entry>` component, so entries display the string value passed to them via `text` prop.
 
 ```javascript
 function Entry(props) {
@@ -126,21 +126,18 @@ function Entry(props) {
 }
 ```
 
-As you can see, the function component accepts `props` as an argument. `props` is a JavaScript object with property-value pairs to represent in each prop. 
+The function component accepts argument `props`, which is a JavaScript object where property-value pairs represent individual props.
 
-For now, our `props` object will have one `text` property with corresponding string value set in the parent component. 
+In this case, our `props` object will have one `text` property. Its value will be equal to the string passed to a specific component via props.
 
-Finally, let's make changes to JSX, so our `<Entry>` component displays text passed to it via props. 
+In our case, three instances of `<Entry>` components receive three different strings via `text` prop. 
 
-The string value can be accessed on 
-we need to configure the `<Entry>` component to display string passed to it via `props`.  `props.text` 
-So if you want the one components receive props as an argument. `props` is a JavaScript object with property-value pairs to represent each prop. 
+Finally, it's time to change the contents of `<p>` paragraph, so individual components display the string passed to them via props.
 
-> React community has created libraries of ready-to-use components you can borrow and customize for your use-cases only by setting different props.  to implement advanced features without having to write any of the code. Simply use props to control contents, appearance, functionality, and other aspects of these components.
+> Curly braces allow you to embed JavaScript expressions in JSX.
 
+In this case, we use curly braces to replace dynamic text with the string value of `text` property in `props` object.
 
 ## Final words
 
-Our React web application got a bit smarter, but we are not even close to utilizing true potential of React. Soon, we'll see how to make React components data-driven and dynamic.
-
-In the next installment of this series, we'll explore how to actually compose and nest components, and build component trees that make up React web applications. 
+Today's lesson was a step in the right direction, but we have barely scratched the surface of understanding true potential of React. Let's continue learning about dynamic features of React.
