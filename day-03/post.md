@@ -30,29 +30,27 @@ function App() {
 
 So far, our entire React app is just one `App` component.
 
-It's time to learn how to create real web applications that make use of all interactive features React has to offer. 
+It's time to learn how to create real web applications and make use of all interactive features React has to offer.
 
-For starters, let's learn how to create reusable components. 
+Let's start with reusable components. 
 
 ## Reusable components
 
-On day 1, we stated that at the heart of all React applications are _components_. Components are independent, encapsulated bits of UI. More importantly, reusable components can save you a lot of time. 
+On day 1, we stated that at the heart of all React applications are _components_, reusable fragments of UI.
 
-In JavaScript, we define functions to perform common tasks by reusing logic. Similarly, components enable us to reuse parts of UI.
+Component reusability is like using JavaScript functions to avoid writing the same lines of code. It saves us time and makes the UI consistent throughout the web application.
 
-Let's say you are developing a social media app.
+Let's say you are developing a social media app and need to create a `<Post>` component.
 
 ![](https://github.com/irakli12345/30-days-of-react/blob/master/day-03/instagram%20clone.png)
 
-Individual posts have different content and authors, but overall structure is the same. React allows you to define components' interface, so you can customize their content. 
-
-React community created libraries of reusable React components you can borrow to implement advanced features without having to write any of the code. 
+Posts can have different content and authors, but their overall structure is always the same. Author's name goes in the top-left corner, picture(s) in the center, and number of likes at the bottom. With React, you can define the overall structure of the `<Post>` component and reuse it whenever user makes a new post.
 
 ## Write a reusable component
 
 So far, our app has one `<h1>` element that says 'Hello World'.
 
-Let's change header text to say 'Journal' and create new components for entries in the journal. 
+Let's change header text to say 'Journal' and create new component for entries in the journal. 
 
 For now, let's keep `Entry` components simple. A simple `<p>` paragraph in a `<div>` container will be fine. 
 
@@ -61,10 +59,7 @@ function Entry() {
   return (
     <div className="entry">
       <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-        ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-        aliquip ex ea commodo consequat.
+        Lorem ipsum dolor sit amet...
       </p>
     </div>
   );
@@ -72,7 +67,7 @@ function Entry() {
 ```
 We added lorem ipsum text as an example. 
 
-You can invoke custom React components by their name. JSX is great because it allows us to compose React components and elements to build interfaces the same way we build layouts in HTML.
+You can invoke custom React components by their name. JSX is great because it allows us to compose elements and components the same way we build layouts in HTML.
 
 Let's say our journal has three entries:
 
@@ -89,18 +84,50 @@ export default function Journal() {
 }
 ```
 
-So far, JSX code is pretty simple. We one `<h1>` element and three custom `<Entry>` components inside a `<div>`. 
+So far, JSX code is pretty simple - we have one `<h1>` element and three custom `<Entry>` components inside a `<div>`. 
 
-> React has one important rule - components are allowed to return only one element. In this case, our `Journal` component returns multiple `<Entry>` components, so we must wrap them in a `<div>`. So technically, component returns one `<div>` element.
+> Our `Journal` component wraps multiple `<Entry>` components and an `<h1>` element inside a single `<div>` to satisfy an important rule in React - all components are required to return a single root element.
 
-But reusable components are not really useful if we can not customize their contents. 
+> Difference between 'element' and 'component' is simple: React elements are JavaScript copies of `<div>`, `<h1>`, `<p>`, and other HTML elements we know and love. Elements are readily available in JSX and don't need to be defined. On the other hand, components are manually created (or imported) pieces of UI.
+
+Finally, let's see how to pass string values to `<Entry>`, so every instance displays different text instead of the same 'lorem ipsum' text they have now. 
 
 ## Customize components 
 
-Props are somewhat similar to attributes in HTML. We will explore them in detail later. In HTML, we could set attributes to customize HTML elements to some degree. React feature called **props** is somewhat similar, except it allows us to customize React components' contents, appearance, functionality, and much more. It is the absolute necessity for actually reusing the components
+Props are key to component reusability in React. In a way, passing props to a component is like passing arguments to a function. You can pass any type or number of JavaScript values via props, and use those values to customize the content, appearance, functionality, and other aspects of the component. 
 
-The problem now, is that all entry components are the same. We need some way to pass them strings, so they display different texts. 
+The syntax for setting props in React is similar to setting attributes in HTML. 
 
+```javascript
+function Journal() {
+  return (
+    <div>
+      <h1>Journal</h1>
+      <Entry text="Today was a stressful day, had a lot of meetings at work"></Entry>
+      <Entry text="On monday I came home early, did laundry and washed dishes"></Entry>
+      <Entry text="Weekend was a lot of fun"></Entry>
+    </div>
+  );
+}
+```
+
+In this example, `<Entry>` components receive string values via `text` prop. You are free to name props anything you want, but it's a good practice to choose descriptive names for props.
+
+Now, let's modify the `<Entry>` component itself to use the string value passed to it via `text` prop.  
+
+```javascript
+function Entry(props) {
+  return (
+    <div className="entry">
+      <p>{props.text}</p>
+    </div>
+  );
+}
+```
+
+Function components receive props as an argument. In this case, `props` is a JavaScript object with property-value pairs to represent each prop. 
+
+> React community has created libraries of ready-to-use components you can borrow and customize for your use-cases only by setting different props.  to implement advanced features without having to write any of the code. Simply use props to control contents, appearance, functionality, and other aspects of these components.
 
 
 ## Final words
