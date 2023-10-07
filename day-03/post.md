@@ -90,7 +90,7 @@ So far, JSX code is pretty simple - we have one `<h1>` element and three custom 
 
 > Difference between 'element' and 'component' is simple: React elements are JavaScript copies of `<div>`, `<h1>`, `<p>`, and other HTML elements we know and love. Elements are readily available in JSX and don't need to be defined. On the other hand, components are manually created (or imported) pieces of UI.
 
-Finally, let's see how to pass string values to `<Entry>`, so every instance displays different text instead of the same 'lorem ipsum' text they have now. 
+Finally, let's see how to pass string values to `<Entry>`, so every instance displays different text instead of the static text they have now. 
 
 ## Customize components 
 
