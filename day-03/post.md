@@ -126,7 +126,15 @@ function Entry(props) {
 }
 ```
 
-Function components receive props as an argument. In this case, `props` is a JavaScript object with property-value pairs to represent each prop. 
+As you can see, the function component accepts `props` as an argument. `props` is a JavaScript object with property-value pairs to represent in each prop. 
+
+For now, our `props` object will have one `text` property with corresponding string value set in the parent component. 
+
+Finally, let's make changes to JSX, so our `<Entry>` component displays text passed to it via props. 
+
+The string value can be accessed on 
+we need to configure the `<Entry>` component to display string passed to it via `props`.  `props.text` 
+So if you want the one components receive props as an argument. `props` is a JavaScript object with property-value pairs to represent each prop. 
 
 > React community has created libraries of ready-to-use components you can borrow and customize for your use-cases only by setting different props.  to implement advanced features without having to write any of the code. Simply use props to control contents, appearance, functionality, and other aspects of these components.
 
