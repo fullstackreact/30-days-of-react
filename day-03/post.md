@@ -93,9 +93,9 @@ Finally, let's see how to pass string values to `<Entry>`, so every instance dis
 
 ## Customize components 
 
-Component reusability in React is only possible because of props, a feature that allows you to pass data into components.
+Component reusability is only possible with props, a feature that allows you to pass data into components.
 
-Using props to pass data to a component is like passing arguments to a function. You can pass any type or number of JavaScript values via props, and use those values to customize the content, appearance, functionality, and other aspects of the component. 
+Like arguments for JavaScript functions, props allow React components to accept data and use it to customize the content, appearance, functionality, and other aspects of the component.
 
 The syntax for setting props in React is similar to setting attributes in HTML. 
 
@@ -132,12 +132,12 @@ In this case, our `props` object will have one `text` property. Its value will b
 
 In our case, three instances of `<Entry>` components receive three different strings via `text` prop. 
 
-Finally, it's time to change the contents of `<p>` paragraph, so individual components display the string passed to them via props.
+Finally, you need to change the contents of `<p>` paragraph, so individual entries display the string passed to them via props.
 
 > Curly braces allow you to embed JavaScript expressions in JSX.
 
-In this case, we use curly braces to replace dynamic text with the string value of `text` property in `props` object.
+In the example above, we used curly braces to use string value of `props.text` instead of static lorem ipsum text.
 
 ## Final words
 
-Today's lesson was a step in the right direction, but we have barely scratched the surface of understanding true potential of React. Let's continue learning about dynamic features of React.
+We have barely scratched the surface of understanding true potential of the library. Let's continue learning about dynamic features of React.
