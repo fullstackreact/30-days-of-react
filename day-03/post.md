@@ -38,7 +38,7 @@ Let's start with reusable components.
 
 On day 1, we stated that at the heart of all React applications are _components_, reusable fragments of UI.
 
-Component reusability is like using JavaScript functions to avoid writing the same lines of code. It saves us time and makes the UI consistent throughout the web application.
+Component reusability is like using JavaScript functions to avoid writing the same lines of code. It saves us time and ensures the UI is consistent throughout the web application.
 
 Let's say you are developing a social media app and need to create a `<Post>` component.
 
@@ -50,9 +50,9 @@ Posts can have different content and authors, but their overall structure is alw
 
 So far, our app has one `<h1>` element that says 'Hello World'.
 
-Let's change header text to say 'Journal' and create new component to render journal entries. 
+Let's change header text to say 'Journal' and create an `<Entry>` component to render journal entries. 
 
-For now, let's keep `Entry` components simple. A simple `<p>` paragraph in a `<div>` container will suffice. 
+For now, let's create a simple layout, with paragraph text (`<p>` element) inside a `<div>`. 
 
 ```javascript
 function Entry() {
@@ -66,9 +66,7 @@ function Entry() {
 }
 ```
 
-We added lorem ipsum text as an example. 
-
-JSX allows you to invoke custom React components by their name, the same way you invoke elements in HTML. You can also compose elements and components the same way we build layouts in HTML.
+In JSX, you can invoke custom React components by their name, the same way you invoke elements in HTML. You can also compose elements and components the same way you build layouts in HTML.
 
 Let's say our journal has three entries:
 
@@ -87,15 +85,17 @@ export default function Journal() {
 
 So far, JSX code is pretty simple - we have one `<h1>` element and three custom `<Entry>` components inside a `<div>`. 
 
-> Our `Journal` component wraps multiple components (and one element) with a `<div>` to satisfy one of the most important rules in React - all components must return one root element.
+> Our `Journal` component wraps multiple components (and one element) with a `<div>` to satisfy an important rule in React - all components must return one root element.
 
-> To understand difference between elements and components: React **elements** are JavaScript copies of `<div>`, `<h1>`, `<p>`, and other HTML elements we know and love. Elements are readily available in JSX and don't need to be defined. On the other hand, components are manually created (or imported) pieces of UI.
+> React **elements** are JavaScript copies of `<div>`, `<h1>`, `<p>`, and other HTML elements we know and love. Elements are readily available in JSX and don't need to be defined. On the other hand, React **components** are manually created (or imported) pieces of UI.
 
-Finally, let's see how to pass string values to `<Entry>`, so every instance displays different text instead of the static text they have now. 
+Finally, let's see how to pass string values to `<Entry>`, so every instance displays different text instead of the static lorem ipsum text they have now.
 
 ## Customize components 
 
-Props are key to component reusability in React. In a way, passing props to a component is like passing arguments to a function. You can pass any type or number of JavaScript values via props, and use those values to customize the content, appearance, functionality, and other aspects of the component. 
+Component reusability in React is only possible because of props, a feature that allows you to pass data into components.
+
+Using props to pass data to a component is like passing arguments to a function. You can pass any type or number of JavaScript values via props, and use those values to customize the content, appearance, functionality, and other aspects of the component. 
 
 The syntax for setting props in React is similar to setting attributes in HTML. 
 
