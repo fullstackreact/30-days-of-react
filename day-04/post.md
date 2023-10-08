@@ -16,7 +16,7 @@ imagesDir: /assets/images/series/30-days-of-react/day-4
 includeFile: ./../_params.yaml
 ---
 
-In the previous section of _30 Days of React_, we started building our first React component. In this section, we'll continue our work with our `App` component and start building a more complex UI.
+On day 3 of _30 Days of React_, we built our first reusable React component. Let's continue working with our `Journal` component and implementing dynamic features with React.
 
 A common web element we might see is a user timeline. For instance, we might have an application that shows a history of events happening such as applications like Facebook and Twitter.
 
