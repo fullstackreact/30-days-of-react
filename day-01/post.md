@@ -28,51 +28,47 @@ Let's get started. We'll start [at the very beginning](https://www.youtube.com/w
 
 [React](https://facebook.github.io/react/) is a JavaScript library for building user interfaces. It is the view layer for web applications.
 
-At the heart of all React applications are **components**. A component is a self-contained module that renders some output. We can write interface elements like a button or an input field as a React component. Components are _composable_. A component might include one or more other components in its output.
+At the heart of all React applications are **components**. These are self-contained pieces of UI that when put together, make up the web application. A component can be as small as a button or an input field, or a Form component that contains smaller Button and Input components.
 
-Broadly speaking, to write React apps we write React components that correspond to various interface elements. We then organize these components inside higher-level components which define the structure of our application.
+Process of building React apps is writing and organizing small components into larger structures, making sure that individual components are flexible and reusable, but also consistent.
 
-For example, take a form. A form might consist of many interface elements, like input fields, labels, or buttons. Each element inside the form can be written as a React component. We'd then write a higher-level component, the form component itself. The form component would specify the structure of the form and include each of these interface elements inside of it.
-
-Importantly, each component in a React app abides by strict data management principles. Complex, interactive user interfaces often involve complex data and application state. The surface area of React is limited and aimed at giving us the tools to be able to anticipate how our application will look with a given set of circumstances. We dig into these principles later in the course.
+React provides guardrails to guide us through this difficult process, so we, developers, can focus on building user interfaces.
 
 ## Okay, so how do we use it?
 
-React is a JavaScript framework. Using the framework is as simple as including a JavaScript file in our HTML and using the `React` exports in our application's JavaScript.
+There are several ways to approach building web applications in React.
 
-For instance, the _Hello world_ example of a React website can be as simple as:
+For now, let's work with cloud-based IDEs to instantly set up a React project, write React components and see changes in real time. 
 
-```html
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>Hello world</title>
-  <!-- Script tags including React -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react-dom.min.js"></script>
-  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-</head>
-<body>
-  <div id="app"></div>
-  <script type="text/babel">
-    ReactDOM.render(
-      <h1>Hello world</h1>,
-      document.querySelector('#app')
-    );
-  </script>
-</body>
-</html>
-```
+Let's look at a simple React app that says 'Hello World'.
 
-<div id="demo1"></div>
+[![Edit hello world!](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/hello-world-p4wj53?fontsize=14&hidenavigation=1&module=%2Fsrc%2FApp.js&theme=dark)
 
-Although it might look a little scary, the JavaScript code is a single line that dynamically adds _Hello world_ to the page. Note that we only needed to include a handful of JavaScript files to get everything working.
+In this code example, we have a function `App` that returns what looks like an HTML code - a header with the text 'Hello World'.
+
+`App` is a React component. React components can be written as a function (like `App` is) or using ES6 class syntax. Because functions are more familiar and easier to write, let's stick with function components for now. 
+
+All React components return HTML-like (**not HTML**) code to describe what UI should look like.
 
 ## How does it work?
 
-Unlike many of its predecessors, React operates not directly on the browser's Document Object Model (DOM) immediately, but on a **virtual DOM**. That is, rather than manipulating the `document` in a browser after changes to our data (which can be quite slow) it resolves changes on a DOM built and run entirely in memory. After the virtual DOM has been updated, React intelligently determines what changes to make to the actual browser's DOM.
+In `index.html` file, there is an empty `<div>` container with the id of 'root'. Obviously an innocent HTML element doesn't have capabilities to render React components. 
 
-The [React Virtual DOM](https://facebook.github.io/react/docs/dom-differences.html) exists entirely in-memory and is a representation of the web browser's DOM. Because of this, when we write a React component, we're not writing directly to the DOM, but we're writing a virtual component that React will turn into the DOM.
+[![Edit hello world!](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/hello-world-p4wj53?fontsize=14&hidenavigation=1&module=%2Fpublic%2Findex.html&theme=dark)
 
-In the next article, we'll look at what this means for us as we build our React components and jump into JSX and writing our first real components.
+That is why, in `index.js` file, we use `document.getElementById()` method to get the empty container and store it the variable named `rootElement`.
+
+[![Edit hello world!](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/hello-world-p4wj53?fontsize=14&hidenavigation=1&theme=dark)
+
+> `document.getElementById()` method is frequently used in JavaScript DOM manipulation. It accepts one argument - `id` of the DOM element you want to select.
+
+Calling `createRoot()` on a plain `<div>` gives it necessary properties and methods to be a home for our React app.
+
+One of them is `render()`, a very important method that dictates what the component should look like. In this case, it renders one component - `App` inside the container. 
+
+If you inspect the header, you will see that the `<h1>` element is indeed nested in the `<div>` with the `id` of 'root'.
+
+## Final words
+
+Tomorrow, you will learn about JSX, the syntax that helps us define components' layout and build dynamic web apps with React.
 

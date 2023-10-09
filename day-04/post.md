@@ -16,129 +16,53 @@ imagesDir: /assets/images/series/30-days-of-react/day-4
 includeFile: ./../_params.yaml
 ---
 
-In the previous section of _30 Days of React_, we started building our first React component. In this section, we'll continue our work with our `App` component and start building a more complex UI.
+On day 3 of _30 Days of React_, we built our first reusable React component. Let's continue working with our `Journal` component and implementing dynamic features with React.
 
-A common web element we might see is a user timeline. For instance, we might have an application that shows a history of events happening such as applications like Facebook and Twitter.
+One of the most common features is to have a timeline, or some type of user activity feed.
+
+In our case, that might be a feed of user-submitted entries in the journal. 
 
 > ## Styles
 >
-> As we're not focusing on [CSS](https://www.w3.org/standards/webdesign/htmlcss) in this course, we're not covering the CSS specific to build the timeline as you see it on the screen.
+> This course is focused on React, but our web application still needs some CSS styles. We won't walk you through CSS styles, but check out `styles.css` file if you want to learn more about specific styles applied to our React app. 
 >
-> However, we want to make sure the timeline you build looks similar to ours. If you include the following CSS as a `<link />` tag in your code, your timeline will look similar and will be using the same styling ours is using:
+> Also make sure to set appropriate `className` values to make sure elements look as they should.
 >
-> ```html
-> <link
->   href="https://cdn.jsdelivr.net/gh/fullstackreact/30-days-of-react@master/day-04/public/Timeline.css"
->   rel="stylesheet"
->   type="text/css"
-> />
-> ```
+> We might also use additional libraries that provide pre-defined classes and fonts like font-awesome.
 >
-> And make sure to surround your code in a component with the class of `demo` (we left it this way purposefully as it's the _exact_ same code we use in all the demos here). Check out the [https://jsfiddle.net/auser/zwomnfwk/](https://jsfiddle.net/auser/zwomnfwk/) for a working example.
->
-> The entire compiled CSS can be found on the github repository at [https://github.com/fullstackreact/30-days-of-react/blob/master/day-04/public/Timeline.css](https://github.com/fullstackreact/30-days-of-react/blob/master/day-04/public/Timeline.css).
->
-> In addition, in order to make the timeline look _exactly_ like the way ours does on the site, you'll need to include [font-awesome](http://fontawesome.io/) in your web application. There are multiple ways to handle this. The simplest way is to include the link styles:
->
-> ```html
-> <link
->   href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
->   rel="stylesheet"
->   type="text/css"
-> />
-> ```
->
-> _All_ the code for the examples on the page is available at the [github repo (at https://github.com/fullstackreact/30-days-of-react)](https://github.com/fullstackreact/30-days-of-react).
+> The list of installed packages will be listed on bottom-left corner in CodeSandbox.
 
-We _could_ build this entire UI in a single component. However, building an entire application in a single component is not a great idea as it can grow huge, complex, and difficult to test.
+Hopefully by now you see the value of reusable components - that they save time on web development, and make debugging much easier. 
+Let's revisit latest example from our app:
 
-```html
-class Timeline extends React.Component {
-  render() {
-    return (
-      <div className="notificationsFrame">
-        <div className="panel">
-          <div className="header">
+```javascript
+function Journal() {
+  return (
+    <div>
+      <h1>Journal</h1>
+      <Entry text="Today was a stressful day, had a lot of meetings at work"></Entry>
+      <Entry text="On monday I came home early, did laundry and washed dishes"></Entry>
+      <Entry text="Weekend was a lot of fun"></Entry>
+    </div>
+  );
+}
 
-            <div className="menuIcon">
-              <div className="dashTop"></div>
-              <div className="dashBottom"></div>
-              <div className="circle"></div>
-            </div>
-
-            <span className="title">Timeline</span>
-
-            <input
-              type="text"
-              className="searchInput"
-              placeholder="Search ..." />
-
-            <div className="fa fa-search searchIcon"></div>
-          </div>
-          <div className="content">
-            <div className="line"></div>
-            <div className="item">
-
-              <div className="avatar">
-                <img
-                alt='doug'
-                src="http://www.croop.cl/UI/twitter/images/doug.jpg" />
-              </div>
-
-              <span className="time">
-                An hour ago
-              </span>
-              <p>Ate lunch</p>
-            </div>
-
-            <div className="item">
-              <div className="avatar">
-                <img
-                  alt='doug' src="http://www.croop.cl/UI/twitter/images/doug.jpg" />
-              </div>
-
-              <span className="time">10 am</span>
-              <p>Read Day two article</p>
-            </div>
-
-            <div className="item">
-              <div className="avatar">
-                <img
-                  alt='doug' src="http://www.croop.cl/UI/twitter/images/doug.jpg" />
-              </div>
-
-              <span className="time">10 am</span>
-              <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-            </div>
-
-            <div className="item">
-              <div className="avatar">
-                <img
-                  alt='doug' src="http://www.croop.cl/UI/twitter/images/doug.jpg" />
-              </div>
-
-              <span className="time">2:21 pm</span>
-              <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-            </div>
-
-          </div>
-        </div>
-      </div>
-    )
-  }
+function Entry(props) {
+  return (
+    <div className="entry">
+      <p>{props.text}</p>
+    </div>
+  );
 }
 ```
 
-<div class="demo" id="demo1"></div>
+Let's try to improve the header, make it look better as well as add few basic features. 
 
-## Breaking it down
+To do this, we will have to create a separate `<Header>` component.
 
-Rather than build this in a single component, let's break it down into multiple components.
+Let's also create a `<Body>` component to store entries of the journal.
 
-Looking at this component, there are 2 separate parts to the larger component as a whole:
-
-1. The title bar
-2. The content
+So our parent `Journal` will render two components, `<Header>` and `<Body>`. 
 
 <img class="wide" src="/assets/series/30-days-of-react/images/04/breakdown.png" />
 
